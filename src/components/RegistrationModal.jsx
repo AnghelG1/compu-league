@@ -191,6 +191,27 @@ export default function RegistrationModal({
 
       await saveRegistration(registrationRecord);
 
+      // Si seleccionó pagar después, guardar recordatorio en este dispositivo
+      if (isPayLater) {
+        try {
+          localStorage.setItem('compu_league_pending_payment', JSON.stringify({
+            id: registrationRecord.id,
+            team_name: registrationRecord.team_name,
+            game: registrationRecord.game,
+            game_name: gameConfig.name,
+            captain_name: registrationRecord.captain_name,
+            amount_due: registrationRecord.amount_due,
+            created_at: registrationRecord.created_at,
+          }));
+        } catch (e) {
+          console.warn('No se pudo guardar pago pendiente en localStorage:', e);
+        }
+      } else {
+        try {
+          localStorage.removeItem('compu_league_pending_payment');
+        } catch (e) {}
+      }
+
       confetti({
         particleCount: 110,
         spread: 75,

@@ -119,6 +119,15 @@ export default function PaymentPage({ paymentId, onGoHome }) {
       const updated = await updateRegistrationReceipt(targetId, receiptPreview, receiptFile);
       if (updated) {
         setRegistration(updated);
+        try {
+          const savedPending = localStorage.getItem('compu_league_pending_payment');
+          if (savedPending) {
+            const parsed = JSON.parse(savedPending);
+            if (parsed.id === targetId) {
+              localStorage.removeItem('compu_league_pending_payment');
+            }
+          }
+        } catch (e) {}
       }
 
       confetti({

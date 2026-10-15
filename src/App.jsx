@@ -10,6 +10,8 @@ import Footer from './components/Footer';
 import RegistrationModal from './components/RegistrationModal';
 import AdminPanel from './components/AdminPanel';
 import PaymentPage from './components/PaymentPage';
+import PendingPaymentBanner from './components/PendingPaymentBanner';
+import { getRegistrationById } from './lib/storage';
 
 function App() {
   // Helper to extract Payment UUID from pathname (/pago/:id) or query params
@@ -80,6 +82,46 @@ function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [selectedGameForModal, setSelectedGameForModal] = useState('valorant');
 
+  // Pending Payment on this device state
+  const [pendingPayment, setPendingPayment] = useState(null);
+  const [isPendingPaymentDismissed, setIsPendingPaymentDismissed] = useState(false);
+
+  // Check if there is an unpaid registration on this device
+  useEffect(() => {
+    let isMounted = true;
+    const checkPendingPayment = async () => {
+      if (currentView === 'pago') return;
+
+      try {
+        const saved = localStorage.getItem('compu_league_pending_payment');
+        if (!saved) return;
+        const parsed = JSON.parse(saved);
+        if (!parsed || !parsed.id) return;
+
+        // Verify status from database or local storage
+        const reg = await getRegistrationById(parsed.id);
+        if (reg) {
+          if (reg.payment_status === 'paid' || reg.status === 'approved') {
+            // Already paid, clear reminder
+            localStorage.removeItem('compu_league_pending_payment');
+            if (isMounted) setPendingPayment(null);
+            return;
+          }
+          if (isMounted) {
+            setPendingPayment({ ...parsed, ...reg });
+          }
+        } else {
+          if (isMounted) setPendingPayment(parsed);
+        }
+      } catch (err) {
+        console.warn('Error checking pending payment on device:', err);
+      }
+    };
+
+    checkPendingPayment();
+    return () => { isMounted = false; };
+  }, [currentView]);
+
   // Handle browser back and forward history buttons
   useEffect(() => {
     const handlePopState = () => {
@@ -135,6 +177,16 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
+  const handleContinuePendingPayment = (id) => {
+    setPendingPayment(null);
+    setHasEnteredGame(true);
+    navigateToPayment(id);
+  };
+
+  const handleDismissPendingPayment = () => {
+    setIsPendingPaymentDismissed(true);
+  };
+
   const handleLoadingComplete = () => {
     const next = targetView;
     setIsTransitioning(false);
@@ -179,10 +231,19 @@ function App() {
   // =============================================================
   if (!hasEnteredGame) {
     return (
-      <UndertaleStartScreen 
-        onEnterGame={handleEnterGame} 
-        initialName={playerName} 
-      />
+      <>
+        <UndertaleStartScreen 
+          onEnterGame={handleEnterGame} 
+          initialName={playerName} 
+        />
+        {!isPendingPaymentDismissed && pendingPayment && (
+          <PendingPaymentBanner
+            pendingPayment={pendingPayment}
+            onContinue={handleContinuePendingPayment}
+            onDismiss={handleDismissPendingPayment}
+          />
+        )}
+      </>
     );
   }
 
@@ -294,6 +355,15 @@ function App() {
         <LoadingTransition 
           targetPage={targetView} 
           onComplete={handleLoadingComplete} 
+        />
+      )}
+
+      {/* Pending Payment Reminder Banner for returning users */}
+      {!isPendingPaymentDismissed && pendingPayment && currentView !== 'pago' && (
+        <PendingPaymentBanner
+          pendingPayment={pendingPayment}
+          onContinue={handleContinuePendingPayment}
+          onDismiss={handleDismissPendingPayment}
         />
       )}
 
