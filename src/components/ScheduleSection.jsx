@@ -16,7 +16,7 @@ export default function ScheduleSection() {
     : schedule.filter(item => item.date === selectedDay);
 
   const filterButtons = [
-    { id: 'all', label: 'TODOS LOS DÍAS' },
+    { id: 'all', label: 'TODOS LOS DIAS' },
     { id: '2026-11-04', label: 'NOCHE 1 (4 NOV)' },
     { id: '2026-11-05', label: 'NOCHE 2 (5 NOV)' },
     { id: '2026-11-06', label: 'GRAN FINAL (6 NOV)' },

@@ -44,7 +44,7 @@ export default function LiveBrackets() {
   const tabs = [
     { id: 'valorant', name: 'VALORANT (5v5)', icon: Shield, color: '#FF0055' },
     { id: 'free_fire', name: 'FREE FIRE (BR)', icon: Flame, color: '#FFE600' },
-    { id: 'fortnite', name: 'FORTNITE (DÚOS)', icon: Crosshair, color: '#00F0FF' },
+    { id: 'fortnite', name: 'FORTNITE (DUOS)', icon: Crosshair, color: '#00F0FF' },
     { id: 'clash_royale', name: 'CLASH ROYALE (1v1)', icon: Crown, color: '#A855F7' },
   ];
 
@@ -312,7 +312,7 @@ export default function LiveBrackets() {
                   <tr className="border-b-2 border-black bg-black font-pixel text-[8px] text-slate-400 uppercase">
                     <th className="p-2.5">RANK</th>
                     <th className="p-2.5">EQUIPO / JUGADOR</th>
-                    <th className="p-2.5">CAPITÁN</th>
+                    <th className="p-2.5">CAPITAN</th>
                     <th className="p-2.5 text-center">KILLS</th>
                     <th className="p-2.5 text-right">ESTADO</th>
                   </tr>

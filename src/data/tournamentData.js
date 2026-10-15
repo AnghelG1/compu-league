@@ -26,7 +26,7 @@ export const GAMES = [
   {
     id: 'valorant',
     name: 'VALORANT',
-    badge: '5v5 Táctico',
+    badge: '5v5 TACTICO',
     color: '#ff4655',
     accentColor: 'from-rose-500 to-red-600',
     borderColor: 'border-rose-500/40',
@@ -46,7 +46,7 @@ export const GAMES = [
   {
     id: 'free_fire',
     name: 'FREE FIRE',
-    badge: 'Escuadras (+ Individual)',
+    badge: 'ESCUADRAS / SOLO',
     color: '#f59e0b',
     accentColor: 'from-amber-500 to-yellow-600',
     borderColor: 'border-amber-500/40',
@@ -66,7 +66,7 @@ export const GAMES = [
   {
     id: 'fortnite',
     name: 'FORTNITE',
-    badge: 'Dúos',
+    badge: 'DUOS',
     color: '#3b82f6',
     accentColor: 'from-blue-500 to-cyan-600',
     borderColor: 'border-blue-500/40',
@@ -86,7 +86,7 @@ export const GAMES = [
   {
     id: 'clash_royale',
     name: 'CLASH ROYALE',
-    badge: '1v1 Estrategia',
+    badge: '1v1 ESTRATEGIA',
     color: '#06b6d4',
     accentColor: 'from-cyan-500 to-teal-600',
     borderColor: 'border-cyan-500/40',
@@ -134,7 +134,7 @@ export const INITIAL_SCHEDULE = [
     date: '2026-11-05',
     time: '19:30 - 21:30',
     gameId: 'fortnite',
-    gameName: 'Fortnite (Dúos)',
+    gameName: 'Fortnite (Duos)',
     stageTitle: 'Sala Personalizada Battle Royale - Partida de Supervivencia',
     status: 'Programado',
     streamLabel: 'En vivo por Facebook',
@@ -223,7 +223,7 @@ export const DEMO_BATTLE_ROYALE_STANDINGS = {
     { rank: 5, team: 'Kronos', captain: 'Martin B.', kills: 3, status: 'Eliminado (Top 5)' },
   ],
   fortnite_duos: [
-    { rank: 1, team: 'ChugJug Boys (Dúo)', captain: 'Santiago & Leo', kills: 11, status: '¡Victoria Magistral!', isWinner: true },
+    { rank: 1, team: 'ChugJug Boys (Duo)', captain: 'Santiago & Leo', kills: 11, status: '¡Victoria Magistral!', isWinner: true },
     { rank: 2, team: 'Llama Looters', captain: 'Gabriel & Erick', kills: 8, status: 'Eliminado (Top 2)' },
     { rank: 3, team: 'Tilted Towers Club', captain: 'Jorge & Alan', kills: 6, status: 'Eliminado (Top 3)' },
     { rank: 4, team: 'Storm Chasers', captain: 'Marlon & Nico', kills: 4, status: 'Eliminado (Top 4)' },

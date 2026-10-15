@@ -33,7 +33,7 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
               />
               <div>
                 <span className="font-pixel text-[8px] text-[#FFE600] uppercase block">
-                  TORNEO OFICIAL CARRERA DE COMPUTACIÓN
+                  TORNEO OFICIAL CARRERA DE COMPUTACION
                 </span>
                 <span className="text-xl font-black text-white tracking-wider font-display uppercase leading-tight block">
                   COMPU LEAGUE
@@ -100,14 +100,14 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
               
               <div className="p-3 bg-[#0B101A] border-2 border-[#FFE600] text-[#FFE600] shadow-brutal-black">
                 <div className="flex items-center gap-2 font-pixel text-[9px] font-black uppercase">
-                  <Coins className="w-4 h-4 text-[#FFE600] shrink-0" />
+                  <span className="text-[#FFE600] text-xs font-pixel font-black">$</span>
                   <span>PREMIOS EN EFECTIVO</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Col 4: Soporte y Staff WhatsApp */}
+          {/* Col 4: Soporte y Staff WhatsApp + Discord Oficial */}
           <div className="space-y-3">
             <h4 className="font-pixel text-[10px] uppercase text-[#FFE600] tracking-wider">
               [ CANALES DE SOPORTE ]
@@ -128,14 +128,16 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
                 <span>WhatsApp: {CONTACT_INFO.whatsappStaff}</span>
               </a>
 
-              <button
-                type="button"
-                onClick={onOpenRegister}
-                className="btn-arcade-press shadow-brutal-pink w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#FFE600] hover:bg-[#FFF04D] text-black border-2 border-black font-pixel font-black text-[9px] uppercase tracking-wider cursor-pointer"
+              {/* Discord Oficial en morado */}
+              <a
+                href={CONTACT_INFO.discordUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-arcade-press shadow-brutal-black w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#5865F2] hover:bg-[#6975F7] text-white border-2 border-black font-pixel font-black text-[9px] uppercase tracking-wider"
               >
-                <Zap className="w-3.5 h-3.5 fill-black" />
-                <span>INSCRIBIRSE</span>
-              </button>
+                <MessageSquare className="w-4 h-4 shrink-0" />
+                <span>[ ENTRAR AL DISCORD OFICIAL ]</span>
+              </a>
             </div>
           </div>
 

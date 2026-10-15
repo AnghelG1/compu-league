@@ -261,7 +261,7 @@ export default function RegistrationModal({
             <div>
               <div className="font-pixel text-[9px] text-[#FFE600] uppercase tracking-widest flex items-center gap-1.5">
                 <span className="w-2 h-2 bg-[#FF0055] inline-block animate-arcade-blink" />
-                <span>[ TERMINAL // INSCRIPCIÓN OFICIAL ]</span>
+                <span>[ TERMINAL // INSCRIPCION OFICIAL ]</span>
               </div>
               <h3 className="text-base sm:text-xl font-black uppercase text-white font-display tracking-wider leading-none mt-0.5">
                 COMPU LEAGUE <span className="text-[#FFE600]">2026</span>
@@ -321,11 +321,11 @@ export default function RegistrationModal({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                     <div>
-                      <span className="font-pixel text-[8px] text-slate-500 uppercase block">Capitán / Jugador:</span>
+                      <span className="font-pixel text-[8px] text-slate-500 uppercase block">CAPITAN / JUGADOR:</span>
                       <strong className="text-white font-bold">{successData.captain_name} ({successData.captain_game_id})</strong>
                     </div>
                     <div>
-                      <span className="font-pixel text-[8px] text-slate-500 uppercase block">ID de Registro:</span>
+                      <span className="font-pixel text-[8px] text-slate-500 uppercase block">ID DE REGISTRO:</span>
                       <strong className="text-[#FFE600] font-mono text-[11px] break-all">{successData.id}</strong>
                     </div>
                   </div>
@@ -378,7 +378,7 @@ export default function RegistrationModal({
                   <div className="flex items-center justify-between font-pixel text-[9px]">
                     <span className="text-[#10B981] uppercase font-bold flex items-center gap-1.5">
                       <Phone className="w-3.5 h-3.5 text-[#10B981]" />
-                      2. O ENVÍA EL COMPROBANTE AL WHATSAPP
+                      2. O ENVIA EL COMPROBANTE AL WHATSAPP
                     </span>
                     <span className="text-slate-400">STAFF OFICIAL</span>
                   </div>
@@ -445,15 +445,15 @@ export default function RegistrationModal({
                   <div className="flex items-center justify-between pb-2 border-b border-white/10 font-pixel text-[9px]">
                     <span className="text-slate-400">ESTADO DEL REGISTRO:</span>
                     <span className="px-2 py-0.5 bg-[#FFE600] text-black font-black uppercase">
-                      EN VERIFICACIÓN BANCARIA
+                      EN VERIFICACION BANCARIA
                     </span>
                   </div>
                   <div>
-                    <span className="font-pixel text-[8px] text-slate-500 uppercase block">Capitán / Jugador:</span>
+                    <span className="font-pixel text-[8px] text-slate-500 uppercase block">CAPITAN / JUGADOR:</span>
                     <span className="text-white font-bold">{successData.captain_name} ({successData.captain_game_id})</span>
                   </div>
                   <div>
-                    <span className="font-pixel text-[8px] text-slate-500 uppercase block">WhatsApp de contacto:</span>
+                    <span className="font-pixel text-[8px] text-slate-500 uppercase block">WHATSAPP DE CONTACTO:</span>
                     <span className="text-[#FFE600] font-mono font-bold">{successData.captain_whatsapp}</span>
                   </div>
                   <div className="pt-2 text-[10px] text-slate-400 leading-relaxed border-t border-white/10 font-cyber">
@@ -532,7 +532,7 @@ export default function RegistrationModal({
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <h4 className="font-pixel text-[9px] text-[#FFE600] uppercase">
-                      TIPO DE PARTICIPACIÓN
+                      TIPO DE PARTICIPACION
                     </h4>
                     <p className="text-xs text-slate-400 font-cyber mt-0.5">
                       ¿Participas con tu equipo armado o te inscribes de forma individual?
@@ -620,7 +620,7 @@ export default function RegistrationModal({
               <div className="space-y-2.5">
                 <label className="font-pixel text-[10px] text-[#FFE600] uppercase tracking-wider flex items-center gap-2">
                   <span className="w-5 h-5 bg-[#FFE600] text-black border border-black flex items-center justify-center text-[10px] font-black">2</span>
-                  <span>{isFreeAgent || selectedGame === 'clash_royale' ? 'DATOS DEL JUGADOR' : 'DATOS DEL CAPITÁN'}</span>
+                  <span>{isFreeAgent || selectedGame === 'clash_royale' ? 'DATOS DEL JUGADOR' : 'DATOS DEL CAPITAN'}</span>
                 </label>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -671,7 +671,7 @@ export default function RegistrationModal({
                       <span>COMPAÑEROS DE EQUIPO (ROSTER)</span>
                     </label>
                     <span className="font-pixel text-[8px] text-slate-400">
-                      {selectedGame === 'valorant' ? '4 TITULARES (+1 SUPLENTE)' : selectedGame === 'free_fire' ? '3 TITULARES' : '1 PAREJA / DÚO'}
+                      {selectedGame === 'valorant' ? '4 TITULARES (+1 SUPLENTE)' : selectedGame === 'free_fire' ? '3 TITULARES' : '1 PAREJA / DUO'}
                     </span>
                   </div>
 
@@ -766,7 +766,7 @@ export default function RegistrationModal({
                 <div className="flex items-center justify-between pb-3 border-b-2 border-white/10 font-pixel">
                   <label className="text-[10px] text-[#FFE600] uppercase tracking-wider flex items-center gap-2">
                     <span className="w-5 h-5 bg-[#FFE600] text-black border border-black flex items-center justify-center text-[10px] font-black">4</span>
-                    <span>¿PAGAR AHORA O PAGAR DESPUÉS?</span>
+                    <span>¿PAGAR AHORA O PAGAR DESPUES?</span>
                   </label>
                   <span className="px-2.5 py-1 bg-[#FFE600] text-black font-black text-xs">
                     TOTAL: ${totalCost.toFixed(2)} USD
@@ -812,7 +812,7 @@ export default function RegistrationModal({
                     <div className="flex items-center justify-between font-pixel text-[10px]">
                       <span className="flex items-center gap-2">
                         <Link2 className="w-4 h-4" />
-                        PAGAR DESPUÉS
+                        PAGAR DESPUES
                       </span>
                       {paymentMode === 'later' && (
                         <span className="bg-black text-[#00F0FF] px-1.5 py-0.5 text-[8px]">
@@ -853,7 +853,7 @@ export default function RegistrationModal({
 
                         <div className="sm:col-span-2 flex items-center justify-between p-2.5 bg-[#0C121D] border-2 border-black">
                           <div>
-                            <span className="font-pixel text-[8px] text-[#FFE600] block uppercase">NÚMERO CUENTA</span>
+                            <span className="font-pixel text-[8px] text-[#FFE600] block uppercase">NUMERO CUENTA</span>
                             <strong className="text-white font-pixel text-sm sm:text-base tracking-wider">{BANK_INFO.accountNumber}</strong>
                           </div>
                           <button
@@ -897,7 +897,7 @@ export default function RegistrationModal({
                         <label className="crt-monitor-screen border-4 border-dashed border-white/20 hover:border-[#FFE600] bg-black p-6 flex flex-col items-center justify-center cursor-pointer transition group">
                           <Upload className="w-8 h-8 text-slate-400 mb-2 group-hover:text-[#FFE600] transition-colors" />
                           <span className="font-pixel text-[10px] font-black text-white mb-1 uppercase tracking-wider text-center group-hover:text-[#FFE600]">
-                            [ CLIC PARA INSERTAR COMPROBANTE O ARRASTRA AQUÍ ]
+                            [ CLIC PARA INSERTAR COMPROBANTE O ARRASTRA AQUI ]
                           </span>
                           <span className="text-[10px] text-slate-400 font-cyber text-center">
                             JPG, PNG o captura de pantalla (Max 5MB)
@@ -946,7 +946,7 @@ export default function RegistrationModal({
                     <div className="flex items-center gap-2 font-pixel text-[9px] text-[#00F0FF]">
                       <span className="w-2 h-2 bg-[#00F0FF] inline-block animate-arcade-blink" />
                       <span className="uppercase font-bold">
-                        PAGAR DESPUÉS (${totalCost.toFixed(2)} USD)
+                        PAGAR DESPUES (${totalCost.toFixed(2)} USD)
                       </span>
                     </div>
 
@@ -986,7 +986,7 @@ export default function RegistrationModal({
                     ) : (
                       <>
                         <Zap className="w-4 h-4 fill-black" />
-                        <span>[ INSERT COIN // PAGAR Y ENVIAR REGISTRO (${totalCost.toFixed(2)} USD) ]</span>
+                        <span>[ PAGAR Y ENVIAR REGISTRO (${totalCost.toFixed(2)} USD) ]</span>
                       </>
                     )}
                   </button>
@@ -1001,7 +1001,7 @@ export default function RegistrationModal({
                     ) : (
                       <>
                         <Link2 className="w-4 h-4 stroke-[3]" />
-                        <span>[ PRE-REGISTRARSE // PAGAR DESPUÉS ]</span>
+                        <span>[ PRE-REGISTRARSE // PAGAR DESPUES ]</span>
                       </>
                     )}
                   </button>

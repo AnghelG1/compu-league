@@ -148,15 +148,15 @@ export default function PaymentPage({ paymentId, onGoHome }) {
   const getGameBadge = (gameId) => {
     switch (gameId) {
       case 'valorant':
-        return { label: 'VALORANT (5v5 TÁCTICO)', color: '#FF0055', icon: Crosshair };
+        return { label: 'VALORANT (5v5 TACTICO)', color: '#FF0055', icon: Crosshair };
       case 'free_fire':
         return { label: 'FREE FIRE (ESCUADRAS / SOLO)', color: '#FFE600', icon: Flame };
       case 'fortnite':
-        return { label: 'FORTNITE (DÚOS)', color: '#00F0FF', icon: Shield };
+        return { label: 'FORTNITE (DUOS)', color: '#00F0FF', icon: Shield };
       case 'clash_royale':
         return { label: 'CLASH ROYALE (1v1)', color: '#A855F7', icon: Crown };
       default:
-        return { label: 'COMPU LEAGUE E-SPORTS', color: '#FFE600', icon: Trophy };
+        return { label: 'COMPU LEAGUE E-SPORTS', color: '#FFE600', icon: Zap };
     }
   };
 
@@ -234,7 +234,7 @@ export default function PaymentPage({ paymentId, onGoHome }) {
               <AlertCircle className="w-7 h-7" />
             </div>
             <h2 className="text-base sm:text-lg font-black text-white uppercase font-display tracking-wide">
-              ENLACE NO ENCONTRADO O INVÁLIDO
+              ENLACE NO ENCONTRADO O INVALIDO
             </h2>
             <p className="text-xs text-slate-400 font-cyber leading-relaxed max-w-md mx-auto">
               No encontramos ningún equipo asociado al ID <span className="text-[#FFE600] font-pixel text-[10px]">"{targetId}"</span>. Verifica que el enlace esté completo o realiza una nueva inscripción.
@@ -291,7 +291,7 @@ export default function PaymentPage({ paymentId, onGoHome }) {
                       </span>
                     ) : (registration.receipt_image || registration.receipt_url) ? (
                       <span className="px-2.5 py-1 bg-[#FFE600] text-black border-2 border-black font-pixel text-[9px] font-black flex items-center gap-1">
-                        EN VERIFICACIÓN
+                        EN VERIFICACION
                       </span>
                     ) : (
                       <span className="px-2.5 py-1 bg-[#00F0FF] text-black border-2 border-black font-pixel text-[9px] font-black flex items-center gap-1">
@@ -422,7 +422,7 @@ export default function PaymentPage({ paymentId, onGoHome }) {
 
                     <div className="sm:col-span-2 flex items-center justify-between p-3.5 bg-[#0C121D] border-2 border-black shadow-brutal-black">
                       <div>
-                        <span className="font-pixel text-[8px] text-[#FFE600] block uppercase">NÚMERO DE CUENTA</span>
+                        <span className="font-pixel text-[8px] text-[#FFE600] block uppercase">NUMERO DE CUENTA</span>
                         <strong className="text-white text-base sm:text-lg font-pixel tracking-wider">
                           {BANK_INFO.accountNumber}
                         </strong>
@@ -484,7 +484,7 @@ export default function PaymentPage({ paymentId, onGoHome }) {
                     <label className="crt-monitor-screen border-4 border-dashed border-white/20 hover:border-[#FFE600] bg-black p-8 flex flex-col items-center justify-center cursor-pointer transition group">
                       <Upload className="w-10 h-10 text-slate-400 mb-3 group-hover:text-[#FFE600] transition-colors" />
                       <span className="font-pixel text-xs font-black text-white mb-1.5 uppercase tracking-wider text-center group-hover:text-[#FFE600]">
-                        [ CLIC AQUÍ PARA INSERTAR FOTO DEL VOUCHER ]
+                        [ CLIC AQUI PARA INSERTAR FOTO DEL VOUCHER ]
                       </span>
                       <p className="text-xs text-slate-400 font-cyber text-center">
                         Formatos soportados: JPG, PNG o captura de transferencia

@@ -32,7 +32,7 @@ const GameLogo = ({ gameId, color }) => {
 const ARCADE_GAMES = [
   {
     id: 'valorant',
-    slot: 'SLOT 01 // TACTICAL 5v5',
+    slot: 'SLOT 01 // 5v5 TACTICO',
     name: 'VALORANT',
     badge: 'WINNERS & LOSERS',
     accentColor: '#FF0055',
@@ -40,14 +40,15 @@ const ARCADE_GAMES = [
     shadowClass: 'shadow-brutal-pink',
     image: '/assets/valorant_lobby.jpg',
     fallbackImage: '/assets/valorant.jpg',
+    imagePosition: 'object-center',
     coinPrice: '$5.00',
     coinDetail: '$1.00 POR TITULAR • SUPLENTE GRATIS',
-    difficulty: '[█████████░] HARDCORE',
+    difficulty: '[█████████░] COMPETITIVO',
     difficultyLevel: 'DIFICULTAD: ALTA',
     players: '5 TITULARES + 1 SUPLENTE',
     platform: 'PC EXCLUSIVO',
     platformIcon: Monitor,
-    buttonText: '[ INSERT COIN // REGISTRAR 5v5 ]',
+    buttonText: '[ REGISTRAR 5V5 ]',
     rules: [
       'Doble eliminación oficial con Winners Bracket y Losers Bracket.',
       'Servidor Santiago. Mapas oficiales del circuito competitivo.',
@@ -56,7 +57,7 @@ const ARCADE_GAMES = [
   },
   {
     id: 'free_fire',
-    slot: 'SLOT 02 // SQUAD SURVIVAL',
+    slot: 'SLOT 02 // ESCUADRAS',
     name: 'FREE FIRE',
     badge: 'PROMO 2X1 AUTO',
     accentColor: '#FFE600',
@@ -64,14 +65,15 @@ const ARCADE_GAMES = [
     shadowClass: 'shadow-brutal-yellow',
     image: '/assets/free_fire_lobby.jpg',
     fallbackImage: '/assets/free_fire.jpg',
+    imagePosition: 'object-center',
     coinPrice: '$4.00',
     coinDetail: '¡INCLUYE TORNEO INDIVIDUAL GRATIS!',
     difficulty: '[███████░░░] SURVIVAL',
     difficultyLevel: 'DIFICULTAD: MEDIA',
     players: '4 JUGADORES (ESCUADRA)',
-    platform: 'MÓVIL / SALAS PRIVADAS',
+    platform: 'MOVIL / SALAS PRIVADAS',
     platformIcon: Smartphone,
-    buttonText: '[ INSERT COIN // INSCRIBIR ESCUADRA ]',
+    buttonText: '[ INSCRIBIR ESCUADRA ]',
     rules: [
       'Inscribir tu escuadra inscribe automáticamente a todos al torneo individual gratis.',
       'Salas privadas Battle Royale coordinadas con árbitros oficiales del torneo.',
@@ -88,14 +90,15 @@ const ARCADE_GAMES = [
     shadowClass: 'shadow-brutal-cyan',
     image: '/assets/fortnite_lobby.jpg',
     fallbackImage: '/assets/fortnite.jpg',
+    imagePosition: 'object-center',
     coinPrice: '$2.00',
-    coinDetail: '$1.00 POR INTEGRANTE DEL DÚO',
-    difficulty: '[████████░░] HIGH APM',
+    coinDetail: '$1.00 POR INTEGRANTE DEL DUO',
+    difficulty: '[████████░░] VELOCIDAD',
     difficultyLevel: 'DIFICULTAD: ALTA',
-    players: '2 JUGADORES (DÚO)',
-    platform: 'PC / CONSOLA / MÓVIL',
+    players: '2 JUGADORES (DUO)',
+    platform: 'PC / CONSOLA / MOVIL',
     platformIcon: Gamepad2,
-    buttonText: '[ INSERT COIN // INSCRIBIR DÚO ]',
+    buttonText: '[ INSCRIBIR DUO ]',
     rules: [
       'Sala privada Battle Royale en parejas con código exclusivo de servidor.',
       'Crossplay 100% abierto: compite desde PC, PlayStation, Xbox o Móvil.',
@@ -104,7 +107,7 @@ const ARCADE_GAMES = [
   },
   {
     id: 'clash_royale',
-    slot: 'SLOT 04 // 1v1 STRATEGY',
+    slot: 'SLOT 04 // ESTRATEGIA 1v1',
     name: 'CLASH ROYALE',
     badge: 'DUELOS BO3',
     accentColor: '#A855F7',
@@ -112,14 +115,15 @@ const ARCADE_GAMES = [
     shadowClass: 'shadow-brutal-purple',
     image: '/assets/clash_royale_lobby.jpg',
     fallbackImage: '/assets/clash_royale.jpg',
+    imagePosition: 'object-top',
     coinPrice: '$1.00',
-    coinDetail: 'INSCRIPCIÓN INDIVIDUAL DIRECTA',
-    difficulty: '[██████░░░░] STRATEGY',
-    difficultyLevel: 'DIFICULTAD: TÁCTICA',
+    coinDetail: 'INSCRIPCION INDIVIDUAL DIRECTA',
+    difficulty: '[██████░░░░] ESTRATEGIA',
+    difficultyLevel: 'DIFICULTAD: TACTICA',
     players: '1 JUGADOR (SOLITARIO)',
-    platform: 'MÓVIL (ANDROID / IOS)',
+    platform: 'MOVIL (ANDROID / IOS)',
     platformIcon: Smartphone,
-    buttonText: '[ INSERT COIN // INSCRIBIRSE 1v1 ]',
+    buttonText: '[ INSCRIBIRSE 1V1 ]',
     rules: [
       'Llave eliminatoria directa en duelos al mejor de 3 partidas (Bo3).',
       'Nivel parejo oficial de torneo: cartas fijas en Nivel 11 estándar.',
@@ -154,15 +158,15 @@ export default function GameCards({ onSelectGame }) {
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="bg-[#FFE600] text-black font-pixel text-[9px] sm:text-[10px] px-2.5 py-1 border border-black font-black uppercase">
-                  [ 4 SLOTS INSERTED ]
+                  [ 4 JUEGOS OFICIALES ]
                 </span>
                 <span className="bg-black text-[#00F0FF] font-pixel text-[9px] sm:text-[10px] px-2.5 py-1 border border-[#00F0FF]">
-                  CHOOSE YOUR FIGHTER
+                  ELIGE TU JUEGO
                 </span>
               </div>
 
               <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-white leading-none">
-                SELECCIÓN DE JUEGOS <span className="text-[#FFE600]">// CARTUCHOS ARCADE</span>
+                SELECCION DE JUEGOS <span className="text-[#FFE600]">// CARTUCHOS ARCADE</span>
               </h2>
 
               <p className="text-slate-300 font-cyber text-xs sm:text-sm max-w-2xl">
@@ -210,12 +214,12 @@ export default function GameCards({ onSelectGame }) {
                     src={game.image}
                     alt={game.name}
                     onError={(e) => { e.target.src = game.fallbackImage; }}
-                    className="w-full h-full object-cover object-center filter brightness-90 group-hover:scale-105 transition-transform duration-300"
+                    className={`w-full h-full object-cover ${game.imagePosition || 'object-center'} filter brightness-90 group-hover:scale-105 transition-transform duration-300`}
                   />
 
                   {/* Top-Right HUD Badge */}
                   <div className="absolute top-3 right-3 z-20 font-pixel text-[9px] bg-black/90 text-white px-2 py-1 border border-white/30">
-                    <span className="text-[#FFE600]">STATUS:</span> READY
+                    <span className="text-[#FFE600]">ESTADO:</span> ACTIVO
                   </div>
 
                   {/* In-Game HUD overlay at bottom of screen */}
@@ -259,7 +263,7 @@ export default function GameCards({ onSelectGame }) {
                     <div>
                       <div className="font-pixel text-[8px] text-slate-400 uppercase flex items-center gap-1">
                         <Coins className="w-3 h-3 text-[#FFE600]" />
-                        <span>FICHA / INSERT COIN:</span>
+                        <span>VALOR DE FICHA:</span>
                       </div>
                       <div className="font-pixel text-lg sm:text-xl text-[#FFE600] mt-1 font-black">
                         {game.coinPrice} <span className="text-[9px] text-slate-300">USD</span>
@@ -272,7 +276,7 @@ export default function GameCards({ onSelectGame }) {
                     {/* Difficulty Meter */}
                     <div className="border-l border-white/10 pl-3">
                       <div className="font-pixel text-[8px] text-slate-400 uppercase">
-                        DIFFICULTY METER:
+                        NIVEL DE RETO:
                       </div>
                       <div 
                         className="font-pixel text-xs sm:text-sm mt-1 font-black truncate"
@@ -312,14 +316,14 @@ export default function GameCards({ onSelectGame }) {
                   <button
                     type="button"
                     onClick={() => onSelectGame(game.id)}
-                    className={`btn-arcade-press w-full py-4 px-4 font-pixel text-xs sm:text-sm uppercase font-black border-2 border-black cursor-pointer flex items-center justify-center gap-2 ${game.shadowClass}`}
+                    className={`btn-arcade-press w-full py-3.5 px-4 font-pixel text-xs sm:text-sm uppercase font-black border-2 border-black cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap ${game.shadowClass}`}
                     style={{
                       backgroundColor: game.accentColor,
                       color: game.id === 'free_fire' ? '#000' : (game.id === 'fortnite' ? '#000' : '#FFF'),
                     }}
                   >
                     <span>{game.buttonText}</span>
-                    <ArrowRight className="w-4 h-4 stroke-[3]" />
+                    <ArrowRight className="w-4 h-4 stroke-[3] shrink-0" />
                   </button>
                 </div>
 

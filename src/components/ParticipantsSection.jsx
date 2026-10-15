@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Users, User, Trophy, Shield, Flame, Crosshair, Crown, 
+  Users, User, Shield, Flame, Crosshair, Crown, 
   Search, Check, Clock, Sparkles, Terminal, ArrowRight, Zap
 } from 'lucide-react';
 import { getRegistrations } from '../lib/storage';
@@ -71,10 +71,10 @@ export default function ParticipantsSection({ onOpenRegister }) {
   const clashCount = registrations.filter(r => r.game === 'clash_royale').length;
 
   const gameFilters = [
-    { id: 'all', label: 'TODOS', icon: Trophy, color: '#FFE600' },
+    { id: 'all', label: 'TODOS', icon: Zap, color: '#FFE600' },
     { id: 'valorant', label: 'VALORANT (5v5)', icon: Shield, color: '#FF0055' },
     { id: 'free_fire', label: 'FREE FIRE', icon: Flame, color: '#FFE600' },
-    { id: 'fortnite', label: 'FORTNITE (DÚOS)', icon: Crosshair, color: '#00F0FF' },
+    { id: 'fortnite', label: 'FORTNITE (DUOS)', icon: Crosshair, color: '#00F0FF' },
     { id: 'clash_royale', label: 'CLASH ROYALE (1v1)', icon: Crown, color: '#A855F7' },
   ];
 
@@ -98,7 +98,7 @@ export default function ParticipantsSection({ onOpenRegister }) {
         };
       case 'fortnite':
         return { 
-          label: 'FORTNITE • DÚOS', 
+          label: 'FORTNITE • DUOS', 
           color: '#00F0FF',
           shadowClass: 'shadow-brutal-cyan',
           borderClass: 'border-[#00F0FF]',
@@ -118,7 +118,7 @@ export default function ParticipantsSection({ onOpenRegister }) {
           color: '#FFE600',
           shadowClass: 'shadow-brutal-yellow',
           borderClass: 'border-[#FFE600]',
-          icon: Trophy
+          icon: Zap
         };
     }
   };
@@ -316,7 +316,7 @@ export default function ParticipantsSection({ onOpenRegister }) {
                     </span>
                     <span className="text-white">EQUIPOS Y ESCUADRAS ({teamsList.length})</span>
                   </div>
-                  <span className="text-slate-400">5v5 / ESCUADRAS / DÚOS</span>
+                  <span className="text-slate-400">5v5 / ESCUADRAS / DUOS</span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
