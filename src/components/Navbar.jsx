@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Trophy, Flame } from 'lucide-react';
+import { Menu, X, Zap, Flame } from 'lucide-react';
 
 export default function Navbar({ 
   onOpenRegister, 
@@ -99,7 +99,7 @@ export default function Navbar({
             onClick={onOpenRegister}
             className="btn-arcade-press shadow-brutal-yellow hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-[#FFE600] hover:bg-[#FFF04D] text-black border-2 border-black font-pixel font-black text-xs uppercase tracking-wider cursor-pointer whitespace-nowrap shrink-0"
           >
-            <Trophy className="w-3.5 h-3.5 fill-black shrink-0" />
+            <Zap className="w-3.5 h-3.5 fill-black shrink-0" />
             <span>INSCRIBIRSE</span>
           </button>
 
@@ -151,8 +151,8 @@ export default function Navbar({
             }}
             className="btn-arcade-press shadow-brutal-yellow w-full mt-3 py-3.5 bg-[#FFE600] text-black font-pixel font-black text-xs uppercase tracking-wider border-2 border-black flex items-center justify-center gap-2 cursor-pointer"
           >
-            <Trophy className="w-4 h-4 fill-black" />
-            <span>[ INSERT COIN // INSCRIBIRSE ]</span>
+            <Zap className="w-4 h-4 fill-black" />
+            <span>INSCRIBIRSE</span>
           </button>
         </div>
       )}

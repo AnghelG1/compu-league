@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Users, User, Trophy, Shield, Flame, Crosshair, Crown, 
-  Search, Check, Clock, Sparkles, Terminal, ArrowRight
+  Search, Check, Clock, Sparkles, Terminal, ArrowRight, Zap
 } from 'lucide-react';
 import { getRegistrations } from '../lib/storage';
 
@@ -168,8 +168,8 @@ export default function ParticipantsSection({ onOpenRegister }) {
                 onClick={onOpenRegister}
                 className="btn-arcade-press shadow-brutal-yellow bg-[#FFE600] hover:bg-[#FFF04D] text-black border-2 border-black font-pixel text-xs px-5 py-3 font-black uppercase flex items-center gap-2 cursor-pointer"
               >
-                <Trophy className="w-3.5 h-3.5 fill-black" />
-                <span>[ INSCRIBIRSE ]</span>
+                <Zap className="w-3.5 h-3.5 fill-black" />
+                <span>INSCRIBIRSE</span>
               </button>
             </div>
 

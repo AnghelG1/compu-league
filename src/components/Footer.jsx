@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageSquare, Phone, ArrowUp, Trophy, Sparkles, Shield, Flame, Crosshair, Crown } from 'lucide-react';
+import { MessageSquare, Phone, ArrowUp, Coins, Zap, Sparkles, Shield, Flame, Crosshair, Crown } from 'lucide-react';
 import { CONTACT_INFO } from '../data/tournamentData';
 
 export default function Footer({ onOpenAdmin, onOpenRegister }) {
@@ -100,7 +100,7 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
               
               <div className="p-3 bg-[#0B101A] border-2 border-[#FFE600] text-[#FFE600] shadow-brutal-black">
                 <div className="flex items-center gap-2 font-pixel text-[9px] font-black uppercase">
-                  <Trophy className="w-4 h-4 text-[#FFE600] fill-[#FFE600] shrink-0" />
+                  <Coins className="w-4 h-4 text-[#FFE600] shrink-0" />
                   <span>PREMIOS EN EFECTIVO</span>
                 </div>
               </div>
@@ -133,8 +133,8 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
                 onClick={onOpenRegister}
                 className="btn-arcade-press shadow-brutal-pink w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#FFE600] hover:bg-[#FFF04D] text-black border-2 border-black font-pixel font-black text-[9px] uppercase tracking-wider cursor-pointer"
               >
-                <Trophy className="w-3.5 h-3.5 fill-black" />
-                <span>[ INSERT COIN // INSCRIBIRSE ]</span>
+                <Zap className="w-3.5 h-3.5 fill-black" />
+                <span>INSCRIBIRSE</span>
               </button>
             </div>
           </div>
