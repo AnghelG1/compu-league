@@ -186,7 +186,7 @@ export default function RegistrationModal({
         receipt_url: isPayLater ? null : receiptPreview,
         status: isPayLater ? 'payment_pending' : 'pending',
         payment_status: isPayLater ? 'unpaid' : 'paid',
-        admin_notes: isPayLater ? 'Pre-registro generado con Enlace Mágico. Pendiente de comprobante.' : '',
+        admin_notes: isPayLater ? 'Pre-registro generado (Pagar después). Pendiente de comprobante.' : '',
       };
 
       await saveRegistration(registrationRecord);
@@ -235,11 +235,15 @@ export default function RegistrationModal({
     : '';
 
   const whatsappSelfMessage = successData
-    ? `🎮 *COMPU LEAGUE E-SPORTS 2026*\n\n¡Hola ${successData.captain_name}! Tu pre-registro para *${successData.team_name}* en *${gameConfig.name}* ha sido guardado exitosamente.\n\n📌 *Enlace Mágico para subir comprobante de pago ($${totalCost.toFixed(2)} USD):*\n${magicLink}\n\nGuarda este enlace para subir tu comprobante de Banco Pichincha cuando tengas el dinero listo. ¡Nos vemos en la arena! 🔥`
+    ? `🎮 *COMPU LEAGUE E-SPORTS 2026*\n\n¡Hola ${successData.captain_name}! Tu pre-registro para *${successData.team_name}* en *${gameConfig.name}* ha sido guardado.\n\n📌 *Link para pagar y subir comprobante ($${totalCost.toFixed(2)} USD):*\n${magicLink}\n\n📌 *O envía tu comprobante al WhatsApp Staff 0962074110 con:*\n- Nombre: ${successData.captain_name}\n- ID: ${successData.id}`
     : '';
 
   const whatsappCaptainUrl = successData
     ? `https://wa.me/${cleanPhone(successData.captain_whatsapp)}?text=${encodeURIComponent(whatsappSelfMessage)}`
+    : '';
+
+  const whatsappStaffReportUrl = successData
+    ? `https://wa.me/593962074110?text=${encodeURIComponent(`Hola Staff Compu League, envío mi comprobante de pago para el equipo *${successData.team_name}*.\n- Nombre: ${successData.captain_name}\n- ID de registro: ${successData.id}\n- Torneo: ${gameConfig.name}\n- Valor: $${totalCost.toFixed(2)} USD`)}`
     : '';
 
   return (
@@ -297,7 +301,7 @@ export default function RegistrationModal({
 
                 <div className="space-y-1.5">
                   <span className="px-3 py-1 bg-sky-500/20 text-sky-300 border border-sky-400 text-[10px] font-mono font-bold uppercase inline-block">
-                    ★ ENLACE MÁGICO CON UUID GENERADO ★
+                    ★ REGISTRO GUARDADO (PAGAR DESPUÉS) ★
                   </span>
                   <h4 className="text-xl sm:text-2xl font-bold uppercase text-white font-['Silkscreen',monospace]">
                     ¡PRE-REGISTRO COMPLETADO!
@@ -318,29 +322,29 @@ export default function RegistrationModal({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
                     <div>
-                      <span className="text-[#8ea4c7] block">Capitán:</span>
+                      <span className="text-[#8ea4c7] block">Capitán / Jugador:</span>
                       <strong className="text-white">{successData.captain_name} ({successData.captain_game_id})</strong>
                     </div>
                     <div>
-                      <span className="text-[#8ea4c7] block">WhatsApp Capitán:</span>
-                      <strong className="text-amber-400">{successData.captain_whatsapp}</strong>
+                      <span className="text-[#8ea4c7] block">ID de Registro:</span>
+                      <strong className="text-yellow-300 font-mono text-[10px] break-all">{successData.id}</strong>
                     </div>
                   </div>
 
                   <div className="pt-2 border-t border-[#2f4469] flex items-center justify-between">
-                    <span className="text-[#a5badb]">Valor a pagar luego:</span>
+                    <span className="text-[#a5badb]">Valor total:</span>
                     <strong className="text-base text-yellow-300 font-mono">${totalCost.toFixed(2)} USD</strong>
                   </div>
                 </div>
 
-                {/* Magic Link Box with UUID */}
+                {/* Box 1: Link generado */}
                 <div className="p-4 sm:p-5 bg-[#121c2e] border-2 border-yellow-300/80 text-left max-w-xl mx-auto space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-bold text-yellow-300 uppercase font-['Silkscreen',monospace] flex items-center gap-1.5">
                       <Link2 className="w-4 h-4 text-yellow-300" />
-                      TU ENLACE MÁGICO EXCLUSIVO
+                      1. TU LINK DE PAGO GENERADO
                     </span>
-                    <span className="text-[8px] text-[#8ea4c7] font-mono">UUID PROTEGIDO</span>
+                    <span className="text-[8px] text-[#8ea4c7] font-mono">ACCESO DIRECTO</span>
                   </div>
 
                   <div className="p-3 bg-[#1a2742] border border-[#364e78] text-[10px] sm:text-xs font-mono text-sky-300 break-all select-all font-bold">
@@ -355,23 +359,44 @@ export default function RegistrationModal({
                       className="px-4 py-3 border-2 border-yellow-300 bg-yellow-300 hover:bg-white text-black font-bold text-[10px] sm:text-xs uppercase transition flex items-center justify-center gap-2 cursor-pointer font-['Silkscreen',monospace]"
                     >
                       {copiedMagicLink ? <Check className="w-4 h-4 text-emerald-800" /> : <Copy className="w-4 h-4" />}
-                      <span>{copiedMagicLink ? '¡ENLACE COPIADO!' : 'COPIAR ENLACE'}</span>
+                      <span>{copiedMagicLink ? '¡LINK COPIADO!' : 'COPIAR LINK'}</span>
                     </button>
 
                     <a
                       href={whatsappCaptainUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-3 border-2 border-emerald-400 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-[10px] sm:text-xs uppercase transition flex items-center justify-center gap-2 font-['Silkscreen',monospace]"
+                      className="px-4 py-3 border-2 border-sky-400 bg-sky-500 hover:bg-sky-400 text-black font-bold text-[10px] sm:text-xs uppercase transition flex items-center justify-center gap-2 font-['Silkscreen',monospace]"
                     >
                       <Send className="w-4 h-4" />
-                      <span>ENVIARME POR WHATSAPP</span>
+                      <span>ENVIARME EL LINK</span>
                     </a>
                   </div>
+                </div>
 
-                  <p className="text-[9px] text-[#8ea4c7] font-mono leading-relaxed pt-1 text-center">
-                    * Abre este enlace en cualquier momento cuando tengas el dinero. La página reconocerá a tu equipo automáticamente y podrás subir la captura del voucher sin volver a escribir ningún dato.
+                {/* Box 2: Opción WhatsApp 0962074110 */}
+                <div className="p-4 sm:p-5 bg-[#121c2e] border-2 border-emerald-400/80 text-left max-w-xl mx-auto space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-emerald-400 uppercase font-['Silkscreen',monospace] flex items-center gap-1.5">
+                      <Phone className="w-4 h-4 text-emerald-400" />
+                      2. O ENVÍA EL COMPROBANTE AL WHATSAPP
+                    </span>
+                    <span className="text-[8px] text-[#8ea4c7] font-mono">STAFF OFICIAL</span>
+                  </div>
+
+                  <p className="text-[10px] text-slate-200 font-mono leading-relaxed">
+                    También puedes transferir y enviar la captura, tu nombre (<strong className="text-white">{successData.captain_name}</strong>) y tu ID al WhatsApp <strong className="text-emerald-400">0962074110</strong>:
                   </p>
+
+                  <a
+                    href={whatsappStaffReportUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full px-4 py-3 border-2 border-emerald-400 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-[10px] sm:text-xs uppercase transition flex items-center justify-center gap-2 font-['Silkscreen',monospace]"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>ENVIAR CAPTURA AL WHATSAPP 0962074110</span>
+                  </a>
                 </div>
 
                 {/* Direct Go To Payment Page Option */}
@@ -795,7 +820,7 @@ export default function RegistrationModal({
                       )}
                     </div>
                     <p className="text-[10px] text-[#a5badb] mt-2 font-mono leading-relaxed">
-                      Enlace Mágico con UUID. Aparta tu cupo sin pagar ahora y sube el voucher luego.
+                      Paga después con el link que se te genera o enviando la captura de transferencia, tu nombre e ID al WhatsApp 0962074110.
                     </p>
                   </button>
                 </div>
@@ -914,36 +939,32 @@ export default function RegistrationModal({
                   </div>
                 )}
 
-                {/* SI SELECCIONÓ PAGAR DESPUÉS: NO HAY DATOS BANCARIOS NI COMPROBANTE */}
+                {/* SI SELECCIONÓ PAGAR DESPUÉS: EXPLICACIÓN DIRECTA */}
                 {paymentMode === 'later' && (
                   <div className="p-4 bg-[#16233b] border-2 border-sky-400/60 space-y-3 pt-3 animate-in fade-in duration-200">
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-sky-400 animate-pulse" />
+                      <div className="w-3 h-3 bg-sky-400" />
                       <h4 className="text-xs font-bold uppercase text-white font-['Silkscreen',monospace]">
-                        ⚡ MODO CERO FRICCIÓN: ENLACE MÁGICO CON UUID
+                        PAGAR DESPUÉS (${totalCost.toFixed(2)} USD)
                       </h4>
                     </div>
 
-                    <p className="text-[11px] text-[#a5badb] font-mono leading-relaxed">
-                      ¡No necesitas tener el dinero ahora mismo para asegurar tu cupo! Al pulsar en el botón de abajo:
+                    <p className="text-[11px] text-slate-200 font-mono leading-relaxed">
+                      ¡Aparta tu cupo ahora mismo! Paga después con cualquiera de estas opciones:
                     </p>
 
-                    <div className="space-y-1.5 text-[10px] font-mono text-zinc-300 pl-2">
-                      <div className="flex items-start gap-2">
-                        <span className="text-sky-300 font-bold">1.</span>
-                        <span>Se registrará tu equipo en el fixture oficial con estado <strong>PRE-REGISTRADO</strong>.</span>
+                    <div className="space-y-2 text-[10px] font-mono text-zinc-300">
+                      <div className="p-2.5 bg-[#121c2e] border border-[#2f4469] flex items-start gap-2">
+                        <span className="text-sky-300 font-bold shrink-0">1.</span>
+                        <span>
+                          <strong className="text-white">Con el link que se te genera:</strong> Al registrarte se creará un link exclusivo donde podrás entrar cuando quieras a subir la captura de tu comprobante.
+                        </span>
                       </div>
-                      <div className="flex items-start gap-2">
-                        <span className="text-sky-300 font-bold">2.</span>
-                        <span>Se generará un <strong>Enlace Mágico con UUID</strong> único imposible de adivinar.</span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="text-sky-300 font-bold">3.</span>
-                        <span>Podrás <strong>copiar el link</strong> o <strong>enviártelo por WhatsApp</strong> en un clic.</span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="text-sky-300 font-bold">4.</span>
-                        <span>Cuando recaudes los <strong>${totalCost.toFixed(2)} USD</strong>, abres el link y subes directo el voucher sin escribir nada más.</span>
+                      <div className="p-2.5 bg-[#121c2e] border border-[#2f4469] flex items-start gap-2">
+                        <span className="text-emerald-400 font-bold shrink-0">2.</span>
+                        <span>
+                          <strong className="text-white">O por WhatsApp:</strong> Envía la captura de transferencia, tu nombre e ID de registro directamente al WhatsApp <strong className="text-emerald-400">0962074110</strong>.
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -975,11 +996,11 @@ export default function RegistrationModal({
                     className="w-full py-4 border-2 border-sky-400 bg-sky-400 hover:bg-white text-black font-bold text-xs sm:text-sm uppercase tracking-wider transition-colors duration-150 flex items-center justify-center gap-2 cursor-pointer font-['Silkscreen',monospace] disabled:opacity-50 shadow-md"
                   >
                     {submitting ? (
-                      <span>Generando Enlace Mágico y Pre-registro...</span>
+                      <span>Guardando registro...</span>
                     ) : (
                       <>
                         <Link2 className="w-4 h-4 text-black" />
-                        <span>PRE-REGISTRARSE Y GENERAR ENLACE MÁGICO (PAGAR DESPUÉS)</span>
+                        <span>PRE-REGISTRARSE (PAGAR DESPUÉS)</span>
                       </>
                     )}
                   </button>

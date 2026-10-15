@@ -222,7 +222,7 @@ export default function PaymentPage({ paymentId, onGoHome }) {
               BUSCANDO EQUIPO EN LA BASE DE DATOS...
             </p>
             <p className="text-[10px] text-[#a5badb] font-mono">
-              Validando Enlace Mágico UUID: {targetId || '...'}
+              Buscando ID de pago: {targetId || '...'}
             </p>
           </div>
         )}
@@ -264,11 +264,11 @@ export default function PaymentPage({ paymentId, onGoHome }) {
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 bg-yellow-300 animate-pulse" />
                   <span className="text-[10px] text-yellow-300 uppercase font-bold tracking-wider font-mono">
-                    ★ ENLACE MÁGICO DE PAGO Y ACREDITACIÓN ★
+                    ★ PAGO Y ACREDITACIÓN DE EQUIPO ★
                   </span>
                 </div>
                 <span className="text-[8px] sm:text-[9px] text-[#8ea4c7] font-mono truncate">
-                  UUID: {registration.id}
+                  ID: {registration.id}
                 </span>
               </div>
 
@@ -548,15 +548,15 @@ export default function PaymentPage({ paymentId, onGoHome }) {
 
                 {/* WhatsApp Help Box */}
                 <div className="p-4 border-2 border-[#2f4469] bg-[#16233b] flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] font-mono text-[#a5badb]">
-                  <span>¿Tienes dudas con tu pago o la transferencia?</span>
+                  <span>¿Prefieres enviar la captura directamente por WhatsApp?</span>
                   <a
-                    href={CONTACT_INFO.whatsappDirectUrl}
+                    href={`https://wa.me/593962074110?text=${encodeURIComponent(`Hola Staff Compu League, adjunto captura de transferencia para mi equipo *${registration.team_name}* (ID: ${registration.id}, Capitán: ${registration.captain_name}).`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-emerald-400 hover:text-white flex items-center gap-1.5 font-bold uppercase"
+                    className="text-emerald-400 hover:text-white flex items-center gap-1.5 font-bold uppercase transition"
                   >
                     <Phone className="w-3.5 h-3.5" />
-                    <span>Escribir al Staff</span>
+                    <span>WhatsApp 0962074110</span>
                   </a>
                 </div>
 
