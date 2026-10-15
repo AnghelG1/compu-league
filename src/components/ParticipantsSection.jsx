@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Users, User, Trophy, Shield, Flame, Crosshair, Crown, 
-  Search, CheckCircle2, Clock, Sparkles 
+  Search, Check, Clock, Sparkles, Terminal, ArrowRight
 } from 'lucide-react';
 import { getRegistrations } from '../lib/storage';
 
@@ -56,14 +56,11 @@ export default function ParticipantsSection({ onOpenRegister }) {
     return true;
   });
 
-  // Separate into teams and individuals so there are zero height gaps between cards
   const teamsList = filtered.filter(item => !item.is_free_agent && item.members && item.members.length > 0);
   const individualsList = filtered.filter(item => item.is_free_agent || !item.members || item.members.length === 0);
 
-  // Calculate stats
   const totalTeams = registrations.filter(r => !r.is_free_agent && r.members && r.members.length > 0).length;
   const totalPlayers = registrations.reduce((acc, r) => {
-    // 1 captain + members count
     const memberCount = Array.isArray(r.members) ? r.members.length : 0;
     return acc + 1 + memberCount;
   }, 0);
@@ -74,122 +71,148 @@ export default function ParticipantsSection({ onOpenRegister }) {
   const clashCount = registrations.filter(r => r.game === 'clash_royale').length;
 
   const gameFilters = [
-    { id: 'all', label: 'TODOS', icon: Trophy },
-    { id: 'valorant', label: 'VALORANT (5v5)', icon: Shield },
-    { id: 'free_fire', label: 'FREE FIRE', icon: Flame },
-    { id: 'fortnite', label: 'FORTNITE (DÚOS)', icon: Crosshair },
-    { id: 'clash_royale', label: 'CLASH ROYALE (1v1)', icon: Crown },
+    { id: 'all', label: 'TODOS', icon: Trophy, color: '#FFE600' },
+    { id: 'valorant', label: 'VALORANT (5v5)', icon: Shield, color: '#FF0055' },
+    { id: 'free_fire', label: 'FREE FIRE', icon: Flame, color: '#FFE600' },
+    { id: 'fortnite', label: 'FORTNITE (DÚOS)', icon: Crosshair, color: '#00F0FF' },
+    { id: 'clash_royale', label: 'CLASH ROYALE (1v1)', icon: Crown, color: '#A855F7' },
   ];
 
   const getGameBadge = (gameId, modality) => {
     switch (gameId) {
       case 'valorant':
         return { 
-          label: modality === 'agente_libre' || modality === 'individual' ? 'VALORANT • INDIVIDUAL' : 'VALORANT • 5v5 PC', 
-          color: '#ff4655',
+          label: modality === 'agente_libre' || modality === 'individual' ? 'VALORANT • INDIVIDUAL' : 'VALORANT • 5v5', 
+          color: '#FF0055',
+          shadowClass: 'shadow-brutal-pink',
+          borderClass: 'border-[#FF0055]',
           icon: Crosshair
         };
       case 'free_fire':
         return { 
           label: modality === 'solitario' || modality === 'individual' ? 'FREE FIRE • INDIVIDUAL' : 'FREE FIRE • ESCUADRAS', 
-          color: '#f59e0b',
+          color: '#FFE600',
+          shadowClass: 'shadow-brutal-yellow',
+          borderClass: 'border-[#FFE600]',
           icon: Flame
         };
       case 'fortnite':
         return { 
           label: 'FORTNITE • DÚOS', 
-          color: '#38bdf8',
+          color: '#00F0FF',
+          shadowClass: 'shadow-brutal-cyan',
+          borderClass: 'border-[#00F0FF]',
           icon: Shield
         };
       case 'clash_royale':
         return { 
           label: 'CLASH ROYALE • 1v1', 
-          color: '#06b6d4',
+          color: '#A855F7',
+          shadowClass: 'shadow-brutal-purple',
+          borderClass: 'border-[#A855F7]',
           icon: Crown
         };
       default:
         return { 
           label: 'E-SPORTS', 
-          color: '#94a3b8',
+          color: '#FFE600',
+          shadowClass: 'shadow-brutal-yellow',
+          borderClass: 'border-[#FFE600]',
           icon: Trophy
         };
     }
   };
 
   return (
-    <section id="participantes" className="py-14 sm:py-24 bg-[#0B0E14] text-slate-100 relative border-b border-white/10 font-sans select-none overflow-hidden">
+    <section id="participantes" className="py-12 sm:py-20 bg-[#06080E] text-slate-100 font-sans select-none border-b-4 border-black relative overflow-hidden">
       
-      {/* Subtle Cyber Grid & Ambient Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(45,75,135,0.25),transparent_70%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+      {/* Background Subtle Cyber Lines */}
+      <div 
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: 'linear-gradient(#00F0FF 1px, transparent 1px), linear-gradient(90deg, #00F0FF 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* ======================================================= */}
-        {/* 1. SECTION HEADER                                       */}
+        {/* 1. SECTION HEADER (NEO-BRUTALIST TERMINAL STYLE)         */}
         {/* ======================================================= */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-4 pb-6 border-b border-white/10">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-400/30 bg-amber-400/10 text-amber-300 text-xs font-display font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Registro Oficial de Competidores</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-black font-display uppercase text-white tracking-tight leading-tight">
-              EQUIPOS Y JUGADORES
-            </h2>
-            <p className="text-slate-400 text-sm sm:text-base max-w-2xl font-sans">
-              Lista oficial en tiempo real de escuadras y duelistas inscritos para Compu League 2026.
-            </p>
-          </div>
+        <div className="bg-[#0B101A] border-4 border-black p-5 sm:p-6 mb-8 shadow-brutal-black">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="bg-[#FFE600] text-black font-pixel text-[9px] sm:text-[10px] px-2.5 py-1 border border-black font-black uppercase">
+                  [ ROSTER TERMINAL ]
+                </span>
+                <span className="bg-black text-[#00F0FF] font-pixel text-[9px] sm:text-[10px] px-2.5 py-1 border border-[#00F0FF]">
+                  LIVE DATABASE // REAL-TIME
+                </span>
+              </div>
 
-          <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">
-            <button
-              onClick={onOpenRegister}
-              className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-display font-extrabold text-sm uppercase tracking-wider transition-all duration-150 cursor-pointer flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.3)] transform hover:scale-[1.02]"
-            >
-              <Trophy className="w-4 h-4 fill-slate-950" />
-              <span>INSCRIBIRSE</span>
-            </button>
+              <h2 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-white leading-none drop-shadow-[2px_2px_0px_#000]">
+                ROSTER OFICIAL <span className="text-[#FFE600]">// JUGADORES Y EQUIPOS</span>
+              </h2>
+
+              <p className="text-slate-300 font-cyber text-xs sm:text-sm max-w-2xl">
+                Registro oficial en vivo de escuadras y duelistas inscritos para Compu League 2026.
+              </p>
+            </div>
+
+            <div className="shrink-0 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={onOpenRegister}
+                className="btn-arcade-press shadow-brutal-yellow bg-[#FFE600] hover:bg-[#FFF04D] text-black border-2 border-black font-pixel text-xs px-5 py-3 font-black uppercase flex items-center gap-2 cursor-pointer"
+              >
+                <Trophy className="w-3.5 h-3.5 fill-black" />
+                <span>[ INSCRIBIRSE ]</span>
+              </button>
+            </div>
+
           </div>
         </div>
 
         {/* ======================================================= */}
-        {/* 2. SUMMARY COUNTER HUD                                  */}
+        {/* 2. SUMMARY COUNTER HUD (SOLID 3D SHADOW CARDS)          */}
         {/* ======================================================= */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
-          <div className="p-3.5 rounded-xl border border-white/10 bg-[#121824] text-center space-y-1">
-            <span className="text-[11px] text-slate-400 uppercase font-display font-bold block">TOTAL JUGADORES</span>
-            <span className="text-2xl sm:text-3xl font-black text-amber-400 font-display block">{totalPlayers}</span>
+          <div className="bg-[#0D131F] border-2 border-black p-3.5 shadow-brutal-black text-center space-y-1">
+            <span className="font-pixel text-[8px] sm:text-[9px] text-[#FFE600] uppercase block">TOTAL PLAYERS</span>
+            <span className="font-pixel text-xl sm:text-3xl font-black text-white block">{totalPlayers}</span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-white/10 bg-[#121824] text-center space-y-1">
-            <span className="text-[11px] text-slate-400 uppercase font-display font-bold block">VALORANT</span>
-            <span className="text-2xl sm:text-3xl font-black text-rose-400 font-display block">{valorantCount}</span>
+          <div className="bg-[#0D131F] border-2 border-black p-3.5 shadow-brutal-black text-center space-y-1">
+            <span className="font-pixel text-[8px] sm:text-[9px] text-[#FF0055] uppercase block">VALORANT</span>
+            <span className="font-pixel text-xl sm:text-3xl font-black text-white block">{valorantCount}</span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-white/10 bg-[#121824] text-center space-y-1">
-            <span className="text-[11px] text-slate-400 uppercase font-display font-bold block">FREE FIRE</span>
-            <span className="text-2xl sm:text-3xl font-black text-amber-400 font-display block">{freeFireCount}</span>
+          <div className="bg-[#0D131F] border-2 border-black p-3.5 shadow-brutal-black text-center space-y-1">
+            <span className="font-pixel text-[8px] sm:text-[9px] text-[#FFE600] uppercase block">FREE FIRE</span>
+            <span className="font-pixel text-xl sm:text-3xl font-black text-white block">{freeFireCount}</span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-white/10 bg-[#121824] text-center space-y-1">
-            <span className="text-[11px] text-slate-400 uppercase font-display font-bold block">FORTNITE</span>
-            <span className="text-2xl sm:text-3xl font-black text-sky-400 font-display block">{fortniteCount}</span>
+          <div className="bg-[#0D131F] border-2 border-black p-3.5 shadow-brutal-black text-center space-y-1">
+            <span className="font-pixel text-[8px] sm:text-[9px] text-[#00F0FF] uppercase block">FORTNITE</span>
+            <span className="font-pixel text-xl sm:text-3xl font-black text-white block">{fortniteCount}</span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-white/10 bg-[#121824] text-center space-y-1 col-span-2 sm:col-span-1">
-            <span className="text-[11px] text-slate-400 uppercase font-display font-bold block">CLASH ROYALE</span>
-            <span className="text-2xl sm:text-3xl font-black text-purple-400 font-display block">{clashCount}</span>
+          <div className="bg-[#0D131F] border-2 border-black p-3.5 shadow-brutal-black text-center space-y-1 col-span-2 sm:col-span-1">
+            <span className="font-pixel text-[8px] sm:text-[9px] text-[#A855F7] uppercase block">CLASH ROYALE</span>
+            <span className="font-pixel text-xl sm:text-3xl font-black text-white block">{clashCount}</span>
           </div>
         </div>
 
         {/* ======================================================= */}
-        {/* 3. FILTERS & SEARCH BAR                                 */}
+        {/* 3. FILTERS & TERMINAL SEARCH BAR                        */}
         {/* ======================================================= */}
-        <div className="space-y-4 mb-8 p-4 rounded-xl border border-white/10 bg-[#121824]/90 shadow-xl">
+        <div className="bg-[#0B101A] border-4 border-black p-4 mb-8 shadow-brutal-black space-y-4">
           
-          {/* Game Selection Pills */}
-          <div className="flex flex-wrap sm:flex-nowrap overflow-x-auto no-scrollbar gap-2 pb-1">
+          {/* Game Selection Cartridge Tabs */}
+          <div className="flex flex-wrap gap-2 pb-1">
             {gameFilters.map((tab) => {
               const isSelected = selectedGame === tab.id;
               const Icon = tab.icon;
@@ -197,13 +220,13 @@ export default function ParticipantsSection({ onOpenRegister }) {
                 <button
                   key={tab.id}
                   onClick={() => setSelectedGame(tab.id)}
-                  className={`px-3.5 py-2 rounded-lg font-display text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap shrink-0 ${
+                  className={`btn-arcade-press font-pixel text-[9px] sm:text-[10px] px-3.5 py-2.5 border-2 border-black uppercase font-bold transition-all flex items-center gap-2 cursor-pointer ${
                     isSelected
-                      ? 'bg-amber-400 text-slate-950 shadow-[0_0_15px_rgba(245,158,11,0.3)]'
-                      : 'border border-white/10 bg-slate-900/80 text-slate-300 hover:border-amber-400/40 hover:text-white'
+                      ? 'bg-[#FFE600] text-black shadow-brutal-yellow font-black'
+                      : 'bg-black text-slate-300 hover:text-white shadow-brutal-black'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  <Icon className="w-3.5 h-3.5 shrink-0" style={{ color: isSelected ? '#000' : tab.color }} />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -211,57 +234,57 @@ export default function ParticipantsSection({ onOpenRegister }) {
           </div>
 
           {/* Subfilter: Type & Search Input */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-white/10">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t-2 border-black">
             {/* Type selector */}
-            <div className="flex flex-wrap gap-2 text-xs font-display">
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedType('all')}
-                className={`px-3 py-1.5 rounded font-bold uppercase tracking-wider transition-colors ${
+                className={`btn-arcade-press font-pixel text-[8px] sm:text-[9px] px-3 py-2 border-2 border-black uppercase cursor-pointer ${
                   selectedType === 'all'
-                    ? 'bg-slate-200 text-slate-950 font-extrabold'
-                    : 'border border-white/10 bg-slate-900/60 text-slate-400 hover:text-white'
+                    ? 'bg-white text-black font-black shadow-brutal-white'
+                    : 'bg-black text-slate-400 hover:text-white shadow-brutal-black'
                 }`}
               >
-                Todos ({registrations.length})
+                ALL ({registrations.length})
               </button>
 
               <button
                 onClick={() => setSelectedType('teams')}
-                className={`px-3 py-1.5 rounded font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors ${
+                className={`btn-arcade-press font-pixel text-[8px] sm:text-[9px] px-3 py-2 border-2 border-black uppercase flex items-center gap-1.5 cursor-pointer ${
                   selectedType === 'teams'
-                    ? 'bg-slate-200 text-slate-950 font-extrabold'
-                    : 'border border-white/10 bg-slate-900/60 text-slate-400 hover:text-white'
+                    ? 'bg-[#FFE600] text-black font-black shadow-brutal-yellow'
+                    : 'bg-black text-slate-400 hover:text-white shadow-brutal-black'
                 }`}
               >
-                <Users className="w-3.5 h-3.5" />
-                <span>Equipos ({totalTeams})</span>
+                <Users className="w-3 h-3" />
+                <span>TEAMS ({totalTeams})</span>
               </button>
 
               <button
                 onClick={() => setSelectedType('individuals')}
-                className={`px-3 py-1.5 rounded font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors ${
+                className={`btn-arcade-press font-pixel text-[8px] sm:text-[9px] px-3 py-2 border-2 border-black uppercase flex items-center gap-1.5 cursor-pointer ${
                   selectedType === 'individuals'
-                    ? 'bg-slate-200 text-slate-950 font-extrabold'
-                    : 'border border-white/10 bg-slate-900/60 text-slate-400 hover:text-white'
+                    ? 'bg-[#00F0FF] text-black font-black shadow-brutal-cyan'
+                    : 'bg-black text-slate-400 hover:text-white shadow-brutal-black'
                 }`}
               >
-                <User className="w-3.5 h-3.5" />
-                <span>Individuales ({registrations.length - totalTeams})</span>
+                <User className="w-3 h-3" />
+                <span>SOLO ({registrations.length - totalTeams})</span>
               </button>
             </div>
 
-            {/* Quick Search Input */}
+            {/* Retro Command Line Search Input */}
             <div className="relative flex-1 sm:max-w-xs">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <Terminal className="w-3.5 h-3.5 text-[#FFE600] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 id="searchParticipantInput"
                 name="searchParticipant"
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Buscar equipo o jugador..."
+                placeholder="BUSCAR EQUIPO O JUGADOR..."
                 aria-label="Buscar equipo o jugador"
-                className="w-full pl-9 pr-3 py-2 bg-slate-900/90 border border-white/10 rounded-lg text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 font-sans transition-all"
+                className="w-full pl-9 pr-3 py-2 bg-black border-2 border-black text-xs font-pixel text-[#00F0FF] placeholder:text-slate-600 focus:outline-none focus:border-[#FFE600] shadow-brutal-black"
               />
             </div>
           </div>
@@ -269,38 +292,35 @@ export default function ParticipantsSection({ onOpenRegister }) {
         </div>
 
         {/* ======================================================= */}
-        {/* 4. PARTICIPANTS GRID (EQUIPOS PRIMERO, LUEGO INDIVIDUALES) */}
+        {/* 4. PARTICIPANTS GRID (ARCADE ROSTER CARDS)              */}
         {/* ======================================================= */}
         {filtered.length === 0 ? (
-          <div className="p-12 rounded-2xl border border-white/10 bg-[#121824]/60 text-center space-y-3">
-            <span className="text-amber-400 font-display font-bold text-base block">NO SE ENCONTRARON PARTICIPANTES</span>
-            <p className="text-xs text-slate-400 font-sans">
-              Prueba con otro término de búsqueda o videojuego.
+          <div className="p-12 border-4 border-black bg-[#0B101A] text-center space-y-3 shadow-brutal-black">
+            <span className="text-[#FFE600] font-pixel text-xs sm:text-sm block">
+              [ NO PLAYERS FOUND IN THIS SLOT ]
+            </span>
+            <p className="text-xs text-slate-400 font-cyber">
+              Prueba con otro término de búsqueda o selecciona otra disciplina.
             </p>
           </div>
         ) : (
-          <div className="space-y-12">
+          <div className="space-y-10">
             
-            {/* 1. SECCIÓN DE EQUIPOS */}
+            {/* 1. SECCIÓN DE EQUIPOS (SLOTS 5v5 / ESCUADRAS / DÚOS) */}
             {teamsList.length > 0 && (
-              <div className="space-y-5">
-                <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center font-bold shadow-md shadow-amber-400/20">
-                      <Users className="w-4 h-4" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white uppercase font-display tracking-wider">
-                      EQUIPOS Y ESCUADRAS ({teamsList.length})
-                    </h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b-2 border-black font-pixel text-[10px]">
+                  <div className="flex items-center gap-2">
+                    <span className="bg-[#FFE600] text-black px-2 py-0.5 border border-black font-black">
+                      TEAMS
+                    </span>
+                    <span className="text-white">EQUIPOS Y ESCUADRAS ({teamsList.length})</span>
                   </div>
-                  <span className="text-[11px] text-slate-400 font-display uppercase tracking-wider">
-                    5v5 / ESCUADRAS / DÚOS
-                  </span>
+                  <span className="text-slate-400">5v5 / ESCUADRAS / DÚOS</span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {teamsList.map((item) => {
-                    const isHovered = hoveredCard === item.id;
                     const badgeInfo = getGameBadge(item.game, item.modality);
                     const GameIcon = badgeInfo.icon;
                     const isApproved = item.status === 'approved';
@@ -308,124 +328,100 @@ export default function ParticipantsSection({ onOpenRegister }) {
                     return (
                       <div
                         key={item.id}
-                        onMouseEnter={() => setHoveredCard(item.id)}
-                        onMouseLeave={() => setHoveredCard(null)}
-                        className={`rounded-2xl border flex flex-col justify-between transition-all duration-300 relative overflow-hidden backdrop-blur-sm ${
-                          isHovered 
-                            ? 'border-amber-400/60 bg-[#161f30] -translate-y-1 shadow-[0_12px_30px_rgba(245,158,11,0.15)]' 
-                            : 'border-white/10 bg-[#121824] hover:border-white/20'
-                        }`}
+                        className={`bg-[#0A0E17] border-4 border-black ${badgeInfo.shadowClass} flex flex-col justify-between transition-all duration-150`}
                       >
-                        {/* Top game-themed accent stripe */}
+                        {/* Top Cartridge Header */}
                         <div 
-                          className="h-1 w-full shrink-0"
-                          style={{ backgroundColor: badgeInfo.color }}
-                        />
+                          className="p-2.5 px-3 border-b-2 border-black flex items-center justify-between font-pixel text-[8px] sm:text-[9px]"
+                          style={{ backgroundColor: '#000' }}
+                        >
+                          <div className="flex items-center gap-1.5" style={{ color: badgeInfo.color }}>
+                            <GameIcon className="w-3.5 h-3.5 shrink-0" />
+                            <span className="truncate">{badgeInfo.label}</span>
+                          </div>
 
-                        <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                          <div className="space-y-3.5">
-                            {/* Top Row: Game Badge + Approval Status */}
-                            <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-white/10">
-                              <div 
-                                className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-950/80 border text-[10px] font-bold font-display uppercase tracking-wider"
-                                style={{ borderColor: `${badgeInfo.color}50`, color: badgeInfo.color }}
-                              >
-                                <GameIcon className="w-3.5 h-3.5 shrink-0" />
-                                <span className="truncate">{badgeInfo.label}</span>
+                          <div>
+                            {isApproved ? (
+                              <span className="bg-[#10B981] text-black px-2 py-0.5 border border-black font-black">
+                                CONFIRMADO
+                              </span>
+                            ) : item.status === 'payment_pending' ? (
+                              <span className="bg-[#00F0FF] text-black px-2 py-0.5 border border-black font-black">
+                                PRE-REGISTRO
+                              </span>
+                            ) : (
+                              <span className="bg-[#FFE600] text-black px-2 py-0.5 border border-black font-black">
+                                VERIFICANDO
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Card Body */}
+                        <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
+                          <div className="space-y-3">
+                            <h3 className="text-xl font-black text-white uppercase font-display tracking-wide truncate drop-shadow-[1px_1px_0px_#000]">
+                              {item.team_name}
+                            </h3>
+
+                            {/* Official Roster Box */}
+                            <div className="bg-black border-2 border-black">
+                              <div className="px-3 py-1 bg-[#121A2A] border-b border-black flex items-center justify-between font-pixel text-[8px] text-[#FFE600]">
+                                <span>ROSTER ({item.members.length + 1})</span>
+                                <span className="text-slate-400">STATUS: ACTIVE</span>
                               </div>
 
-                              <div className="flex items-center gap-1 shrink-0">
-                                {isApproved ? (
-                                  <span className="text-[10px] font-display uppercase px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1 font-bold shadow-[0_0_10px_rgba(52,211,153,0.15)]">
-                                    <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-                                    <span>CONFIRMADO</span>
-                                  </span>
-                                ) : item.status === 'payment_pending' ? (
-                                  <span className="text-[10px] font-display uppercase px-2.5 py-1 rounded-md bg-sky-500/15 text-sky-400 border border-sky-500/30 flex items-center gap-1 font-bold">
-                                    <Clock className="w-3 h-3 text-sky-400" />
-                                    <span>PRE-REGISTRO</span>
-                                  </span>
-                                ) : (
-                                  <span className="text-[10px] font-display uppercase px-2.5 py-1 rounded-md bg-amber-500/15 text-amber-400 border border-amber-500/30 flex items-center gap-1 font-bold">
-                                    <Clock className="w-3 h-3 text-amber-400" />
-                                    <span>VERIFICANDO</span>
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Team Title */}
-                            <div className="space-y-3">
-                              <div>
-                                <h3 className="text-lg font-bold text-white uppercase font-display tracking-wide truncate">
-                                  {item.team_name}
-                                </h3>
-                              </div>
-
-                              {/* Roster Terminal Box */}
-                              <div className="rounded-xl border border-white/10 bg-[#0B0E14] overflow-hidden">
-                                <div className="px-3 py-1.5 bg-slate-900/80 border-b border-white/10 flex items-center justify-between text-[10px] text-amber-400 font-bold uppercase tracking-wider font-display">
-                                  <div className="flex items-center gap-1.5">
-                                    <Users className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                                    <span>ROSTER OFICIAL ({item.members.length + 1})</span>
+                              <div className="p-2 space-y-1 max-h-48 overflow-y-auto">
+                                {/* Captain entry */}
+                                <div className="flex items-center justify-between py-1 px-2 bg-[#FFE600]/15 border border-[#FFE600]/40 text-white font-cyber text-xs">
+                                  <div className="flex items-center gap-2 truncate pr-1">
+                                    <span className="font-pixel text-[8px] bg-[#FFE600] text-black px-1 font-black">1P</span>
+                                    <span className="truncate font-bold">{item.captain_name}</span>
                                   </div>
-                                  <span className="text-slate-400 text-[10px]">EQUIPO</span>
+                                  <span className="text-[#FFE600] font-pixel text-[9px] shrink-0">
+                                    {item.captain_game_id}
+                                  </span>
                                 </div>
 
-                                <div className="p-2 space-y-1 text-xs font-sans max-h-48 overflow-y-auto">
-                                  {/* Captain entry */}
-                                  <div className="flex items-center justify-between py-1.5 px-2.5 rounded-lg bg-amber-400/10 border border-amber-400/20 text-white">
+                                {/* Members */}
+                                {item.members.map((member, idx) => (
+                                  <div 
+                                    key={idx} 
+                                    className={`flex items-center justify-between py-1 px-2 font-cyber text-xs border border-white/5 ${
+                                      member.is_substitute 
+                                        ? 'bg-[#A855F7]/15 text-slate-300' 
+                                        : 'bg-[#0E1524] text-slate-200'
+                                    }`}
+                                  >
                                     <div className="flex items-center gap-2 truncate pr-1">
-                                      <span className="text-amber-400 font-bold text-[10px]">CAP</span>
-                                      <span className="truncate font-semibold">{item.captain_name}</span>
+                                      <span className="font-pixel text-[8px] text-slate-500">
+                                        {String(idx + 2)}P
+                                      </span>
+                                      <span className="truncate">
+                                        {member.name || `Jugador #${idx + 2}`}
+                                      </span>
+                                      {member.is_substitute && (
+                                        <span className="font-pixel text-[7px] bg-[#A855F7] text-black px-1 font-bold">SUB</span>
+                                      )}
                                     </div>
-                                    <span className="text-amber-300 font-cyber font-bold text-[11px] shrink-0">
-                                      {item.captain_game_id}
+                                    <span className="text-slate-400 shrink-0 font-cyber text-[11px]">
+                                      {member.game_id || (member.is_substitute ? '(Suplente)' : '')}
                                     </span>
                                   </div>
-
-                                  {/* Members */}
-                                  {item.members.map((member, idx) => (
-                                    <div 
-                                      key={idx} 
-                                      className={`flex items-center justify-between py-1 px-2.5 rounded-lg text-slate-300 ${
-                                        member.is_substitute 
-                                          ? 'bg-purple-950/20 border border-purple-500/20 text-slate-400' 
-                                          : 'bg-slate-900/50 hover:bg-slate-900'
-                                      }`}
-                                    >
-                                      <div className="flex items-center gap-2 truncate pr-1">
-                                        <span className="text-slate-500 text-[10px] font-mono">
-                                          {String(idx + 2).padStart(2, '0')}.
-                                        </span>
-                                        <span className="truncate text-[11px]">
-                                          {member.name || `Jugador #${idx + 2}`}
-                                        </span>
-                                        {member.is_substitute && (
-                                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold font-display">SUPL</span>
-                                        )}
-                                      </div>
-                                      <span className="text-slate-400 shrink-0 font-cyber text-[11px]">
-                                        {member.game_id || (member.is_substitute ? '(Suplente)' : '')}
-                                      </span>
-                                    </div>
-                                  ))}
-                                </div>
+                                ))}
                               </div>
                             </div>
                           </div>
 
-                          {/* Card Footer */}
-                          <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-display text-slate-400">
-                            <span className="flex items-center gap-1">
-                              <span>TICKET:</span>
-                              <strong className="text-slate-200 font-mono font-bold">#{item.id.slice(0, 8).toUpperCase()}</strong>
-                            </span>
-                            <span className="px-2.5 py-0.5 rounded-md bg-amber-400/10 border border-amber-400/20 text-amber-300 font-bold tracking-wider">
+                          {/* Card Footer Bar */}
+                          <div className="pt-3 border-t-2 border-black flex items-center justify-between font-pixel text-[8px] text-slate-400">
+                            <span>ID: #{item.id.slice(0, 8).toUpperCase()}</span>
+                            <span className="bg-black text-[#FFE600] border border-white/20 px-2 py-0.5">
                               {item.members.length + 1} CUPOS
                             </span>
                           </div>
                         </div>
+
                       </div>
                     );
                   })}
@@ -433,111 +429,74 @@ export default function ParticipantsSection({ onOpenRegister }) {
               </div>
             )}
 
-            {/* 2. SECCIÓN DE JUGADORES INDIVIDUALES */}
+            {/* 2. SECCIÓN DE JUGADORES INDIVIDUALES (SOLO) */}
             {individualsList.length > 0 && (
-              <div className="space-y-5">
-                <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-sky-400 text-slate-950 flex items-center justify-center font-bold shadow-md shadow-sky-400/20">
-                      <User className="w-4 h-4" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white uppercase font-display tracking-wider">
-                      JUGADORES INDIVIDUALES ({individualsList.length})
-                    </h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b-2 border-black font-pixel text-[10px]">
+                  <div className="flex items-center gap-2">
+                    <span className="bg-[#00F0FF] text-black px-2 py-0.5 border border-black font-black">
+                      SOLO
+                    </span>
+                    <span className="text-white">JUGADORES INDIVIDUALES ({individualsList.length})</span>
                   </div>
-                  <span className="text-[11px] text-slate-400 font-display uppercase tracking-wider">
-                    1v1 / SOLITARIO / INDIVIDUAL
-                  </span>
+                  <span className="text-slate-400">1v1 / SOLITARIO / INDIVIDUAL</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                   {individualsList.map((item) => {
-                    const isHovered = hoveredCard === item.id;
                     const badgeInfo = getGameBadge(item.game, item.modality);
                     const GameIcon = badgeInfo.icon;
+                    const isApproved = item.status === 'approved';
 
                     return (
                       <div
                         key={item.id}
-                        onMouseEnter={() => setHoveredCard(item.id)}
-                        onMouseLeave={() => setHoveredCard(null)}
-                        className={`rounded-2xl border flex flex-col justify-between transition-all duration-300 relative overflow-hidden backdrop-blur-sm ${
-                          isHovered 
-                            ? 'border-amber-400/60 bg-[#161f30] -translate-y-1 shadow-[0_12px_24px_rgba(245,158,11,0.15)]' 
-                            : 'border-white/10 bg-[#121824] hover:border-white/20'
-                        }`}
+                        className={`bg-[#0A0E17] border-4 border-black ${badgeInfo.shadowClass} flex flex-col justify-between`}
                       >
-                        {/* Top game-themed accent stripe */}
-                        <div 
-                          className="h-1 w-full shrink-0"
-                          style={{ backgroundColor: badgeInfo.color }}
-                        />
-
-                        <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
-                          <div>
-                            {/* Top Row: Game Badge + Confirmation */}
-                            <div className="flex items-center justify-between gap-2 pb-2 border-b border-white/10">
-                              <div 
-                                className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-950/80 border text-[10px] font-bold font-display uppercase tracking-wider"
-                                style={{ borderColor: `${badgeInfo.color}50`, color: badgeInfo.color }}
-                              >
-                                <GameIcon className="w-3.5 h-3.5 shrink-0" />
-                                <span className="truncate">{badgeInfo.label}</span>
-                              </div>
-
-                              {item.status === 'approved' ? (
-                                <span className="text-[10px] font-display uppercase px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1 font-bold">
-                                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-                                  <span>CONFIRMADO</span>
-                                </span>
-                              ) : item.status === 'payment_pending' ? (
-                                <span className="text-[10px] font-display uppercase px-2 py-0.5 rounded-md bg-sky-500/15 text-sky-400 border border-sky-500/30 flex items-center gap-1 font-bold">
-                                  <Clock className="w-3 h-3 text-sky-400" />
-                                  <span>PRE-REGISTRO</span>
-                                </span>
-                              ) : (
-                                <span className="text-[10px] font-display uppercase px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-400 border border-amber-500/30 flex items-center gap-1 font-bold">
-                                  <Clock className="w-3 h-3 text-amber-400" />
-                                  <span>VERIFICANDO</span>
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Player Name and In-Game ID Box */}
-                            <div className="mt-3 p-3 rounded-xl bg-[#0B0E14] border border-white/10 space-y-2">
-                              {/* Row 1: Nombre del Jugador */}
-                              <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-white/5">
-                                <div className="truncate min-w-0">
-                                  <span className="text-[9px] text-slate-400 font-display uppercase tracking-wider block font-bold">
-                                    NOMBRE
-                                  </span>
-                                  <h3 className="text-sm font-bold text-white uppercase font-display tracking-wide truncate">
-                                    {item.captain_name || 'JUGADOR'}
-                                  </h3>
-                                </div>
-                                <span className="px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 text-sky-300 text-[10px] font-display uppercase shrink-0 font-bold">
-                                  SOLO
-                                </span>
-                              </div>
-
-                              {/* Row 2: ID en Juego */}
-                              <div className="truncate min-w-0">
-                                <span className="text-[9px] text-slate-400 font-display uppercase tracking-wider block font-bold">
-                                  ID EN JUEGO
-                                </span>
-                                <span className="text-xs font-bold text-amber-400 uppercase font-cyber tracking-wider truncate block">
-                                  {item.captain_game_id || item.team_name || '---'}
-                                </span>
-                              </div>
-                            </div>
+                        {/* Header Bar */}
+                        <div className="p-2 px-3 bg-black border-b-2 border-black flex items-center justify-between font-pixel text-[8px]">
+                          <div className="flex items-center gap-1.5" style={{ color: badgeInfo.color }}>
+                            <GameIcon className="w-3 h-3 shrink-0" />
+                            <span className="truncate">{badgeInfo.label}</span>
                           </div>
 
-                          {/* Footer */}
-                          <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                            <span className="truncate">#{item.id.slice(0, 8).toUpperCase()}</span>
-                            <span className="text-emerald-400 font-display font-bold shrink-0">LISTO</span>
+                          <div>
+                            {isApproved ? (
+                              <span className="bg-[#10B981] text-black px-1.5 py-0.5 font-bold">OK</span>
+                            ) : (
+                              <span className="bg-[#FFE600] text-black px-1.5 py-0.5 font-bold">WAIT</span>
+                            )}
                           </div>
                         </div>
+
+                        {/* Body */}
+                        <div className="p-4 space-y-3">
+                          <div className="bg-black border-2 border-black p-3 space-y-2">
+                            <div>
+                              <span className="font-pixel text-[7px] text-slate-500 uppercase block">
+                                PLAYER NAME
+                              </span>
+                              <h3 className="font-display font-black text-lg text-white uppercase truncate">
+                                {item.captain_name || 'JUGADOR'}
+                              </h3>
+                            </div>
+
+                            <div className="pt-2 border-t border-white/10">
+                              <span className="font-pixel text-[7px] text-[#FFE600] uppercase block">
+                                IN-GAME ID
+                              </span>
+                              <span className="font-cyber font-bold text-sm text-[#00F0FF] uppercase truncate block">
+                                {item.captain_game_id || item.team_name || '---'}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between font-pixel text-[8px] text-slate-400 pt-1">
+                            <span>#{item.id.slice(0, 8).toUpperCase()}</span>
+                            <span className="text-[#10B981]">[ READY ]</span>
+                          </div>
+                        </div>
+
                       </div>
                     );
                   })}
@@ -549,23 +508,27 @@ export default function ParticipantsSection({ onOpenRegister }) {
         )}
 
         {/* ======================================================= */}
-        {/* 5. BOTTOM CALL TO ACTION                                */}
+        {/* 5. BOTTOM CALL TO ACTION (NEO-BRUTALIST BANNER)         */}
         {/* ======================================================= */}
-        <div className="mt-12 p-6 sm:p-8 rounded-2xl border border-white/10 bg-gradient-to-r from-[#121824] via-[#161f30] to-[#121824] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div className="mt-12 p-6 sm:p-8 border-4 border-black bg-[#0C121D] shadow-brutal-yellow flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center sm:text-left">
-            <h3 className="text-base sm:text-lg font-bold text-white uppercase font-display tracking-wide">
+            <div className="font-pixel text-[9px] text-[#FFE600] uppercase tracking-wider">
+              ★ REGISTRATION IS LIVE ★
+            </div>
+            <h3 className="text-xl sm:text-2xl font-black text-white uppercase font-display tracking-wide drop-shadow-[2px_2px_0px_#000]">
               ¿QUIERES VER TU NOMBRE O ESCUADRA EN ESTA LISTA?
             </h3>
-            <p className="text-xs sm:text-sm text-slate-400 font-sans leading-relaxed">
-              Inscribe a tu equipo o regístrate de forma individual antes del inicio del torneo.
+            <p className="text-xs sm:text-sm text-slate-300 font-cyber leading-relaxed">
+              Inscribe a tu equipo o regístrate en solitario antes del cierre de inscripciones.
             </p>
           </div>
 
           <button
+            type="button"
             onClick={onOpenRegister}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-black text-sm uppercase tracking-wider text-center transition-all shrink-0 cursor-pointer shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] transform hover:-translate-y-0.5"
+            className="btn-arcade-press shadow-brutal-pink w-full sm:w-auto px-8 py-4 bg-[#FFE600] text-black border-2 border-black font-pixel font-black text-xs uppercase tracking-wider text-center transition-all shrink-0 cursor-pointer"
           >
-            INSCRIBIR A MI EQUIPO
+            [ INSERT COIN // INSCRIBIR A MI EQUIPO ]
           </button>
         </div>
 

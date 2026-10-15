@@ -8,65 +8,72 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
   };
 
   return (
-    <footer className="bg-[#080B10] border-t border-white/10 pt-12 pb-10 sm:pt-16 sm:pb-12 relative overflow-hidden text-slate-100 font-sans select-none shadow-[0_-4px_24px_rgba(0,0,0,0.6)]">
+    <footer className="bg-black border-t-4 border-black pt-12 pb-10 sm:pt-16 sm:pb-12 relative overflow-hidden text-slate-100 font-sans select-none">
       
-      {/* Ambient background glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-amber-500/5 rounded-full blur-[90px] pointer-events-none" />
+      {/* Background Cyber Grid */}
+      <div 
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: 'linear-gradient(#FFE600 1px, transparent 1px), linear-gradient(90deg, #FFE600 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 sm:gap-10 pb-10 sm:pb-12 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 sm:gap-10 pb-10 sm:pb-12 border-b-2 border-white/10">
           
           {/* Col 1: Brand & Tournament Crest */}
           <div className="space-y-4 md:col-span-1">
             <div className="flex items-center gap-3">
               <img 
-                src="/assets/buho_hd.png" 
+                src="/assets/buho_pixel_start.png" 
                 alt="Logo Compu League 2026" 
-                className="w-12 h-12 object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
+                className="w-12 h-12 object-contain shape-crisp drop-shadow-[0_0_10px_rgba(255,230,0,0.5)]"
+                style={{ imageRendering: 'pixelated' }}
               />
               <div>
-                <span className="text-[10px] uppercase tracking-widest text-amber-400 block font-display font-bold">
-                  Torneo Oficial UPEC
+                <span className="font-pixel text-[8px] text-[#FFE600] uppercase block">
+                  TORNEO OFICIAL UPEC
                 </span>
                 <span className="text-xl font-black text-white tracking-wider font-display uppercase leading-tight block">
                   COMPU LEAGUE
                 </span>
-                <span className="text-xs text-amber-400 font-display font-bold tracking-widest uppercase">
+                <span className="font-pixel text-[9px] text-[#FFE600] uppercase">
                   E-SPORTS 2026
                 </span>
               </div>
             </div>
 
-            <p className="text-xs text-slate-400 leading-relaxed font-sans">
-              El campeonato oficial multiplataforma de deportes electrónicos universitario. Compite, representa a tu carrera y alcanza la gloria.
+            <p className="text-xs text-slate-300 leading-relaxed font-cyber">
+              El campeonato oficial de deportes electrónicos de la UPEC. Compite, representa a tu escuadra y conquista el gran pozo de premios en efectivo.
             </p>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-display font-bold uppercase tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Inscripciones Abiertas</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#10B981] text-black border-2 border-black font-pixel text-[8px] font-black uppercase">
+              <span className="w-2 h-2 bg-black animate-arcade-blink" />
+              <span>INSCRIPCIONES ABIERTAS</span>
             </div>
           </div>
 
           {/* Col 2: Videojuegos Oficiales */}
           <div className="space-y-3">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400 font-display">
-              Disciplinas Oficiales
+            <h4 className="font-pixel text-[10px] uppercase text-[#FFE600] tracking-wider">
+              [ 4 SLOTS OFICIALES ]
             </h4>
-            <ul className="space-y-2.5 text-xs text-slate-300 font-sans">
-              <li className="flex items-center gap-2 hover:text-white transition">
-                <Shield className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+            <ul className="space-y-2 text-xs font-cyber text-slate-300">
+              <li className="flex items-center gap-2 hover:text-[#FF0055] transition">
+                <Shield className="w-3.5 h-3.5 text-[#FF0055] shrink-0" />
                 <span>Valorant (5v5 • Doble Eliminación)</span>
               </li>
-              <li className="flex items-center gap-2 hover:text-white transition">
-                <Flame className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+              <li className="flex items-center gap-2 hover:text-[#FFE600] transition">
+                <Flame className="w-3.5 h-3.5 text-[#FFE600] shrink-0" />
                 <span>Free Fire (Escuadras 4v4 + Solo)</span>
               </li>
-              <li className="flex items-center gap-2 hover:text-white transition">
-                <Crosshair className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+              <li className="flex items-center gap-2 hover:text-[#00F0FF] transition">
+                <Crosshair className="w-3.5 h-3.5 text-[#00F0FF] shrink-0" />
                 <span>Fortnite (Dúos Battle Royale)</span>
               </li>
-              <li className="flex items-center gap-2 hover:text-white transition">
-                <Crown className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+              <li className="flex items-center gap-2 hover:text-[#A855F7] transition">
+                <Crown className="w-3.5 h-3.5 text-[#A855F7] shrink-0" />
                 <span>Clash Royale (1v1 Duelos Bo3)</span>
               </li>
             </ul>
@@ -74,86 +81,82 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
 
           {/* Col 3: Torneo Info & Premios */}
           <div className="space-y-3">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400 font-display">
-              Información del Torneo
+            <h4 className="font-pixel text-[10px] uppercase text-[#FFE600] tracking-wider">
+              [ INTEL DEL TORNEO ]
             </h4>
-            <div className="text-xs text-slate-300 space-y-2 font-sans">
-              <p className="flex items-center justify-between">
+            <div className="text-xs text-slate-300 space-y-2 font-cyber">
+              <p className="flex items-center justify-between border-b border-white/5 pb-1">
                 <span className="text-slate-400">Estado:</span>
-                <strong className="text-emerald-400 font-display font-bold">Fase de Registro</strong>
+                <strong className="text-[#10B981] font-pixel text-[9px]">FASE DE REGISTRO</strong>
               </p>
-              <p className="flex items-center justify-between">
+              <p className="flex items-center justify-between border-b border-white/5 pb-1">
                 <span className="text-slate-400">Fechas:</span>
-                <strong className="text-slate-100 font-display font-bold">4, 5 y 6 Noviembre</strong>
+                <strong className="text-white font-bold">4, 5 y 6 Noviembre</strong>
               </p>
-              <p className="flex items-center justify-between">
+              <p className="flex items-center justify-between border-b border-white/5 pb-1">
                 <span className="text-slate-400">Modalidad:</span>
-                <strong className="text-sky-300 font-display font-bold">Online / Multiplataforma</strong>
+                <strong className="text-[#00F0FF] font-bold">Online / Multiplataforma</strong>
               </p>
-              <div className="p-2.5 rounded-lg bg-amber-400/10 border border-amber-400/30 text-amber-300 font-display text-xs">
-                <div className="flex items-center gap-1.5 font-black uppercase">
-                  <Trophy className="w-4 h-4 fill-amber-400 shrink-0" />
-                  <span>Premios: Efectivo + Trofeo + Medallas</span>
+              
+              <div className="p-3 bg-[#0B101A] border-2 border-[#FFE600] text-[#FFE600] shadow-brutal-black">
+                <div className="flex items-center gap-2 font-pixel text-[9px] font-black uppercase">
+                  <Trophy className="w-4 h-4 text-[#FFE600] fill-[#FFE600] shrink-0" />
+                  <span>PREMIOS: EFECTIVO + TROFEO UPEC</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Col 4: Contacto Staff */}
+          {/* Col 4: Soporte y Staff WhatsApp */}
           <div className="space-y-3">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400 font-display">
-              Contacto y Soporte
+            <h4 className="font-pixel text-[10px] uppercase text-[#FFE600] tracking-wider">
+              [ CANALES DE SOPORTE ]
             </h4>
-            <div className="space-y-2.5">
+            
+            <p className="text-xs text-slate-400 font-cyber">
+              ¿Dudas sobre inscripciones o transferencias bancarias? Escríbenos directamente:
+            </p>
+
+            <div className="space-y-2 pt-1">
               <a
                 href={CONTACT_INFO.whatsappDirectUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 p-2.5 rounded-lg border border-white/10 hover:border-emerald-400/60 bg-slate-900/80 text-xs text-slate-300 hover:text-emerald-300 transition"
+                className="btn-arcade-press shadow-brutal-black flex items-center justify-center gap-2 px-4 py-3 bg-[#10B981] hover:bg-[#15D494] text-black border-2 border-black font-pixel font-black text-[9px] uppercase tracking-wider"
               >
-                <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span className="font-sans font-medium">WhatsApp: 0962074110</span>
-              </a>
-
-              <a
-                href={CONTACT_INFO.discordUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2.5 p-2.5 rounded-lg border border-white/10 hover:border-indigo-400/60 bg-slate-900/80 text-xs text-slate-300 hover:text-indigo-300 transition"
-              >
-                <MessageSquare className="w-4 h-4 text-indigo-400 shrink-0" />
-                <span className="font-sans font-medium">Discord Oficial</span>
+                <Phone className="w-4 h-4 shrink-0" />
+                <span>WhatsApp: {CONTACT_INFO.whatsappStaff}</span>
               </a>
 
               <button
+                type="button"
                 onClick={onOpenRegister}
-                className="w-full py-2.5 px-4 bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-display font-black text-xs uppercase tracking-wider rounded-md transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] flex items-center justify-center gap-1.5 cursor-pointer mt-1"
+                className="btn-arcade-press shadow-brutal-pink w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#FFE600] hover:bg-[#FFF04D] text-black border-2 border-black font-pixel font-black text-[9px] uppercase tracking-wider cursor-pointer"
               >
-                <Trophy className="w-3.5 h-3.5 fill-slate-950" />
-                <span>INSCRIBIRSE AHORA</span>
+                <Trophy className="w-3.5 h-3.5 fill-black" />
+                <span>[ INSERT COIN // INSCRIBIRSE ]</span>
               </button>
             </div>
           </div>
 
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-sans">
-          <div>
-            © 2026 Compu League E-Sports • Universidad Politécnica Estatal del Carchi
+        {/* Bottom Bar: Copyright & Back to Top */}
+        <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-pixel text-[8px] sm:text-[9px] text-slate-400">
+          <div className="flex items-center gap-2 text-center sm:text-left">
+            <span>© 2026 COMPU LEAGUE E-SPORTS • UPEC</span>
+            <span>•</span>
+            <span className="text-[#FFE600]">ORGANIZADO POR CARRERA DE COMPUTACIÓN</span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <button
-              onClick={scrollToTop}
-              className="hover:text-amber-400 transition-colors flex items-center gap-1.5 cursor-pointer uppercase font-display font-bold text-xs"
-            >
-              <span>Volver arriba</span>
-              <ArrowUp className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          <button
+            onClick={scrollToTop}
+            className="btn-arcade-press shadow-brutal-black px-3.5 py-2 border-2 border-black bg-[#0B101A] hover:bg-black text-[#FFE600] uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
+          >
+            <span>SUBIR</span>
+            <ArrowUp className="w-3 h-3 stroke-[3]" />
+          </button>
         </div>
-
       </div>
     </footer>
   );
