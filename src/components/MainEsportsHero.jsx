@@ -160,15 +160,15 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
                   </p>
                 </div>
 
-                {/* Columna Derecha: Insignias de detalle real (llena el espacio vacío) */}
+                {/* Columna Derecha: Los 4 videojuegos premiados */}
                 <div className="flex flex-col gap-2 shrink-0">
                   <div className="bg-black border border-[#FFE600] px-3 py-1.5 font-pixel text-[8px] sm:text-[9px] text-[#FFE600] shadow-brutal-black flex items-center gap-2">
-                    <span className="text-[#00F0FF]">▶</span>
-                    <span>1ER LUGAR: PREMIO MAYOR</span>
+                    <span className="text-[#00F0FF]">▸</span>
+                    <span>4 VIDEOJUEGOS PREMIADOS</span>
                   </div>
                   <div className="bg-black border border-[#00F0FF] px-3 py-1.5 font-pixel text-[8px] sm:text-[9px] text-[#00F0FF] shadow-brutal-black flex items-center gap-2">
-                    <span className="text-[#FFE600]">▶</span>
-                    <span>PAGO DIRECTO TRAS LA FINAL</span>
+                    <span className="text-[#FFE600]">▸</span>
+                    <span className="tracking-tight">VALORANT • FREE FIRE • FORTNITE • CR</span>
                   </div>
                 </div>
               </div>
