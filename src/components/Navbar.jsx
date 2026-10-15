@@ -43,29 +43,29 @@ export default function Navbar({
           className="flex items-center gap-3 sm:gap-3.5 cursor-pointer group shrink-0 select-none py-1 transition-all"
         >
           <div className="relative">
-            <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/20 to-sky-400/20 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity" />
             <img 
-              src="/assets/buho_hd.png" 
-              alt="Escudo Oficial Compu League 2026" 
-              className="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] group-hover:scale-105 transition-transform relative z-10"
+              src="/assets/buho_pixel_start.png" 
+              alt="Escudo Pixel Art Compu League 2026" 
+              className="w-10 h-10 sm:w-12 sm:h-12 object-contain shape-crisp drop-shadow-[0_0_12px_rgba(255,230,0,0.5)] group-hover:scale-105 transition-transform relative z-10"
+              style={{ imageRendering: 'pixelated' }}
             />
           </div>
 
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
               <span className={`text-lg sm:text-2xl font-black font-display tracking-wider transition-colors leading-none ${
-                activeSection === 'inicio' ? 'text-amber-400' : 'text-white group-hover:text-amber-400'
+                activeSection === 'inicio' ? 'text-[#FFE600]' : 'text-white group-hover:text-[#FFE600]'
               }`}>
                 COMPU LEAGUE
               </span>
             </div>
-            <span className="text-[10px] sm:text-xs tracking-[0.2em] text-amber-400/90 font-bold font-display uppercase leading-tight mt-0.5">
+            <span className="text-[10px] sm:text-xs tracking-[0.2em] text-[#FFE600] font-pixel uppercase leading-tight mt-0.5">
               E-SPORTS 2026
             </span>
           </div>
         </div>
 
-        {/* Center: Modern Esports Navigation Links (No brackets) */}
+        {/* Center: Modern Esports Navigation Links */}
         <nav className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
           {navItems.map((item) => {
             const isActive = activeSection === item.id;
@@ -77,29 +77,29 @@ export default function Navbar({
                 onClick={() => handleNavClick(item.id)}
                 onMouseEnter={() => setHoveredItem(item.id)}
                 onMouseLeave={() => setHoveredItem(null)}
-                className={`relative px-3.5 xl:px-4 py-2 font-display text-sm tracking-wider uppercase font-bold transition-all flex flex-col items-center cursor-pointer whitespace-nowrap shrink-0 ${
-                  isActive ? 'text-amber-400 font-extrabold' : isHovered ? 'text-white' : 'text-slate-400'
+                className={`relative px-3.5 xl:px-4 py-2 font-pixel text-[10px] sm:text-[11px] tracking-wider uppercase transition-all flex flex-col items-center cursor-pointer whitespace-nowrap shrink-0 ${
+                  isActive ? 'text-[#FFE600] font-black' : isHovered ? 'text-white' : 'text-slate-400'
                 }`}
               >
                 <span>{item.label}</span>
                 {/* Active indicator bar */}
-                <span className={`absolute bottom-0 inset-x-2 h-0.5 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full transition-all duration-200 ${
-                  isActive ? 'opacity-100 scale-x-100 shadow-[0_0_8px_rgba(245,158,11,0.8)]' : isHovered ? 'opacity-50 scale-x-75' : 'opacity-0 scale-x-0'
+                <span className={`absolute bottom-0 inset-x-2 h-1 bg-[#FFE600] transition-all duration-150 ${
+                  isActive ? 'opacity-100 scale-x-100' : isHovered ? 'opacity-50 scale-x-75' : 'opacity-0 scale-x-0'
                 }`} />
               </button>
             );
           })}
         </nav>
 
-        {/* Right: Modern High-Impact CTA Button & Mobile Trigger */}
+        {/* Right: Neo-Brutalist Arcade CTA Button & Mobile Trigger */}
         <div className="flex items-center gap-3 shrink-0">
 
-          {/* Primary CTA: INSCRIBIRSE (No brackets, glowing Esports button) */}
+          {/* Primary CTA: INSCRIBIRSE (Physical Arcade Sinking Button) */}
           <button
             onClick={onOpenRegister}
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-display font-extrabold text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:shadow-[0_0_25px_rgba(245,158,11,0.6)] transform hover:scale-[1.02] active:scale-[0.98] rounded-sm"
+            className="btn-arcade-press shadow-brutal-yellow hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-[#FFE600] hover:bg-[#FFF04D] text-black border-2 border-black font-pixel font-black text-xs uppercase tracking-wider cursor-pointer whitespace-nowrap shrink-0"
           >
-            <Trophy className="w-4 h-4 fill-slate-950 shrink-0" />
+            <Trophy className="w-3.5 h-3.5 fill-black shrink-0" />
             <span>INSCRIBIRSE</span>
           </button>
 
@@ -107,7 +107,7 @@ export default function Navbar({
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Abrir menú de navegación"
-            className="lg:hidden p-2.5 rounded border border-white/10 bg-slate-900 text-slate-200 hover:text-amber-400 hover:border-amber-400/50 transition-colors focus:outline-none"
+            className="lg:hidden p-2.5 border-2 border-black bg-black text-[#FFE600] shadow-brutal-black transition-colors focus:outline-none cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -117,30 +117,30 @@ export default function Navbar({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-b border-white/10 bg-[#0E131D]/98 backdrop-blur-xl p-5 space-y-3 animate-in slide-in-from-top-4 duration-200 shadow-2xl">
-          <div className="text-xs font-display tracking-widest text-amber-400 uppercase font-bold pb-2 border-b border-white/10 flex items-center justify-between">
+        <div className="lg:hidden border-b-4 border-black bg-[#0A0E17] p-5 space-y-3 shadow-2xl">
+          <div className="font-pixel text-[9px] text-[#FFE600] uppercase font-bold pb-2 border-b-2 border-white/10 flex items-center justify-between">
             <span>COMPU LEAGUE 2026</span>
-            <span className="text-[10px] text-emerald-400 font-mono">INSCRIPCIONES ABIERTAS</span>
+            <span className="text-[#00F0FF]">CREDITS: 04</span>
           </div>
 
           <button
             onClick={() => handleNavClick('inicio')}
-            className={`w-full text-left px-3.5 py-3 rounded border ${
-              activeSection === 'inicio' ? 'border-amber-400/60 bg-amber-400/10 text-amber-400 font-bold' : 'border-white/5 text-slate-200'
-            } hover:border-amber-400/40 hover:text-white bg-slate-900/60 text-sm font-display tracking-wider uppercase flex items-center justify-between`}
+            className={`w-full text-left px-3.5 py-3 border-2 ${
+              activeSection === 'inicio' ? 'border-[#FFE600] bg-[#FFE600] text-black font-black' : 'border-white/10 text-white bg-black'
+            } font-pixel text-xs tracking-wider uppercase flex items-center justify-between cursor-pointer`}
           >
-            <span>Inicio</span>
+            <span>[ INICIO ]</span>
           </button>
 
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => handleNavClick(item.id)}
-              className={`w-full text-left px-3.5 py-3 rounded border ${
-                activeSection === item.id ? 'border-amber-400/60 bg-amber-400/10 text-amber-400 font-bold' : 'border-white/5 text-slate-200'
-              } hover:border-amber-400/40 hover:text-white bg-slate-900/60 text-sm font-display tracking-wider uppercase flex items-center justify-between`}
+              className={`w-full text-left px-3.5 py-3 border-2 ${
+                activeSection === item.id ? 'border-[#FFE600] bg-[#FFE600] text-black font-black' : 'border-white/10 text-white bg-black'
+              } font-pixel text-xs tracking-wider uppercase flex items-center justify-between cursor-pointer`}
             >
-              <span>{item.label}</span>
+              <span>[ {item.label} ]</span>
             </button>
           ))}
 
@@ -149,10 +149,10 @@ export default function Navbar({
               setMobileMenuOpen(false);
               onOpenRegister();
             }}
-            className="w-full mt-2 py-3 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 font-display font-extrabold text-sm uppercase tracking-wider rounded-sm shadow-[0_0_20px_rgba(245,158,11,0.35)] flex items-center justify-center gap-2"
+            className="btn-arcade-press shadow-brutal-yellow w-full mt-3 py-3.5 bg-[#FFE600] text-black font-pixel font-black text-xs uppercase tracking-wider border-2 border-black flex items-center justify-center gap-2 cursor-pointer"
           >
-            <Trophy className="w-4 h-4 fill-slate-950" />
-            <span>INSCRIBIRSE AHORA</span>
+            <Trophy className="w-4 h-4 fill-black" />
+            <span>[ INSERT COIN // INSCRIBIRSE ]</span>
           </button>
         </div>
       )}
