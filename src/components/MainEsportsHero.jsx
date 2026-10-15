@@ -138,40 +138,20 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
               El torneo oficial de videojuegos de la Carrera de Computación. Compite con tu equipo en tu juego favorito y participa por los premios en efectivo.
             </p>
 
-            {/* Neo-Brutalist Prize Box (Aprovecha todo el ancho horizontal sin redundancia) */}
-            <div className="w-full bg-[#0D121D] border-2 border-[#FFE600] p-4 sm:p-5 shadow-brutal-yellow">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                {/* Columna Izquierda: Título y descripción */}
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-2 font-pixel text-[10px] text-[#FFE600] tracking-wider uppercase">
-                    <Coins className="w-4 h-4 text-[#FFE600] shrink-0" />
-                    <span>POZO DEL TORNEO</span>
-                    <span className="bg-[#FF0055] text-white font-pixel text-[8px] px-2 py-0.5 border border-black animate-arcade-blink ml-1">
-                      ★ 100% EFECTIVO
-                    </span>
-                  </div>
-
-                  <div className="text-2xl sm:text-3xl lg:text-4xl font-black font-display text-white tracking-wide uppercase leading-none drop-shadow-[2px_2px_0px_#000]">
-                    PREMIOS EN EFECTIVO
-                  </div>
-
-                  <p className="text-sm text-slate-200 font-cyber leading-relaxed max-w-md pt-1">
-                    Pozo acumulado por inscripciones repartido entre los ganadores de cada videojuego.
-                  </p>
-                </div>
-
-                {/* Columna Derecha: Los 4 videojuegos premiados */}
-                <div className="flex flex-col gap-2 shrink-0">
-                  <div className="bg-black border border-[#FFE600] px-3 py-1.5 font-pixel text-[8px] sm:text-[9px] text-[#FFE600] shadow-brutal-black flex items-center gap-2">
-                    <span className="text-[#00F0FF]">▸</span>
-                    <span>4 VIDEOJUEGOS PREMIADOS</span>
-                  </div>
-                  <div className="bg-black border border-[#00F0FF] px-3 py-1.5 font-pixel text-[8px] sm:text-[9px] text-[#00F0FF] shadow-brutal-black flex items-center gap-2">
-                    <span className="text-[#FFE600]">▸</span>
-                    <span className="tracking-tight">VALORANT • FREE FIRE • FORTNITE • CR</span>
-                  </div>
-                </div>
+            {/* Neo-Brutalist Prize Box (Centrado, compacto y equilibrado) */}
+            <div className="w-full bg-[#0D121D] border-2 border-[#FFE600] p-4 sm:p-5 shadow-brutal-yellow flex flex-col items-center text-center space-y-2">
+              <div className="flex items-center justify-center gap-2 font-pixel text-[10px] text-[#FFE600] tracking-wider uppercase">
+                <Coins className="w-4 h-4 text-[#FFE600] shrink-0" />
+                <span>POZO DEL TORNEO</span>
               </div>
+
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-black font-display text-white tracking-wide uppercase leading-none drop-shadow-[2px_2px_0px_#000] whitespace-nowrap">
+                PREMIOS EN EFECTIVO
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-200 font-cyber leading-relaxed max-w-lg">
+                Pozo acumulado por inscripciones repartido entre los ganadores de cada videojuego.
+              </p>
             </div>
 
             {/* Mechanical Arcade Physical Buttons (Cero esquinas redondeadas + botón que se hunde) */}
