@@ -124,17 +124,17 @@ export default function ParticipantsSection({ onOpenRegister }) {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(96,165,250,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(96,165,250,0.06)_1px,transparent_1px)] [background-size:40px_40px] pointer-events-none" />
       <div className="absolute inset-0 crt-scanlines opacity-20 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
         
         {/* ======================================================= */}
         {/* 1. SECTION HEADER                                       */}
         {/* ======================================================= */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 pb-6 border-b-4 border-[#334a73]">
-          <div className="space-y-3">
-            <div className="inline-block px-3 py-1.5 border-2 border-[#476799] bg-[#223559] text-yellow-300 text-[10px] uppercase">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4 sm:gap-6 pb-4 sm:pb-6 border-b-4 border-[#334a73]">
+          <div className="space-y-2 sm:space-y-3">
+            <div className="inline-block px-2.5 py-1 sm:px-3 sm:py-1.5 border-2 border-[#476799] bg-[#223559] text-yellow-300 text-[9px] sm:text-[10px] uppercase">
               ★ REGISTRO OFICIAL DE COMPETIDORES ★
             </div>
-            <h2 className="text-3xl sm:text-5xl font-bold uppercase text-white tracking-wider font-['Silkscreen',monospace] drop-shadow-[0_4px_0_#070b14]">
+            <h2 className="text-2xl sm:text-5xl font-bold uppercase text-white tracking-wider font-['Silkscreen',monospace] drop-shadow-[0_3px_0_#070b14]">
               EQUIPOS Y JUGADORES
             </h2>
             <p className="text-[#a5badb] text-xs max-w-2xl font-mono leading-relaxed">
@@ -142,10 +142,10 @@ export default function ParticipantsSection({ onOpenRegister }) {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 self-start sm:self-auto">
             <button
               onClick={onOpenRegister}
-              className="px-4 py-3 border-2 border-yellow-300 bg-yellow-300 text-black hover:bg-white text-xs font-bold transition-colors cursor-pointer uppercase flex items-center justify-center"
+              className="px-4 py-2.5 sm:py-3 border-2 border-yellow-300 bg-yellow-300 text-black hover:bg-white text-xs font-bold transition-colors cursor-pointer uppercase flex items-center justify-center"
             >
               <span>[ INSCRIBIRSE ]</span>
             </button>
@@ -155,29 +155,29 @@ export default function ParticipantsSection({ onOpenRegister }) {
         {/* ======================================================= */}
         {/* 2. SUMMARY COUNTER HUD                                  */}
         {/* ======================================================= */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
-          <div className="p-3 border-2 border-[#364e78] bg-[#1d2d4c] text-center space-y-1">
-            <span className="text-[9px] text-[#a5badb] block">JUGADORES</span>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 mb-6 sm:mb-8">
+          <div className="p-2 sm:p-3 border-2 border-[#364e78] bg-[#1d2d4c] text-center space-y-0.5 sm:space-y-1">
+            <span className="text-[8px] sm:text-[9px] text-[#a5badb] block">JUGADORES</span>
             <span className="text-sm sm:text-base font-bold text-yellow-300 font-mono">{totalPlayers}</span>
           </div>
 
-          <div className="p-3 border-2 border-[#364e78] bg-[#1d2d4c] text-center space-y-1">
-            <span className="text-[9px] text-[#a5badb] block">VALORANT</span>
+          <div className="p-2 sm:p-3 border-2 border-[#364e78] bg-[#1d2d4c] text-center space-y-0.5 sm:space-y-1">
+            <span className="text-[8px] sm:text-[9px] text-[#a5badb] block">VALORANT</span>
             <span className="text-sm sm:text-base font-bold text-red-400 font-mono">{valorantCount}</span>
           </div>
 
-          <div className="p-3 border-2 border-[#364e78] bg-[#1d2d4c] text-center space-y-1">
-            <span className="text-[9px] text-[#a5badb] block">FREE FIRE</span>
+          <div className="p-2 sm:p-3 border-2 border-[#364e78] bg-[#1d2d4c] text-center space-y-0.5 sm:space-y-1">
+            <span className="text-[8px] sm:text-[9px] text-[#a5badb] block">FREE FIRE</span>
             <span className="text-sm sm:text-base font-bold text-amber-400 font-mono">{freeFireCount}</span>
           </div>
 
-          <div className="p-3 border-2 border-[#364e78] bg-[#1d2d4c] text-center space-y-1">
-            <span className="text-[9px] text-[#a5badb] block">FORTNITE</span>
+          <div className="p-2 sm:p-3 border-2 border-[#364e78] bg-[#1d2d4c] text-center space-y-0.5 sm:space-y-1">
+            <span className="text-[8px] sm:text-[9px] text-[#a5badb] block">FORTNITE</span>
             <span className="text-sm sm:text-base font-bold text-sky-400 font-mono">{fortniteCount}</span>
           </div>
 
-          <div className="p-3 border-2 border-[#364e78] bg-[#1d2d4c] text-center space-y-1">
-            <span className="text-[9px] text-[#a5badb] block">CLASH ROYALE</span>
+          <div className="p-2 sm:p-3 border-2 border-[#364e78] bg-[#1d2d4c] text-center space-y-0.5 sm:space-y-1 col-span-2 sm:col-span-1">
+            <span className="text-[8px] sm:text-[9px] text-[#a5badb] block">CLASH ROYALE</span>
             <span className="text-sm sm:text-base font-bold text-cyan-400 font-mono">{clashCount}</span>
           </div>
         </div>
@@ -185,10 +185,10 @@ export default function ParticipantsSection({ onOpenRegister }) {
         {/* ======================================================= */}
         {/* 3. FILTERS & SEARCH BAR                                 */}
         {/* ======================================================= */}
-        <div className="space-y-4 mb-8 p-4 border-4 border-[#364e78] bg-[#1d2d4c] shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
+        <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 p-3 sm:p-4 border-3 sm:border-4 border-[#364e78] bg-[#1d2d4c] shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
           
           {/* Game Selection Pills */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap sm:flex-nowrap overflow-x-auto no-scrollbar gap-1.5 sm:gap-2 pb-1">
             {gameFilters.map((tab) => {
               const isSelected = selectedGame === tab.id;
               const Icon = tab.icon;
@@ -196,13 +196,13 @@ export default function ParticipantsSection({ onOpenRegister }) {
                 <button
                   key={tab.id}
                   onClick={() => setSelectedGame(tab.id)}
-                  className={`px-3 py-2 border-2 text-[10px] uppercase transition-colors flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-2.5 py-1.5 sm:px-3 sm:py-2 border-2 text-[9px] sm:text-[10px] uppercase transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 ${
                     isSelected
                       ? 'border-yellow-300 bg-[#253961] text-yellow-300'
                       : 'border-[#364e78] bg-[#16233b] text-[#a5badb] hover:border-[#60a5fa] hover:text-slate-100'
                   }`}
                 >
-                  <Icon className="w-3 h-3" />
+                  <Icon className="w-3 h-3 shrink-0" />
                   <span>[ {tab.label} ]</span>
                 </button>
               );
@@ -210,12 +210,12 @@ export default function ParticipantsSection({ onOpenRegister }) {
           </div>
 
           {/* Subfilter: Type & Search Input */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-[#2f4469]">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 pt-3 border-t border-[#2f4469]">
             {/* Type selector */}
-            <div className="flex flex-wrap gap-2 text-[9px]">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 text-[8.5px] sm:text-[9px]">
               <button
                 onClick={() => setSelectedType('all')}
-                className={`px-2.5 py-1.5 border ${
+                className={`px-2 py-1 sm:px-2.5 sm:py-1.5 border ${
                   selectedType === 'all'
                     ? 'border-yellow-300 bg-yellow-300 text-black font-bold'
                     : 'border-[#364e78] bg-[#16233b] text-[#a5badb] hover:text-white'
@@ -226,7 +226,7 @@ export default function ParticipantsSection({ onOpenRegister }) {
 
               <button
                 onClick={() => setSelectedType('teams')}
-                className={`px-2.5 py-1.5 border flex items-center gap-1 ${
+                className={`px-2 py-1 sm:px-2.5 sm:py-1.5 border flex items-center gap-1 ${
                   selectedType === 'teams'
                     ? 'border-yellow-300 bg-yellow-300 text-black font-bold'
                     : 'border-[#364e78] bg-[#16233b] text-[#a5badb] hover:text-white'
@@ -238,7 +238,7 @@ export default function ParticipantsSection({ onOpenRegister }) {
 
               <button
                 onClick={() => setSelectedType('individuals')}
-                className={`px-2.5 py-1.5 border flex items-center gap-1 ${
+                className={`px-2 py-1 sm:px-2.5 sm:py-1.5 border flex items-center gap-1 ${
                   selectedType === 'individuals'
                     ? 'border-yellow-300 bg-yellow-300 text-black font-bold'
                     : 'border-[#364e78] bg-[#16233b] text-[#a5badb] hover:text-white'

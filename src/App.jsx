@@ -190,7 +190,7 @@ function App() {
   // SCREEN 2: "LA PÁGINA REAL" (PORTAL COMPLETO DE E-SPORTS UPEC)
   // =============================================================
   return (
-    <div className="min-h-screen bg-[#151f33] text-slate-100 flex flex-col selection:bg-[#2e477a] selection:text-[#f8fafc] font-['Press_Start_2P',monospace]">
+    <div className="min-h-screen bg-[#151f33] text-slate-100 flex flex-col selection:bg-[#2e477a] selection:text-[#f8fafc] font-['Press_Start_2P',monospace] w-full max-w-full overflow-x-hidden">
       
       {/* Real Page Sticky Navbar */}
       <Navbar
@@ -203,7 +203,7 @@ function App() {
       />
 
       {/* Main Real Page Active View */}
-      <main className="flex-1">
+      <main className="flex-1 w-full max-w-full overflow-x-hidden min-w-0">
         
         {/* VIEW 1: HOME (Hero + Game Disciplines) */}
         {currentView === 'inicio' && (

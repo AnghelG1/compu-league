@@ -34,28 +34,28 @@ export default function Navbar({
 
   return (
     <header className="h-16 border-b-4 border-[#334a73] bg-[#1a2742]/95 backdrop-blur-md sticky top-0 z-50 text-slate-100 font-['Press_Start_2P',monospace] select-none shadow-[0_4px_16px_rgba(0,0,0,0.35)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-2 sm:gap-4">
         
         {/* Left: Brand Logo as Primary Home Link (Merged with Inicio) */}
         <div 
           onClick={() => handleNavClick('inicio')}
           title="Ir al Inicio (Compu League 2026)"
-          className="flex items-center gap-3 cursor-pointer group shrink-0 select-none py-1 transition-all"
+          className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0 select-none py-1 transition-all"
         >
           <img 
             src="/assets/buho_pixel_start.png" 
             alt="Compu League 2026" 
-            className="w-10 h-10 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform"
+            className="w-8 h-8 sm:w-10 sm:h-10 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform"
             style={{ imageRendering: 'pixelated' }}
           />
 
           <div className="flex flex-col">
-            <span className={`text-base sm:text-lg font-bold tracking-wider transition-colors font-['Silkscreen',monospace] leading-tight ${
+            <span className={`text-sm sm:text-lg font-bold tracking-wider transition-colors font-['Silkscreen',monospace] leading-tight ${
               activeSection === 'inicio' ? 'text-yellow-300' : 'text-white group-hover:text-yellow-300'
             }`}>
               COMPU LEAGUE
             </span>
-            <span className="text-[9px] tracking-widest text-yellow-300/90 uppercase leading-tight font-mono">
+            <span className="text-[8px] sm:text-[9px] tracking-widest text-yellow-300/90 uppercase leading-tight font-mono">
               E-SPORTS 2026
             </span>
           </div>
@@ -83,15 +83,15 @@ export default function Navbar({
           })}
         </nav>
 
-        {/* Right Corner: Botón INSCRIBIRSE */}
+        {/* Right Corner: Botón INSCRIBIRSE & Menú Hamburguesa */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
 
-          {/* Primary CTA: INSCRIBIRSE */}
+          {/* Primary CTA: INSCRIBIRSE (visible on tablet and desktop) */}
           <button
             onClick={onOpenRegister}
             onMouseEnter={() => setHoveredItem('cta')}
             onMouseLeave={() => setHoveredItem(null)}
-            className="group relative inline-flex items-center px-3.5 sm:px-4 py-2 border-2 border-[#476799] hover:border-yellow-300 bg-[#233559] hover:bg-[#2b426f] text-slate-100 hover:text-yellow-300 text-[10px] sm:text-xs uppercase transition-colors cursor-pointer whitespace-nowrap shrink-0"
+            className="hidden sm:inline-flex group relative items-center px-3.5 sm:px-4 py-2 border-2 border-[#476799] hover:border-yellow-300 bg-[#233559] hover:bg-[#2b426f] text-slate-100 hover:text-yellow-300 text-[10px] sm:text-xs uppercase transition-colors cursor-pointer whitespace-nowrap shrink-0"
           >
             <span className="whitespace-nowrap">[ INSCRIBIRSE ]</span>
           </button>
@@ -99,7 +99,8 @@ export default function Navbar({
           {/* Mobile menu trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 border-2 border-[#3b5482] bg-[#1d2b47] text-slate-100 hover:text-yellow-300"
+            aria-label="Abrir menú de navegación"
+            className="lg:hidden p-2 sm:p-2.5 border-2 border-[#3b5482] bg-[#1d2b47] text-slate-100 hover:text-yellow-300 focus:outline-none"
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>

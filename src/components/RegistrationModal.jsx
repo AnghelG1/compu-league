@@ -222,40 +222,41 @@ export default function RegistrationModal({
     : '';
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl bg-[#1a2742] border-4 border-[#364e78] shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden my-6">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-3xl bg-[#1a2742] border-3 sm:border-4 border-[#364e78] shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden my-3 sm:my-6">
         
         {/* Modal Header */}
-        <div className="px-6 py-4 bg-[#151f33] border-b-2 border-[#2f4469] flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="px-3 sm:px-6 py-3 sm:py-4 bg-[#151f33] border-b-2 border-[#2f4469] flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3">
             <img
               src="/assets/buho_pixel_start.png"
               alt="Logo Torneo"
-              className="w-10 h-10 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+              className="w-8 h-8 sm:w-10 sm:h-10 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] shrink-0"
               style={{ imageRendering: 'pixelated' }}
             />
             <div>
-              <h3 className="text-lg sm:text-xl font-bold uppercase tracking-wide text-white flex items-center gap-2 font-['Silkscreen',monospace]">
+              <h3 className="text-sm sm:text-xl font-bold uppercase tracking-wide text-white flex flex-wrap items-center gap-1.5 sm:gap-2 font-['Silkscreen',monospace]">
                 Inscripción Oficial
-                <span className="text-[10px] px-2.5 py-0.5 bg-[#253961] border border-[#476799] text-yellow-300 font-mono">
-                  Compu League 2026
+                <span className="text-[9px] sm:text-[10px] px-2 py-0.5 bg-[#253961] border border-[#476799] text-yellow-300 font-mono">
+                  2026
                 </span>
               </h3>
-              <p className="text-xs text-[#a5badb] font-mono">
-                Compu League E-Sports 2026 • Torneo de Videojuegos
+              <p className="text-[10px] sm:text-xs text-[#a5badb] font-mono">
+                Compu League E-Sports • Registro
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer"
+            aria-label="Cerrar modal"
+            className="p-1.5 sm:p-2 text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 max-h-[82vh] overflow-y-auto space-y-6">
+        <div className="p-3.5 sm:p-6 max-h-[85vh] overflow-y-auto space-y-4 sm:space-y-6">
           
           {successData ? (
             /* ======================================================== */

@@ -9,10 +9,10 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
   };
 
   return (
-    <footer className="bg-[#16223a] border-t-4 border-[#334a73] pt-16 pb-12 relative overflow-hidden text-slate-100 font-['Press_Start_2P',monospace] select-none shadow-[0_-4px_12px_rgba(0,0,0,0.4)]">
+    <footer className="bg-[#16223a] border-t-4 border-[#334a73] pt-10 pb-8 sm:pt-16 sm:pb-12 relative overflow-hidden text-slate-100 font-['Press_Start_2P',monospace] select-none shadow-[0_-4px_12px_rgba(0,0,0,0.4)]">
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b-4 border-[#2f4469]">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 sm:gap-10 pb-8 sm:pb-12 border-b-4 border-[#2f4469]">
           
           {/* Col 1: Brand & Logos */}
           <div className="space-y-4 md:col-span-1">
