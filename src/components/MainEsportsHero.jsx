@@ -1,285 +1,409 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Trophy, ArrowRight, Clock, Calendar, Sparkles, Shield, Flame, 
-  Crosshair, Crown, Zap, ChevronDown, Award, Gift, Swords
-} from 'lucide-react';
-import { CONTACT_INFO, GAMES } from '../data/tournamentData';
+import { Trophy, ArrowRight, Clock, Swords, Zap } from 'lucide-react';
+import { CONTACT_INFO } from '../data/tournamentData';
 
-export default function MainEsportsHero({ 
-  playerName, 
-  onOpenRegister, 
-  onSelectGame,
-  onScrollToBrackets, 
-  onScrollToGames 
-}) {
-  // Countdown Timer hasta el cierre de inscripciones (deadlineIso)
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const deadline = new Date(CONTACT_INFO.deadlineIso).getTime();
-    const now = new Date().getTime();
-    const diff = deadline - now;
-    if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: true };
-    return {
-      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-      minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-      seconds: Math.floor((diff % (1000 * 60)) / 1000),
-      isExpired: false,
-    };
-  });
+// ─── Countdown helpers ────────────────────────────────────────────────────────
+function calcTimeLeft() {
+  const deadline = new Date(CONTACT_INFO.deadlineIso).getTime();
+  const diff = deadline - Date.now();
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: true };
+  return {
+    days:    Math.floor(diff / 86400000),
+    hours:   Math.floor((diff % 86400000) / 3600000),
+    minutes: Math.floor((diff % 3600000)  / 60000),
+    seconds: Math.floor((diff % 60000)    / 1000),
+    isExpired: false,
+  };
+}
+
+// ─── Tiny clock digit block ────────────────────────────────────────────────────
+function ClockCell({ value, label, accent = false }) {
+  return (
+    <div className="flex flex-col items-center">
+      <div
+        className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center"
+        style={{
+          background: accent ? 'rgba(245,158,11,0.12)' : 'rgba(255,255,255,0.04)',
+          border: `1px solid ${accent ? 'rgba(245,158,11,0.5)' : 'rgba(255,255,255,0.08)'}`,
+          clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
+        }}
+      >
+        <span
+          className={`text-2xl sm:text-3xl font-black font-display tracking-tight tabular-nums ${accent ? 'text-amber-400' : 'text-white'}`}
+        >
+          {String(value).padStart(2, '0')}
+        </span>
+      </div>
+      <span className="text-[9px] sm:text-[10px] font-display font-bold uppercase tracking-widest text-slate-500 mt-1">
+        {label}
+      </span>
+    </div>
+  );
+}
+
+// ─── Game logo SVGs inline ─────────────────────────────────────────────────────
+const GAME_LOGOS = {
+  valorant: (
+    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <path d="M4 10 L25 40 L46 10" stroke="#ff4655" strokeWidth="5" strokeLinecap="square" fill="none"/>
+      <path d="M4 10 L25 26 L46 10" stroke="white" strokeWidth="2" strokeLinecap="square" fill="none" opacity="0.6"/>
+    </svg>
+  ),
+  free_fire: (
+    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <path d="M25 5 C25 5 15 18 18 27 C14 24 14 24 13 20 C8 28 12 38 22 43 C19 40 19 36 21 33 C22 37 26 40 28 43 C34 38 38 30 35 22 C38 26 39 30 38 34 C44 25 40 12 25 5Z" fill="#f59e0b"/>
+    </svg>
+  ),
+  fortnite: (
+    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <path d="M12 8 H38 V14 H28 V20 H36 V26 H28 V42 H20 V26 H12 V8Z" fill="white"/>
+      <path d="M20 14 H28 V20 H20 Z" fill="#0ea5e9"/>
+    </svg>
+  ),
+  clash_royale: (
+    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <path d="M25 6 L30 16 L42 18 L33 27 L35 39 L25 34 L15 39 L17 27 L8 18 L20 16 Z" fill="#8b5cf6" stroke="#c4b5fd" strokeWidth="1.5"/>
+      <path d="M25 12 L28.5 19 L36.5 20.5 L30.5 26 L32 34 L25 30.5 L18 34 L19.5 26 L13.5 20.5 L21.5 19 Z" fill="#a78bfa"/>
+    </svg>
+  ),
+};
+
+const MINI_GAMES = [
+  { id: 'valorant',     label: 'VALORANT',     color: '#ff4655', colorMuted: 'rgba(255,70,85,0.15)',  border: 'rgba(255,70,85,0.4)'  },
+  { id: 'free_fire',   label: 'FREE FIRE',    color: '#f59e0b', colorMuted: 'rgba(245,158,11,0.15)', border: 'rgba(245,158,11,0.4)' },
+  { id: 'fortnite',    label: 'FORTNITE',     color: '#0ea5e9', colorMuted: 'rgba(14,165,233,0.15)', border: 'rgba(14,165,233,0.4)' },
+  { id: 'clash_royale',label: 'CLASH ROYALE', color: '#8b5cf6', colorMuted: 'rgba(139,92,246,0.15)', border: 'rgba(139,92,246,0.4)' },
+];
+
+// ─── Main component ────────────────────────────────────────────────────────────
+export default function MainEsportsHero({ onOpenRegister, onScrollToGames }) {
+  const [timeLeft, setTimeLeft] = useState(calcTimeLeft);
 
   useEffect(() => {
-    const updateCountdown = () => {
-      const deadline = new Date(CONTACT_INFO.deadlineIso).getTime();
-      const now = new Date().getTime();
-      const diff = deadline - now;
-
-      if (diff <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: true });
-        return;
-      }
-
-      setTimeLeft({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((diff % (1000 * 60)) / 1000),
-        isExpired: false,
-      });
-    };
-
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
-    return () => clearInterval(interval);
+    const id = setInterval(() => setTimeLeft(calcTimeLeft()), 1000);
+    return () => clearInterval(id);
   }, []);
 
-  const featuredGames = [
-    { id: 'valorant', name: 'VALORANT', mode: '5v5 Táctico', image: '/assets/valorant.jpg', color: '#ff4655' },
-    { id: 'free_fire', name: 'FREE FIRE', mode: 'Escuadras + Solo', image: '/assets/free_fire.jpg', color: '#f59e0b' },
-    { id: 'fortnite', name: 'FORTNITE', mode: 'Dúos Crossplay', image: '/assets/fortnite.jpg', color: '#0ea5e9' },
-    { id: 'clash_royale', name: 'CLASH ROYALE', mode: '1v1 Duelos', image: '/assets/clash_royale.jpg', color: '#8b5cf6' },
-  ];
-
   return (
-    <section className="relative overflow-hidden esports-dark-bg text-slate-100 font-sans select-none border-b border-white/10 flex flex-col items-center pt-0 pb-12 sm:pb-20">
-      
-      {/* Dynamic Background Glow & Ambient Flares */}
-      <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-amber-500/10 via-sky-500/5 to-transparent pointer-events-none" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] sm:w-[900px] h-[350px] bg-amber-500/10 rounded-full blur-[120px] pointer-events-none" />
-
-      {/* ========================================================= */}
-      {/* 1. TOURNAMENT NEWS TICKER (MODERN HIGH-TECH MARQUEE)     */}
-      {/* ========================================================= */}
-      <div className="w-full bg-[#0E1420] text-slate-300 font-display font-bold py-2 text-xs sm:text-sm overflow-hidden select-none border-b border-white/10 shadow-inner relative z-20">
-        <div className="animate-marquee whitespace-nowrap flex items-center gap-10">
-          <span className="text-amber-400 font-black tracking-wider flex items-center gap-2">
-            <Trophy className="w-4 h-4 fill-amber-400" /> COMPU LEAGUE E-SPORTS 2026
-          </span>
-          <span className="text-slate-300">4, 5 Y 6 DE NOVIEMBRE</span>
-          <span className="text-rose-400">VALORANT 5v5</span>
-          <span className="text-amber-400">FREE FIRE ESCUADRAS</span>
-          <span className="text-sky-400">FORTNITE DÚOS</span>
-          <span className="text-purple-400">CLASH ROYALE 1v1</span>
-          <span className="text-emerald-400 font-bold">PREMIOS EN EFECTIVO + TROFEO OFICIAL</span>
-          <span className="text-amber-300 font-extrabold uppercase">INSCRIPCIONES ABIERTAS</span>
-          
-          <span className="text-amber-400 font-black tracking-wider flex items-center gap-2">
-            <Trophy className="w-4 h-4 fill-amber-400" /> COMPU LEAGUE E-SPORTS 2026
-          </span>
-          <span className="text-slate-300">4, 5 Y 6 DE NOVIEMBRE</span>
-          <span className="text-rose-400">VALORANT 5v5</span>
-          <span className="text-amber-400">FREE FIRE ESCUADRAS</span>
-          <span className="text-sky-400">FORTNITE DÚOS</span>
-          <span className="text-purple-400">CLASH ROYALE 1v1</span>
-          <span className="text-emerald-400 font-bold">PREMIOS EN EFECTIVO + TROFEO OFICIAL</span>
-          <span className="text-amber-300 font-extrabold uppercase">INSCRIPCIONES ABIERTAS</span>
-        </div>
+    <section
+      className="relative overflow-hidden text-slate-100 font-sans select-none"
+      style={{ background: '#0B0E14' }}
+    >
+      {/* ── Ambient glow blobs ──────────────────────────────────────── */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Top-left amber glow */}
+        <div
+          className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full blur-[120px] opacity-20"
+          style={{ background: 'radial-gradient(circle, #f59e0b, transparent 70%)' }}
+        />
+        {/* Bottom-right cool glow */}
+        <div
+          className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full blur-[100px] opacity-10"
+          style={{ background: 'radial-gradient(circle, #0ea5e9, transparent 70%)' }}
+        />
+        {/* Subtle grid */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+          }}
+        />
       </div>
 
-      {/* ========================================================= */}
-      {/* 2. MAIN BREATHING HERO CONTENT (FULL WIDTH & IMPACTFUL)  */}
-      {/* ========================================================= */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-8 sm:pt-14 text-center">
-        
-        {/* Live Status Badge */}
-        <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 text-amber-300 text-xs sm:text-sm font-display font-bold uppercase tracking-wider mb-5 backdrop-blur-md shadow-[0_0_15px_rgba(245,158,11,0.2)]">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
-          <span>Torneo Oficial Multiplataforma • Inscripciones Abiertas</span>
-        </div>
-
-        {/* Hero Title */}
-        <div className="space-y-2 mb-4">
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black font-display tracking-tight text-white uppercase leading-none drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
-            COMPU LEAGUE
-          </h1>
-          <div className="text-2xl sm:text-4xl lg:text-5xl font-black font-display tracking-wider bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent uppercase">
-            E-SPORTS 2026
+      {/* ── News Ticker ─────────────────────────────────────────────── */}
+      <div
+        className="relative z-20 w-full overflow-hidden border-b border-white/10"
+        style={{ background: '#080B10' }}
+      >
+        <div className="flex items-center">
+          {/* Static label */}
+          <div
+            className="shrink-0 px-4 py-2 font-display font-black text-xs uppercase tracking-widest text-slate-950 z-10"
+            style={{
+              background: '#f59e0b',
+              clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%)',
+              paddingRight: '24px',
+            }}
+          >
+            LIVE
           </div>
-        </div>
-
-        {/* Subtitle */}
-        <p className="text-slate-300 text-sm sm:text-lg max-w-2xl mx-auto font-sans leading-relaxed mb-8">
-          El torneo oficial de deportes electrónicos de la UPEC. Compite en 4 títulos legendarios por la gloria universitaria, trofeos oficiales y premios en efectivo.
-        </p>
-
-        {/* ======================================================= */}
-        {/* 3. PROTAGONISMO DE PREMIOS (EL GANCHO PRINCIPAL)        */}
-        {/* ======================================================= */}
-        <div className="mb-10 max-w-4xl mx-auto">
-          <div className="relative rounded-xl p-0.5 bg-gradient-to-r from-amber-500/60 via-yellow-400/80 to-amber-500/60 shadow-[0_0_35px_rgba(245,158,11,0.3)]">
-            <div className="rounded-[10px] bg-gradient-to-br from-[#181F2F] via-[#121824] to-[#0E131E] p-4 sm:p-6 backdrop-blur-xl">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
-                
-                <div className="flex items-center gap-4 text-left">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-amber-400 to-yellow-600 flex items-center justify-center text-slate-950 shadow-[0_0_20px_rgba(245,158,11,0.5)] shrink-0">
-                    <Trophy className="w-8 h-8 fill-slate-950" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-display font-bold uppercase tracking-widest text-amber-400 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5" />
-                      <span>POZO DE PREMIOS OFICIAL</span>
-                    </div>
-                    <h3 className="text-xl sm:text-3xl font-black font-display text-white tracking-wide uppercase leading-tight">
-                      PREMIOS EN EFECTIVO + TROFEO OFICIAL
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-300 font-sans mt-0.5">
-                      Medallas de honor para los campeones y acreditación oficial institucional.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Quick Benefit Tags */}
-                <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 shrink-0">
-                  <div className="px-3 py-1.5 rounded bg-amber-400/10 border border-amber-400/30 text-amber-300 font-display font-bold text-xs uppercase">
-                    Efectivo
-                  </div>
-                  <div className="px-3 py-1.5 rounded bg-sky-400/10 border border-sky-400/30 text-sky-300 font-display font-bold text-xs uppercase">
-                    Trofeos
-                  </div>
-                  <div className="px-3 py-1.5 rounded bg-purple-400/10 border border-purple-400/30 text-purple-300 font-display font-display font-bold text-xs uppercase">
-                    Medallas
-                  </div>
-                </div>
-
-              </div>
+          {/* Scrolling text */}
+          <div className="overflow-hidden flex-1">
+            <div className="animate-marquee whitespace-nowrap flex items-center gap-12 py-2 pl-6 font-display font-bold text-xs sm:text-sm">
+              <span className="text-amber-400 flex items-center gap-2"><Trophy className="w-3.5 h-3.5 fill-amber-400 inline" /> COMPU LEAGUE E-SPORTS 2026</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-slate-300">4, 5 Y 6 DE NOVIEMBRE</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-rose-400">VALORANT 5v5</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-amber-400">FREE FIRE ESCUADRAS</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-sky-400">FORTNITE DÚOS</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-purple-400">CLASH ROYALE 1v1</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-emerald-400 font-black">PREMIOS EN EFECTIVO + TROFEO OFICIAL</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-amber-300 font-black">INSCRIPCIONES ABIERTAS</span>
+              <span className="text-slate-400">•</span>
+              {/* second copy for seamless loop */}
+              <span className="text-amber-400 flex items-center gap-2"><Trophy className="w-3.5 h-3.5 fill-amber-400 inline" /> COMPU LEAGUE E-SPORTS 2026</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-slate-300">4, 5 Y 6 DE NOVIEMBRE</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-rose-400">VALORANT 5v5</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-amber-400">FREE FIRE ESCUADRAS</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-sky-400">FORTNITE DÚOS</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-purple-400">CLASH ROYALE 1v1</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-emerald-400 font-black">PREMIOS EN EFECTIVO + TROFEO OFICIAL</span>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* ======================================================= */}
-        {/* 4. VISUAL GAME SHOWCASE CARDS (KEY ARTWORK)             */}
-        {/* ======================================================= */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10 max-w-5xl mx-auto">
-          {featuredGames.map((game) => (
-            <div
-              key={game.id}
-              onClick={() => onSelectGame(game.id)}
-              className="group relative rounded-xl overflow-hidden border border-white/10 hover:border-amber-400/60 bg-slate-900/60 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
-            >
-              {/* Game Background Image */}
-              <div className="h-28 sm:h-36 w-full relative overflow-hidden">
-                <img 
-                  src={game.image} 
-                  alt={game.name} 
-                  className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500 filter brightness-90 group-hover:brightness-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-[#0B0E14]/40 to-transparent" />
-              </div>
+      {/* ── Main Hero ───────────────────────────────────────────────── */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-14 sm:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 lg:gap-12 items-center">
 
-              {/* Game Label */}
-              <div className="p-3 text-left relative -mt-6 z-10">
-                <div className="flex items-center justify-between">
-                  <span className="font-display font-black text-base sm:text-lg text-white group-hover:text-amber-400 transition-colors tracking-wide">
-                    {game.name}
-                  </span>
-                  <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-amber-400 group-hover:translate-x-1 transition-all" />
-                </div>
-                <span className="text-[11px] sm:text-xs text-slate-400 font-sans block mt-0.5">
-                  {game.mode}
+          {/* ══════════════════════════════════════
+              LEFT COLUMN — TITLE, PRIZES, CTA, CLOCK
+              ══════════════════════════════════════ */}
+          <div className="flex flex-col items-start gap-6">
+
+            {/* Skewed asymmetric badge */}
+            <div className="flex items-center gap-0 overflow-hidden">
+              <div
+                className="flex items-center gap-2 px-4 py-1.5 font-display font-black text-xs uppercase tracking-widest text-slate-950"
+                style={{
+                  background: '#f59e0b',
+                  transform: 'skewX(-12deg)',
+                  transformOrigin: 'left center',
+                }}
+              >
+                <span className="block" style={{ transform: 'skewX(12deg)' }}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-950 inline-block animate-ping mr-1" />
+                  Torneo Oficial UPEC
                 </span>
               </div>
+              <div
+                className="px-3 py-1.5 font-display font-bold text-xs uppercase tracking-widest text-amber-300"
+                style={{
+                  background: 'rgba(245,158,11,0.12)',
+                  border: '1px solid rgba(245,158,11,0.3)',
+                  transform: 'skewX(-12deg)',
+                  transformOrigin: 'left center',
+                  marginLeft: '2px',
+                }}
+              >
+                <span className="block" style={{ transform: 'skewX(12deg)' }}>Inscripciones Abiertas</span>
+              </div>
             </div>
-          ))}
-        </div>
 
-        {/* ======================================================= */}
-        {/* 5. COUNTDOWN TIMER (ESPORTS EDITION)                    */}
-        {/* ======================================================= */}
-        <div className="max-w-2xl mx-auto mb-10 p-5 rounded-xl border border-white/10 bg-[#101622]/80 backdrop-blur-md">
-          <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10 text-xs sm:text-sm font-display uppercase tracking-wider">
-            <span className="text-amber-400 font-bold flex items-center gap-2">
-              <Clock className="w-4 h-4 animate-pulse" />
-              Cierre de Inscripciones
-            </span>
-            <span className="text-slate-400 font-mono text-[11px] sm:text-xs">
-              Límite: {CONTACT_INFO.deadlineLabel} (23:59:59)
-            </span>
+            {/* Giant italic title + watermark */}
+            <div className="relative">
+              {/* "2026" watermark behind */}
+              <span
+                className="absolute -top-4 -left-2 font-black font-display select-none pointer-events-none leading-none"
+                style={{
+                  fontSize: 'clamp(80px, 18vw, 180px)',
+                  color: 'transparent',
+                  WebkitTextStroke: '1px rgba(245,158,11,0.08)',
+                  zIndex: 0,
+                  letterSpacing: '-0.02em',
+                }}
+                aria-hidden="true"
+              >
+                2026
+              </span>
+
+              {/* Main heading */}
+              <div className="relative z-10">
+                <h1
+                  className="font-black font-display uppercase leading-none tracking-tight text-white"
+                  style={{
+                    fontSize: 'clamp(52px, 9vw, 110px)',
+                    fontStyle: 'italic',
+                    letterSpacing: '-0.02em',
+                    textShadow: '0 4px 40px rgba(0,0,0,0.8)',
+                  }}
+                >
+                  COMPU
+                </h1>
+                <h1
+                  className="font-black font-display uppercase leading-none tracking-tight"
+                  style={{
+                    fontSize: 'clamp(52px, 9vw, 110px)',
+                    fontStyle: 'italic',
+                    letterSpacing: '-0.02em',
+                    background: 'linear-gradient(90deg, #f59e0b, #fcd34d, #f59e0b)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    textShadow: 'none',
+                  }}
+                >
+                  LEAGUE
+                </h1>
+                <div
+                  className="font-black font-display uppercase leading-none tracking-widest text-slate-300"
+                  style={{ fontSize: 'clamp(18px, 3vw, 38px)', fontStyle: 'italic', letterSpacing: '0.2em' }}
+                >
+                  E-SPORTS 2026
+                </div>
+              </div>
+            </div>
+
+            {/* Prize pool — the hook */}
+            <div
+              className="flex items-center gap-4 px-5 py-3 w-full sm:w-auto"
+              style={{
+                background: 'rgba(245,158,11,0.08)',
+                border: '1px solid rgba(245,158,11,0.25)',
+                clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))',
+              }}
+            >
+              <Trophy className="w-8 h-8 text-amber-400 fill-amber-400/20 shrink-0" />
+              <div>
+                <div className="text-[10px] font-display font-black uppercase tracking-widest text-amber-500">
+                  Pozo de Premios
+                </div>
+                <div
+                  className="font-black font-display text-white leading-tight"
+                  style={{ fontSize: 'clamp(22px, 4vw, 42px)' }}
+                >
+                  EFECTIVO <span className="text-amber-400">+</span> TROFEO
+                </div>
+                <div className="text-xs text-slate-400 font-sans">Premios independientes por juego · Medallas de honor</div>
+              </div>
+            </div>
+
+            {/* CTA buttons */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() => onOpenRegister('valorant')}
+                className="group flex items-center justify-center gap-2.5 px-7 py-4 font-display font-black text-base uppercase tracking-wider text-slate-950 transition-all duration-200 cursor-pointer hover:brightness-110 active:scale-95"
+                style={{
+                  background: 'linear-gradient(90deg, #f59e0b, #fbbf24)',
+                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))',
+                  boxShadow: '0 0 30px rgba(245,158,11,0.4)',
+                }}
+              >
+                <Trophy className="w-5 h-5 fill-slate-950 shrink-0" />
+                <span>INSCRIBIRME AHORA</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <button
+                type="button"
+                onClick={onScrollToGames}
+                className="flex items-center justify-center gap-2 px-6 py-4 font-display font-bold text-sm uppercase tracking-wider text-slate-300 hover:text-white transition-all duration-200 cursor-pointer"
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))',
+                }}
+              >
+                <Swords className="w-4 h-4 text-amber-400" />
+                <span>VER REGLAS Y FORMATOS</span>
+              </button>
+            </div>
+
+            {/* Countdown */}
+            <div className="w-full">
+              <div className="flex items-center gap-2 mb-3">
+                <Clock className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+                <span className="text-[10px] font-display font-bold uppercase tracking-widest text-slate-500">
+                  Cierre de Inscripciones — {CONTACT_INFO.deadlineLabel}
+                </span>
+              </div>
+              <div className="flex items-end gap-3">
+                <ClockCell value={timeLeft.days}    label="Días"    />
+                <span className="text-2xl font-black text-slate-600 mb-4 leading-none">:</span>
+                <ClockCell value={timeLeft.hours}   label="Horas"   />
+                <span className="text-2xl font-black text-slate-600 mb-4 leading-none">:</span>
+                <ClockCell value={timeLeft.minutes} label="Min"     />
+                <span className="text-2xl font-black text-slate-600 mb-4 leading-none">:</span>
+                <ClockCell value={timeLeft.seconds} label="Seg"     accent />
+              </div>
+            </div>
+
           </div>
 
-          <div className="grid grid-cols-4 gap-2 sm:gap-4 text-center font-display">
-            <div className="p-3 rounded-lg bg-slate-900/80 border border-white/5">
-              <span className="text-3xl sm:text-5xl font-black text-amber-400 tracking-tight block">
-                {String(timeLeft.days).padStart(2, '0')}
-              </span>
-              <span className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest mt-1 block">
-                Días
-              </span>
+          {/* ══════════════════════════════════════
+              RIGHT COLUMN — MASCOT + GAME BADGES
+              ══════════════════════════════════════ */}
+          <div className="relative flex flex-col items-center lg:items-end gap-6">
+
+            {/* Mascot */}
+            <div className="relative w-full max-w-xs lg:max-w-none">
+              {/* Glow behind mascot */}
+              <div
+                className="absolute inset-0 rounded-full blur-[60px] opacity-30 pointer-events-none"
+                style={{ background: 'radial-gradient(circle, #f59e0b 0%, transparent 70%)' }}
+              />
+              <img
+                src="/assets/buho_hd.png"
+                alt="Compu League Mascot"
+                className="relative z-10 w-full max-w-[260px] sm:max-w-[300px] lg:max-w-full mx-auto lg:mx-0 drop-shadow-[0_20px_60px_rgba(245,158,11,0.25)]"
+                style={{ filter: 'drop-shadow(0 0 40px rgba(245,158,11,0.3))' }}
+              />
             </div>
 
-            <div className="p-3 rounded-lg bg-slate-900/80 border border-white/5">
-              <span className="text-3xl sm:text-5xl font-black text-white tracking-tight block">
-                {String(timeLeft.hours).padStart(2, '0')}
-              </span>
-              <span className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest mt-1 block">
-                Horas
-              </span>
+            {/* Game badges (2×2 grid) */}
+            <div className="grid grid-cols-2 gap-2 w-full max-w-xs lg:max-w-[280px]">
+              {MINI_GAMES.map((g) => (
+                <div
+                  key={g.id}
+                  className="flex items-center gap-2 px-3 py-2"
+                  style={{
+                    background: g.colorMuted,
+                    border: `1px solid ${g.border}`,
+                    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))',
+                  }}
+                >
+                  <div className="w-6 h-6 shrink-0">
+                    {GAME_LOGOS[g.id]}
+                  </div>
+                  <span
+                    className="font-display font-black text-[10px] uppercase tracking-wider leading-tight"
+                    style={{ color: g.color }}
+                  >
+                    {g.label}
+                  </span>
+                </div>
+              ))}
             </div>
 
-            <div className="p-3 rounded-lg bg-slate-900/80 border border-white/5">
-              <span className="text-3xl sm:text-5xl font-black text-white tracking-tight block">
-                {String(timeLeft.minutes).padStart(2, '0')}
-              </span>
-              <span className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest mt-1 block">
-                Minutos
-              </span>
-            </div>
-
-            <div className="p-3 rounded-lg bg-slate-900/80 border border-amber-400/30">
-              <span className="text-3xl sm:text-5xl font-black text-amber-400 tracking-tight block animate-pulse">
-                {String(timeLeft.seconds).padStart(2, '0')}
-              </span>
-              <span className="text-[10px] sm:text-xs font-bold text-amber-400 uppercase tracking-widest mt-1 block">
-                Segundos
+            {/* Tournament dates badge */}
+            <div
+              className="flex items-center gap-2 px-4 py-2 self-start lg:self-auto"
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
+              }}
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span className="font-display font-bold text-xs uppercase tracking-wider text-slate-300">
+                4, 5 y 6 de Noviembre 2026
               </span>
             </div>
           </div>
+
         </div>
-
-        {/* ======================================================= */}
-        {/* 6. HERO ACTION BUTTONS (CTAs)                           */}
-        {/* ======================================================= */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button
-            type="button"
-            onClick={() => onOpenRegister('valorant')}
-            className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-display font-black text-base sm:text-lg uppercase tracking-wider rounded-md shadow-[0_0_30px_rgba(245,158,11,0.45)] hover:shadow-[0_0_40px_rgba(245,158,11,0.6)] transform hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2.5"
-          >
-            <Trophy className="w-5 h-5 fill-slate-950" />
-            <span>INSCRIBIR A MI EQUIPO</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
-
-          <button
-            type="button"
-            onClick={onScrollToGames}
-            className="w-full sm:w-auto px-7 py-4 bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-white font-display font-bold text-base uppercase tracking-wider rounded-md border border-white/15 hover:border-amber-400/50 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
-          >
-            <Swords className="w-4 h-4 text-amber-400" />
-            <span>VER REGLAS Y FORMATOS</span>
-          </button>
-        </div>
-
       </div>
 
+      {/* Bottom separator line */}
+      <div className="relative h-px w-full">
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, transparent, rgba(245,158,11,0.4), transparent)' }} />
+      </div>
     </section>
   );
 }
