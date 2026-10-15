@@ -60,7 +60,7 @@ export default function RegistrationModal({
 
   const [hasSubstitute, setHasSubstitute] = useState(false);
   const [receiptPreview, setReceiptPreview] = useState(null);
-  const [, setReceiptFile] = useState(null);
+  const [receiptFile, setReceiptFile] = useState(null);
 
   const gameConfig = GAMES.find(g => g.id === selectedGame) || GAMES[0];
 
@@ -181,6 +181,7 @@ export default function RegistrationModal({
         members: teamMembersToSave,
         total_amount: totalCost,
         amount_due: totalCost,
+        receipt_file: isPayLater ? null : receiptFile,
         receipt_image: isPayLater ? null : receiptPreview,
         receipt_url: isPayLater ? null : receiptPreview,
         status: isPayLater ? 'payment_pending' : 'pending',

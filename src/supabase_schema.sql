@@ -11,7 +11,9 @@ CREATE TABLE IF NOT EXISTS public.registrations (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     game VARCHAR(50) NOT NULL, -- 'valorant', 'free_fire', 'fortnite', 'clash_royale'
-    modality VARCHAR(50) NOT NULL, -- '5v5', 'escuadras', 'solitario', 'duos', '1v1', 'agente_libre'
+    game_name VARCHAR(100),
+    modality VARCHAR(50) NOT NULL, -- '5v5', 'escuadras', 'solitario', 'duos', '1v1', 'individual'
+    ff_modality VARCHAR(50), -- 'escuadras', 'solitario' para Free Fire
     team_name VARCHAR(100),
     is_free_agent BOOLEAN DEFAULT FALSE,
     captain_name VARCHAR(150) NOT NULL,
@@ -21,10 +23,14 @@ CREATE TABLE IF NOT EXISTS public.registrations (
     captain_discord VARCHAR(100),
     members JSONB DEFAULT '[]'::jsonb, -- Array de objetos: [{name, game_id, whatsapp, is_substitute}]
     amount_due NUMERIC(6, 2) NOT NULL DEFAULT 1.00,
+    total_amount NUMERIC(6, 2) DEFAULT 1.00,
     receipt_url TEXT,
-    status VARCHAR(20) DEFAULT 'pending', -- 'pending', 'approved', 'rejected'
+    receipt_image TEXT,
+    payment_status VARCHAR(30) DEFAULT 'unpaid', -- 'unpaid', 'paid'
+    status VARCHAR(30) DEFAULT 'pending', -- 'payment_pending', 'pending', 'approved', 'rejected'
     admin_notes TEXT,
-    verified_at TIMESTAMP WITH TIME ZONE
+    verified_at TIMESTAMP WITH TIME ZONE,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- 3. TABLA DE PARTIDOS Y BRACKETS (VALORANT & CLASH ROYALE)
@@ -76,20 +82,55 @@ ALTER TABLE public.tournament_matches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.battle_royale_standings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.tournament_schedule ENABLE ROW LEVEL SECURITY;
 
--- Permitir a cualquier visitante insertar inscripciones
+-- REGISTRATIONS
+DROP POLICY IF EXISTS "Permitir inscripcion publica" ON public.registrations;
 CREATE POLICY "Permitir inscripcion publica" ON public.registrations
     FOR INSERT WITH CHECK (true);
 
--- Permitir lectura publica de registros aprobados (solo nombre y equipo, sin datos privados)
+DROP POLICY IF EXISTS "Permitir lectura publica de registros" ON public.registrations;
+CREATE POLICY "Permitir lectura publica de registros" ON public.registrations
+    FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Permitir actualizar comprobante por UUID" ON public.registrations;
+CREATE POLICY "Permitir actualizar comprobante por UUID" ON public.registrations
+    FOR UPDATE USING (true) WITH CHECK (true);
+
+-- TOURNAMENT MATCHES
+DROP POLICY IF EXISTS "Lectura publica de brackets" ON public.tournament_matches;
 CREATE POLICY "Lectura publica de brackets" ON public.tournament_matches
     FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Admin full matches" ON public.tournament_matches;
+CREATE POLICY "Admin full matches" ON public.tournament_matches
+    FOR ALL USING (true) WITH CHECK (true);
+
+-- BATTLE ROYALE STANDINGS
+DROP POLICY IF EXISTS "Lectura publica de standings BR" ON public.battle_royale_standings;
 CREATE POLICY "Lectura publica de standings BR" ON public.battle_royale_standings
     FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Admin full standings" ON public.battle_royale_standings;
+CREATE POLICY "Admin full standings" ON public.battle_royale_standings
+    FOR ALL USING (true) WITH CHECK (true);
+
+-- TOURNAMENT SCHEDULE
+DROP POLICY IF EXISTS "Lectura publica de cronograma" ON public.tournament_schedule;
 CREATE POLICY "Lectura publica de cronograma" ON public.tournament_schedule
     FOR SELECT USING (true);
 
--- 7. CREACIÓN DEL BUCKET DE ALMACENAMIENTO PARA COMPROBANTES BANCARIOS
--- (Ejecutar en la sección de Storage de Supabase creando el bucket público 'receipts')
--- INSERT INTO storage.buckets (id, name, public) VALUES ('receipts', 'receipts', true);
+DROP POLICY IF EXISTS "Admin full schedule" ON public.tournament_schedule;
+CREATE POLICY "Admin full schedule" ON public.tournament_schedule
+    FOR ALL USING (true) WITH CHECK (true);
+
+-- 7. STORAGE BUCKET PARA COMPROBANTES DE PAGO ('receipts')
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('receipts', 'receipts', true)
+ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Permitir subida publica de comprobantes" ON storage.objects;
+CREATE POLICY "Permitir subida publica de comprobantes" ON storage.objects
+    FOR INSERT WITH CHECK (bucket_id = 'receipts');
+
+DROP POLICY IF EXISTS "Permitir lectura publica de comprobantes" ON storage.objects;
+CREATE POLICY "Permitir lectura publica de comprobantes" ON storage.objects
+    FOR SELECT USING (bucket_id = 'receipts');

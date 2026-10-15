@@ -446,24 +446,88 @@ export const getRegistrationById = async (id) => {
   return all.find(r => String(r.id).trim().toLowerCase() === cleanId.toLowerCase()) || null;
 };
 
+export const sanitizeRegistrationForSupabase = (record) => {
+  const allowed = [
+    'id', 'created_at', 'game', 'game_name', 'modality', 'ff_modality',
+    'team_name', 'is_free_agent', 'captain_name', 'captain_game_id',
+    'captain_whatsapp', 'captain_email', 'captain_discord', 'members',
+    'amount_due', 'total_amount', 'receipt_url', 'receipt_image',
+    'payment_status', 'status', 'admin_notes', 'verified_at', 'updated_at'
+  ];
+  const clean = {};
+  allowed.forEach((col) => {
+    if (record[col] !== undefined) {
+      clean[col] = record[col];
+    }
+  });
+  return clean;
+};
+
+export const uploadReceiptToSupabase = async (file, registrationId) => {
+  const supabase = getSupabaseClient();
+  if (!supabase || !file) return null;
+
+  try {
+    const fileExt = file.name ? file.name.split('.').pop() : 'png';
+    const fileName = `${registrationId || generateUUID()}-${Date.now()}.${fileExt}`;
+    const filePath = `receipts/${fileName}`;
+
+    const { data, error } = await supabase.storage
+      .from('receipts')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: true
+      });
+
+    if (!error && data) {
+      const { data: { publicUrl } } = supabase.storage
+        .from('receipts')
+        .getPublicUrl(filePath);
+      return publicUrl;
+    }
+    if (error) {
+      console.warn('Supabase storage upload error:', error.message);
+    }
+  } catch (err) {
+    console.warn('Error uploading receipt to Supabase storage:', err);
+  }
+  return null;
+};
+
 export const saveRegistration = async (registrationData) => {
   const supabase = getSupabaseClient();
   const recordId = registrationData.id || generateUUID();
+  // Si hay un archivo y Supabase está activo, intentar subir al Storage
+  let storageUrl = null;
+  if (registrationData.receipt_file && supabase) {
+    storageUrl = await uploadReceiptToSupabase(registrationData.receipt_file, recordId);
+  }
+
+  const finalReceiptUrl = storageUrl || registrationData.receipt_url || registrationData.receipt_image || null;
+
   const newRecord = {
     ...registrationData,
     id: recordId,
     created_at: registrationData.created_at || new Date().toISOString(),
     status: registrationData.status || 'pending',
     payment_status: registrationData.payment_status || (registrationData.status === 'payment_pending' ? 'unpaid' : 'paid'),
+    receipt_url: finalReceiptUrl,
+    receipt_image: registrationData.receipt_image || finalReceiptUrl,
   };
+
+  delete newRecord.receipt_file;
 
   if (supabase) {
     try {
+      const dbPayload = sanitizeRegistrationForSupabase(newRecord);
       const { data, error } = await supabase
         .from('registrations')
-        .insert([newRecord])
+        .insert([dbPayload])
         .select();
       if (!error && data && data[0]) return data[0];
+      if (error) {
+        console.warn('⚠️ Error al insertar en Supabase:', error.message);
+      }
     } catch (e) {
       console.warn('Supabase insert failed, fallback to local:', e);
     }
@@ -476,26 +540,34 @@ export const saveRegistration = async (registrationData) => {
   return newRecord;
 };
 
-export const updateRegistrationReceipt = async (id, receiptImage) => {
+export const updateRegistrationReceipt = async (id, receiptImage, receiptFile = null) => {
   if (!id) return null;
   const cleanId = String(id).trim();
   const now = new Date().toISOString();
 
+  const supabase = getSupabaseClient();
+  let storageUrl = null;
+  if (receiptFile && supabase) {
+    storageUrl = await uploadReceiptToSupabase(receiptFile, cleanId);
+  }
+
+  const finalReceiptUrl = storageUrl || receiptImage;
+
   const updates = {
-    receipt_image: receiptImage,
-    receipt_url: receiptImage,
+    receipt_image: receiptImage || finalReceiptUrl,
+    receipt_url: finalReceiptUrl,
     payment_status: 'paid',
     status: 'pending',
     updated_at: now,
     admin_notes: 'Comprobante subido mediante Enlace Mágico. Pendiente de verificación.'
   };
 
-  const supabase = getSupabaseClient();
   if (supabase) {
     try {
+      const dbUpdates = sanitizeRegistrationForSupabase(updates);
       await supabase
         .from('registrations')
-        .update(updates)
+        .update(dbUpdates)
         .eq('id', cleanId);
     } catch (e) {
       console.warn('Supabase update receipt failed:', e);

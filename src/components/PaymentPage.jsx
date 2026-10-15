@@ -116,7 +116,7 @@ export default function PaymentPage({ paymentId, onGoHome }) {
     try {
       setSubmitting(true);
       setErrorMsg('');
-      const updated = await updateRegistrationReceipt(targetId, receiptPreview);
+      const updated = await updateRegistrationReceipt(targetId, receiptPreview, receiptFile);
       if (updated) {
         setRegistration(updated);
       }
