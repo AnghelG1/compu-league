@@ -52,7 +52,7 @@ export default function MainEsportsHero({
   }, []);
 
   return (
-    <section className="relative overflow-hidden esports-arena-bg text-slate-100 font-['Press_Start_2P',monospace] py-2 sm:py-4 select-none border-b-4 border-[#334a73] min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center">
+    <section className="relative overflow-hidden esports-arena-bg text-slate-100 font-['Press_Start_2P',monospace] select-none border-b-4 border-[#334a73] flex flex-col items-center pt-0 pb-3 sm:pb-6 lg:min-h-[calc(100vh-4rem)]">
       
       {/* 1. Perspective 3D Arena Grid Floor */}
       <div className="arena-perspective-grid" />
@@ -65,10 +65,10 @@ export default function MainEsportsHero({
 
       {/* 4. Decorative Cyber Tactical Crosses & Pixel Accents */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
-        <span className="absolute top-8 left-8 text-[9px] text-sky-500/20 font-mono animate-arena-star">
+        <span className="absolute top-12 left-6 sm:left-8 text-[9px] text-sky-500/20 font-mono animate-arena-star">
           + 01.SYS.ONLINE
         </span>
-        <span className="absolute top-16 right-10 text-[9px] text-yellow-300/15 font-mono animate-arena-star" style={{ animationDelay: '1.2s' }}>
+        <span className="absolute top-16 right-6 sm:right-10 text-[9px] text-yellow-300/15 font-mono animate-arena-star" style={{ animationDelay: '1.2s' }}>
           ✦ ARENA_2026
         </span>
         <span className="absolute bottom-16 left-12 text-[9px] text-sky-400/15 font-mono animate-arena-star" style={{ animationDelay: '2s' }}>
@@ -82,7 +82,7 @@ export default function MainEsportsHero({
       {/* ========================================================= */}
       {/* 1. INFINITE RETRO TICKER (COMPACT MARQUEE)                */}
       {/* ========================================================= */}
-      <div className="w-full bg-[#16243e] text-slate-200 font-['Press_Start_2P',monospace] py-1.5 text-[8px] sm:text-[9px] overflow-hidden select-none border-y-2 border-[#334a73] mb-2 sm:mb-3 shadow-inner">
+      <div className="w-full bg-[#16243e] text-slate-200 font-['Press_Start_2P',monospace] py-1 sm:py-1.5 text-[7.5px] sm:text-[9px] overflow-hidden select-none border-b-2 border-[#334a73] mb-2 sm:mb-3 shadow-inner relative z-20">
         <div className="animate-marquee whitespace-nowrap flex items-center gap-8">
           <span className="text-yellow-300">★ COMPU LEAGUE E-SPORTS 2026 ★</span>
           <span className="text-slate-300">TORNEO OFICIAL E-SPORTS 2026 ★</span>
@@ -97,7 +97,7 @@ export default function MainEsportsHero({
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-3 sm:px-6 relative z-10 w-full">
+      <div className="max-w-5xl mx-auto px-2.5 sm:px-6 relative z-10 w-full lg:my-auto">
         
         {/* ======================================================= */}
         {/* UNIFIED HERO & COUNTDOWN ENCOUNTER BLOCK                */}
