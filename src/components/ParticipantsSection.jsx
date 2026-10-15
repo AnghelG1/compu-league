@@ -506,19 +506,32 @@ export default function ParticipantsSection({ onOpenRegister }) {
                               )}
                             </div>
 
-                            {/* In-Game ID Box */}
-                            <div className="mt-2.5 p-2.5 bg-[#121c2e] border-2 border-[#2f4469] flex items-center justify-between gap-2 shadow-inner">
-                              <div className="truncate space-y-0.5">
+                            {/* Player Name and In-Game ID Box */}
+                            <div className="mt-2.5 p-2.5 sm:p-3 bg-[#121c2e] border-2 border-[#2f4469] space-y-2 shadow-inner">
+                              {/* Row 1: Nombre del Jugador */}
+                              <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-[#253961]">
+                                <div className="truncate min-w-0">
+                                  <span className="text-[7px] text-[#8ea4c7] font-mono uppercase tracking-widest block font-bold">
+                                    NOMBRE:
+                                  </span>
+                                  <h3 className="text-xs sm:text-sm font-bold text-white uppercase font-['Silkscreen',monospace] tracking-wide truncate">
+                                    {item.captain_name || 'JUGADOR'}
+                                  </h3>
+                                </div>
+                                <span className="px-1.5 py-0.5 bg-[#1d2d4c] border border-[#3b5482] text-sky-300 text-[7.5px] sm:text-[8px] font-mono shrink-0 font-bold">
+                                  [ SOLO ]
+                                </span>
+                              </div>
+
+                              {/* Row 2: ID en Juego */}
+                              <div className="truncate min-w-0">
                                 <span className="text-[7px] text-[#8ea4c7] font-mono uppercase tracking-widest block font-bold">
                                   ID EN JUEGO:
                                 </span>
-                                <h3 className="text-sm font-bold text-yellow-300 uppercase font-['Silkscreen',monospace] tracking-wider truncate">
-                                  {item.captain_game_id || item.team_name || 'JUGADOR'}
-                                </h3>
+                                <span className="text-[11px] sm:text-xs font-bold text-yellow-300 uppercase font-['Press_Start_2P',monospace] tracking-wider truncate block">
+                                  {item.captain_game_id || item.team_name || '---'}
+                                </span>
                               </div>
-                              <span className="px-1.5 py-0.5 bg-[#1d2d4c] border border-[#3b5482] text-sky-300 text-[8px] font-mono shrink-0 font-bold">
-                                [ SOLO ]
-                              </span>
                             </div>
                           </div>
 
