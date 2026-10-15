@@ -300,7 +300,7 @@ export default function ParticipantsSection({ onOpenRegister }) {
               [ NO PLAYERS FOUND IN THIS SLOT ]
             </span>
             <p className="text-xs text-slate-400 font-cyber">
-              Prueba con otro término de búsqueda o selecciona otra disciplina.
+              Prueba con otro término de búsqueda o selecciona otro videojuego.
             </p>
           </div>
         ) : (

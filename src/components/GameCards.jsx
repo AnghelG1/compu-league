@@ -166,7 +166,7 @@ export default function GameCards({ onSelectGame }) {
               </h2>
 
               <p className="text-slate-300 font-cyber text-xs sm:text-sm max-w-2xl">
-                Cada disciplina cuenta con su propio bracket oficial, árbitros y premiación en efectivo. Inscribe tu escuadra en el slot correspondiente.
+                Cada videojuego cuenta con su propio fixture, árbitros y premios en efectivo. Inscribe a tu equipo en el juego correspondiente.
               </p>
             </div>
 

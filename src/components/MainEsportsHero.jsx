@@ -63,7 +63,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
       <div className="w-full bg-[#FFE600] text-black font-pixel py-2.5 text-[10px] sm:text-xs overflow-hidden select-none border-b-2 border-black relative z-20">
         <div className="animate-marquee whitespace-nowrap flex items-center gap-8 font-black">
           <span className="flex items-center gap-2 tracking-wider">
-            ★ COMPU LEAGUE 2026 ★ INSERT COIN TO PLAY ★
+            ★ COMPU LEAGUE E-SPORTS 2026 ★ ONLINE TOURNAMENT ★
           </span>
           <span>[ 4, 5 Y 6 NOVIEMBRE ]</span>
           <span className="bg-black text-[#FFE600] px-2 py-0.5">VALORANT 5v5</span>
@@ -71,14 +71,14 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
           <span className="bg-black text-[#FFE600] px-2 py-0.5">FORTNITE DUOS</span>
           <span className="bg-black text-[#FFE600] px-2 py-0.5">CLASH ROYALE 1v1</span>
           <span className="bg-[#FF0055] text-white px-2 py-0.5 animate-arcade-blink">
-            POZO EN EFECTIVO + TROFEO UPEC
+            POZO DE PREMIOS EN EFECTIVO
           </span>
           <span>CREDIT(S) 00</span>
           <span>1P READY</span>
 
           {/* Duplicated for smooth infinite loop */}
           <span className="flex items-center gap-2 tracking-wider">
-            ★ COMPU LEAGUE 2026 ★ INSERT COIN TO PLAY ★
+            ★ COMPU LEAGUE E-SPORTS 2026 ★ ONLINE TOURNAMENT ★
           </span>
           <span>[ 4, 5 Y 6 NOVIEMBRE ]</span>
           <span className="bg-black text-[#FFE600] px-2 py-0.5">VALORANT 5v5</span>
@@ -102,10 +102,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
             {/* Neo-Brutalist Pill: Console Status */}
             <div className="flex flex-wrap items-center gap-2">
               <div className="bg-[#FF0055] text-white font-pixel text-[9px] sm:text-[10px] px-3 py-1.5 border-2 border-black shadow-brutal-black">
-                <span className="animate-arcade-blink mr-1">▶</span> 1P ARCADE TOURNAMENT
-              </div>
-              <div className="bg-[#0B1320] text-[#00F0FF] font-pixel text-[9px] sm:text-[10px] px-3 py-1.5 border-2 border-[#00F0FF] shadow-brutal-black">
-                UPEC E-SPORTS 2026
+                <span className="animate-arcade-blink mr-1">▶</span> ONLINE TOURNAMENT
               </div>
             </div>
 
@@ -132,11 +129,15 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
                   COMPU
                 </h1>
                 
-                <div className="flex items-center gap-3 flex-wrap">
-                  <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black font-display uppercase tracking-tight text-[#FFE600] leading-[0.9] drop-shadow-[5px_5px_0px_#FF0055]">
-                    LEAGUE
-                  </h1>
-                  <span className="bg-[#00F0FF] text-black font-pixel text-xs sm:text-base px-2.5 py-1 border-2 border-black font-bold shadow-brutal-black">
+                <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black font-display uppercase tracking-tight text-[#FFE600] leading-[0.9] drop-shadow-[5px_5px_0px_#FF0055]">
+                  LEAGUE
+                </h1>
+
+                <div className="flex items-center gap-3 flex-wrap pt-1">
+                  <span className="text-4xl sm:text-6xl lg:text-7xl font-black font-display uppercase tracking-tight text-[#00F0FF] leading-[0.9] drop-shadow-[4px_4px_0px_#000]">
+                    E-SPORTS
+                  </span>
+                  <span className="bg-[#FFE600] text-black font-pixel text-xs sm:text-base px-2.5 py-1.5 border-2 border-black font-black shadow-brutal-black">
                     2026
                   </span>
                 </div>
@@ -145,7 +146,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
 
             {/* Clean readable description in Chakra Petch (2026 Esports legibility) */}
             <p className="text-slate-300 font-cyber text-sm sm:text-base leading-relaxed max-w-xl border-l-4 border-[#FFE600] pl-3 py-0.5 bg-black/40">
-              El torneo oficial de deportes electrónicos de la UPEC. Compite en 4 disciplinas legendarias, acumula puntuación en el bracket oficial y conquista el gran pozo de premios.
+              El torneo oficial de videojuegos de la UPEC. Compite con tu equipo en tu juego favorito y participa por los premios en efectivo.
             </p>
 
             {/* Neo-Brutalist Prize Jackpot Box */}
@@ -161,25 +162,23 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
               </div>
 
               <div className="text-2xl sm:text-4xl font-black font-display text-white tracking-wide uppercase leading-none drop-shadow-[2px_2px_0px_#000]">
-                PREMIOS EN EFECTIVO <span className="text-[#FFE600]">+</span> TROFEO UPEC
+                PREMIOS EN EFECTIVO
               </div>
               <div className="text-xs text-slate-300 font-cyber mt-1 flex items-center gap-2 flex-wrap">
-                <span>• Premios independientes por título</span>
-                <span>• Medallas de honor para finalistas</span>
-                <span>• Acreditación universitaria</span>
+                <span>• Premios en efectivo para los equipos ganadores de cada videojuego</span>
               </div>
             </div>
 
             {/* Mechanical Arcade Physical Buttons (Cero esquinas redondeadas + botón que se hunde) */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full pt-1">
-              {/* Primary: INSERT COIN */}
+              {/* Primary: INSCRIBIRSE */}
               <button
                 type="button"
                 onClick={() => onOpenRegister('valorant')}
                 className="btn-arcade-press shadow-brutal-pink bg-[#FFE600] hover:bg-[#FFF04D] text-black border-2 border-black font-pixel text-xs sm:text-sm px-6 py-4 flex items-center justify-center gap-3 cursor-pointer uppercase font-black"
               >
                 <span className="w-2.5 h-2.5 bg-[#FF0055] inline-block animate-arcade-blink" />
-                <span>[ INSERT COIN // INSCRIBIRSE ]</span>
+                <span>INSCRIBIRSE</span>
                 <ArrowRight className="w-4 h-4 stroke-[3]" />
               </button>
 

@@ -101,7 +101,7 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
               <div className="p-3 bg-[#0B101A] border-2 border-[#FFE600] text-[#FFE600] shadow-brutal-black">
                 <div className="flex items-center gap-2 font-pixel text-[9px] font-black uppercase">
                   <Trophy className="w-4 h-4 text-[#FFE600] fill-[#FFE600] shrink-0" />
-                  <span>PREMIOS: EFECTIVO + TROFEO UPEC</span>
+                  <span>PREMIOS EN EFECTIVO</span>
                 </div>
               </div>
             </div>
