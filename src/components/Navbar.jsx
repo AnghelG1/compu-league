@@ -120,7 +120,7 @@ export default function Navbar({
         <div className="lg:hidden border-b-4 border-black bg-[#0A0E17] p-5 space-y-3 shadow-2xl">
           <div className="font-pixel text-[9px] text-[#FFE600] uppercase font-bold pb-2 border-b-2 border-white/10 flex items-center justify-between">
             <span>COMPU LEAGUE 2026</span>
-            <span className="text-[#00F0FF]">CREDITS: 04</span>
+            <span className="text-[#00F0FF]">CREDITS: 00</span>
           </div>
 
           <button

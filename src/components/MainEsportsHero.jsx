@@ -73,7 +73,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
           <span className="bg-[#FF0055] text-white px-2 py-0.5 animate-arcade-blink">
             POZO EN EFECTIVO + TROFEO UPEC
           </span>
-          <span>CREDIT(S) 04</span>
+          <span>CREDIT(S) 00</span>
           <span>1P READY</span>
 
           {/* Duplicated for smooth infinite loop */}
@@ -317,14 +317,11 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
                         if (el) el.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
-                    className={`btn-arcade-press bg-black ${slot.border} border-2 p-2.5 ${slot.shadow} flex items-center justify-between font-pixel text-[8px] sm:text-[9px] cursor-pointer hover:bg-white/5 active:translate-x-1 active:translate-y-1 transition-all`}
+                    className={`btn-arcade-press bg-black ${slot.border} border-2 p-2.5 ${slot.shadow} flex items-center justify-center font-pixel text-[8px] sm:text-[9px] cursor-pointer hover:bg-white/5 active:translate-x-1 active:translate-y-1 transition-all`}
                     title={`Ver reglas y formato de ${slot.name}`}
                   >
                     <span style={{ color: slot.color }} className="font-black tracking-wider uppercase truncate">
                       {slot.name}
-                    </span>
-                    <span className="text-slate-400 text-[8px] shrink-0 font-bold ml-1">
-                      REGLAS ▶
                     </span>
                   </button>
                 ))}
@@ -333,7 +330,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
               {/* Cabinet Coin Slot Foot */}
               <div className="mt-3 pt-2 border-t-2 border-white/10 flex items-center justify-between font-pixel text-[8px] text-slate-400">
                 <span>INSERT 1$ PER PLAYER</span>
-                <span className="text-[#FFE600] animate-arcade-blink">★ CREDITS: 04</span>
+                <span className="text-[#FFE600] animate-arcade-blink">★ CREDITS: 00</span>
               </div>
 
             </div>
