@@ -16,8 +16,12 @@ function calcTimeLeft() {
   };
 }
 
-export default function MainEsportsHero({ onOpenRegister, onScrollToGames }) {
+export default function MainEsportsHero({ playerName = '', onOpenRegister, onScrollToGames }) {
   const [timeLeft, setTimeLeft] = useState(calcTimeLeft);
+
+  const challengerName = (playerName && playerName.trim())
+    || (typeof window !== 'undefined' ? localStorage.getItem('compu_league_gamertag') : '')
+    || 'MECHA-BUHO';
 
   useEffect(() => {
     const id = setInterval(() => setTimeLeft(calcTimeLeft()), 1000);
@@ -25,10 +29,10 @@ export default function MainEsportsHero({ onOpenRegister, onScrollToGames }) {
   }, []);
 
   const arcadeSlots = [
-    { id: 'valorant',     name: 'VALORANT',   coin: '$5.00', color: '#FF0055', border: 'border-[#FF0055]', shadow: 'shadow-[3px_3px_0px_#FF0055]' },
-    { id: 'free_fire',   name: 'FREE FIRE',  coin: '$4.00', color: '#FFE600', border: 'border-[#FFE600]', shadow: 'shadow-[3px_3px_0px_#FFE600]' },
-    { id: 'fortnite',    name: 'FORTNITE',   coin: '$2.00', color: '#00F0FF', border: 'border-[#00F0FF]', shadow: 'shadow-[3px_3px_0px_#00F0FF]' },
-    { id: 'clash_royale',name: 'C. ROYALE',  coin: '$1.00', color: '#A855F7', border: 'border-[#A855F7]', shadow: 'shadow-[3px_3px_0px_#A855F7]' },
+    { id: 'valorant',     name: 'VALORANT',     color: '#FF0055', border: 'border-[#FF0055]', shadow: 'shadow-[3px_3px_0px_#FF0055]' },
+    { id: 'free_fire',   name: 'FREE FIRE',    color: '#FFE600', border: 'border-[#FFE600]', shadow: 'shadow-[3px_3px_0px_#FFE600]' },
+    { id: 'fortnite',    name: 'FORTNITE',     color: '#00F0FF', border: 'border-[#00F0FF]', shadow: 'shadow-[3px_3px_0px_#00F0FF]' },
+    { id: 'clash_royale',name: 'CLASH ROYALE', color: '#A855F7', border: 'border-[#A855F7]', shadow: 'shadow-[3px_3px_0px_#A855F7]' },
   ];
 
   return (
@@ -253,11 +257,11 @@ export default function MainEsportsHero({ onOpenRegister, onScrollToGames }) {
               
               {/* Cabinet Header Bar */}
               <div className="bg-black text-[#FFE600] px-3 py-2 border-2 border-[#FFE600] mb-3 flex items-center justify-between font-pixel text-[9px] sm:text-[10px]">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-[#00F0FF] inline-block animate-arcade-blink" />
-                  <span>CPU CHALLENGER: MECHA-BUHO</span>
+                <div className="flex items-center gap-2 truncate pr-2">
+                  <span className="w-2 h-2 bg-[#00F0FF] inline-block animate-arcade-blink shrink-0" />
+                  <span className="truncate">CPU CHALLENGER: {challengerName.toUpperCase()}</span>
                 </div>
-                <span className="text-[#FF0055] font-bold">LVL.99</span>
+                <span className="text-[#FF0055] font-bold shrink-0">LVL.99</span>
               </div>
 
               {/* CRT Monitor Screen with scanlines */}
@@ -299,24 +303,36 @@ export default function MainEsportsHero({ onOpenRegister, onScrollToGames }) {
                 </div>
               </div>
 
-              {/* 4 Arcade Slots Summary (Character Select Cartridges) */}
+              {/* 4 Arcade Slots Summary (Character Select Cartridges - Click to view rules) */}
               <div className="grid grid-cols-2 gap-2 mt-3">
                 {arcadeSlots.map((slot) => (
-                  <div
+                  <button
                     key={slot.id}
-                    className={`bg-black ${slot.border} border-2 p-2 ${slot.shadow} flex items-center justify-between font-pixel text-[8px] sm:text-[9px]`}
+                    type="button"
+                    onClick={() => {
+                      if (onScrollToGames) {
+                        onScrollToGames();
+                      } else {
+                        const el = document.getElementById('juegos');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                    className={`btn-arcade-press bg-black ${slot.border} border-2 p-2.5 ${slot.shadow} flex items-center justify-between font-pixel text-[8px] sm:text-[9px] cursor-pointer hover:bg-white/5 active:translate-x-1 active:translate-y-1 transition-all`}
+                    title={`Ver reglas y formato de ${slot.name}`}
                   >
-                    <span style={{ color: slot.color }}>{slot.name}</span>
-                    <span className="bg-white/10 px-1 py-0.5 text-white">
-                      {slot.coin}
+                    <span style={{ color: slot.color }} className="font-black tracking-wider uppercase truncate">
+                      {slot.name}
                     </span>
-                  </div>
+                    <span className="text-slate-400 text-[8px] shrink-0 font-bold ml-1">
+                      REGLAS ▶
+                    </span>
+                  </button>
                 ))}
               </div>
 
               {/* Cabinet Coin Slot Foot */}
               <div className="mt-3 pt-2 border-t-2 border-white/10 flex items-center justify-between font-pixel text-[8px] text-slate-400">
-                <span>INSERT 1 COIN PER PLAYER</span>
+                <span>INSERT 1$ PER PLAYER</span>
                 <span className="text-[#FFE600] animate-arcade-blink">★ CREDITS: 04</span>
               </div>
 
