@@ -33,7 +33,7 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
               />
               <div>
                 <span className="font-pixel text-[8px] text-[#FFE600] uppercase block">
-                  TORNEO OFICIAL UPEC
+                  TORNEO OFICIAL CARRERA DE COMPUTACIÓN
                 </span>
                 <span className="text-xl font-black text-white tracking-wider font-display uppercase leading-tight block">
                   COMPU LEAGUE
@@ -45,7 +45,7 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed font-cyber">
-              El campeonato oficial de deportes electrónicos de la UPEC. Compite, representa a tu escuadra y conquista el gran pozo de premios en efectivo.
+              El torneo oficial de videojuegos de la Carrera de Computación. Compite con tu equipo y participa por los premios en efectivo.
             </p>
 
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#10B981] text-black border-2 border-black font-pixel text-[8px] font-black uppercase">
@@ -144,9 +144,9 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
         {/* Bottom Bar: Copyright & Back to Top */}
         <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-pixel text-[8px] sm:text-[9px] text-slate-400">
           <div className="flex items-center gap-2 text-center sm:text-left">
-            <span>© 2026 COMPU LEAGUE E-SPORTS • UPEC</span>
+            <span>© 2026 COMPU LEAGUE E-SPORTS</span>
             <span>•</span>
-            <span className="text-[#FFE600]">ORGANIZADO POR CARRERA DE COMPUTACIÓN</span>
+            <span className="text-[#FFE600]">CARRERA DE COMPUTACIÓN</span>
           </div>
 
           <button

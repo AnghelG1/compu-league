@@ -74,7 +74,7 @@ const ARCADE_GAMES = [
     buttonText: '[ INSERT COIN // INSCRIBIR ESCUADRA ]',
     rules: [
       'Inscribir tu escuadra inscribe automáticamente a todos al torneo individual gratis.',
-      'Salas privadas Battle Royale coordinadas con árbitros oficiales UPEC.',
+      'Salas privadas Battle Royale coordinadas con árbitros oficiales del torneo.',
       'Puntaje acumulativo oficial por posición final y bajas confirmadas.',
     ],
   },

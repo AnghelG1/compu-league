@@ -151,7 +151,7 @@ export default function ComingSoonPage({ type = 'brackets', onGoHome, hideHeader
       {/* Footer */}
       {!hideFooter && (
         <footer className="py-4 border-t-4 border-black bg-black text-center font-pixel text-[9px] text-slate-400">
-          ★ COMPU LEAGUE E-SPORTS 2026 • UPEC MULTIPLATAFORMA
+          ★ COMPU LEAGUE E-SPORTS 2026 • CARRERA DE COMPUTACIÓN
         </footer>
       )}
 

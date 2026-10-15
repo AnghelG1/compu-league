@@ -90,7 +90,7 @@ export const getRegistrations = async () => {
       captain_name: 'Carlos Mendoza',
       captain_game_id: 'Shadow#LAN',
       captain_whatsapp: '+593987654321',
-      captain_email: 'carlos.m@upec.edu.ec',
+      captain_email: 'carlos.m@computacion.edu.ec',
       amount_due: 5.00,
       status: 'approved',
       receipt_url: '/assets/demo_receipt.svg',

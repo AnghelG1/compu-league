@@ -248,7 +248,7 @@ function App() {
   }
 
   // =============================================================
-  // SCREEN 2: "LA PÁGINA REAL" (PORTAL COMPLETO DE E-SPORTS UPEC)
+  // SCREEN 2: "LA PÁGINA REAL" (PORTAL COMPLETO DE E-SPORTS CARRERA DE COMPUTACIÓN)
   // =============================================================
   return (
     <div className="min-h-screen bg-[#0B0E14] text-slate-100 flex flex-col selection:bg-amber-400 selection:text-slate-950 font-sans w-full max-w-full overflow-x-hidden">

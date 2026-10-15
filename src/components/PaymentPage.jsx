@@ -156,7 +156,7 @@ export default function PaymentPage({ paymentId, onGoHome }) {
       case 'clash_royale':
         return { label: 'CLASH ROYALE (1v1)', color: '#A855F7', icon: Crown };
       default:
-        return { label: 'E-SPORTS UPEC', color: '#FFE600', icon: Trophy };
+        return { label: 'COMPU LEAGUE E-SPORTS', color: '#FFE600', icon: Trophy };
     }
   };
 

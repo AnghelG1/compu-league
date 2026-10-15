@@ -146,7 +146,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
 
             {/* Clean readable description in Chakra Petch (2026 Esports legibility) */}
             <p className="text-slate-300 font-cyber text-sm sm:text-base leading-relaxed max-w-xl border-l-4 border-[#FFE600] pl-3 py-0.5 bg-black/40">
-              El torneo oficial de videojuegos de la UPEC. Compite con tu equipo en tu juego favorito y participa por los premios en efectivo.
+              El torneo oficial de videojuegos de la Carrera de Computación. Compite con tu equipo en tu juego favorito y participa por los premios en efectivo.
             </p>
 
             {/* Neo-Brutalist Prize Jackpot Box */}

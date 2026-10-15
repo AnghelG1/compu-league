@@ -78,7 +78,7 @@ export default function Hero({
     setIsPressingPlay(true);
     playArcadeStartSound();
 
-    const finalTag = gamerTag.trim() || 'JUGADOR_UPEC';
+    const finalTag = gamerTag.trim() || 'JUGADOR_1';
     setTimeout(() => {
       setIsPressingPlay(false);
       onStartGame(finalTag, selectedGame);
@@ -166,7 +166,7 @@ export default function Hero({
           />
           <div className="flex flex-col">
             <span className="text-xs sm:text-sm font-black tracking-tight text-white uppercase font-heading leading-tight">
-              UPEC • CARRERA DE COMPUTACIÓN
+              CARRERA DE COMPUTACIÓN
             </span>
             <span className="text-[10px] font-mono text-cyan-400 tracking-wider">
               SISTEMA DE TORNEO OFICIAL // 2026
@@ -267,7 +267,7 @@ export default function Hero({
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleLaunch();
                 }}
-                placeholder="ESCRIBE TU NICKNAME (EJ: VIPER_UPEC)"
+                placeholder="ESCRIBE TU NICKNAME (EJ: VIPER_COMPU)"
                 className="w-full px-4 py-2.5 sm:py-3 rounded-2xl bg-slate-950/90 border-2 border-cyan-500/50 text-white font-mono font-black text-sm sm:text-base tracking-wider focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 transition-all placeholder:text-slate-600 text-center uppercase"
               />
             </div>
@@ -386,7 +386,7 @@ export default function Hero({
       {/* ========================================================= */}
       <footer className="relative z-20 h-10 px-4 sm:px-8 border-t border-cyan-500/20 bg-slate-950/70 flex items-center justify-between text-[10px] font-mono text-slate-400 shrink-0">
         <div>
-          <span>COMPU LEAGUE 2026 // UPEC</span>
+          <span>COMPU LEAGUE 2026 // CARRERA DE COMPUTACIÓN</span>
         </div>
         <div className="flex items-center gap-3">
           <span className="text-cyan-400 font-bold">INSCRIPCIÓN: $1.00 USD</span>
