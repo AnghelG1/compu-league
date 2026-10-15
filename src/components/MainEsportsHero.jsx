@@ -100,63 +100,7 @@ export default function MainEsportsHero({
       <div className="max-w-5xl mx-auto px-3 sm:px-6 relative z-10 w-full">
         
         {/* ======================================================= */}
-        {/* 2. PLAYER STATS HUD (RETRO ARCADE PLAYER CARD)          */}
-        {/* ======================================================= */}
-        <div className="mb-2 sm:mb-3 px-2.5 py-1.5 sm:px-4 sm:py-2.5 border-2 border-[#476799] bg-[#121c2e] flex items-center justify-between gap-2 shadow-[0_4px_16px_rgba(0,0,0,0.35)] relative overflow-hidden">
-          
-          {/* Ambient subtle cyber gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-yellow-300/[0.04] via-transparent to-sky-400/[0.04] pointer-events-none" />
-
-          {/* Left: Player Avatar, Name & RPG Stats */}
-          <div className="flex items-center gap-2 sm:gap-3.5 relative z-10 min-w-0">
-            {/* Pixel Avatar Badge */}
-            <div className="w-7 h-7 sm:w-9 sm:h-9 border-2 border-yellow-300 bg-[#253961] flex items-center justify-center shrink-0 shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
-              <img 
-                src="/assets/buho_pixel_start.png" 
-                alt="Avatar" 
-                className="w-4 h-4 sm:w-6 sm:h-6 object-contain"
-                style={{ imageRendering: 'pixelated' }}
-              />
-            </div>
-
-            {/* Name, LV and HP Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-3.5 min-w-0">
-              <span className="text-white font-['Silkscreen',monospace] font-bold text-[11px] sm:text-sm tracking-wide drop-shadow-[0_2px_0_#070b14] truncate">
-                {playerName ? playerName.toUpperCase() : 'JUGADOR 1'}
-              </span>
-
-              <div className="flex items-center gap-2 sm:gap-3">
-                {/* LV Badge */}
-                <span className="px-1 py-0.5 border border-yellow-300/80 bg-yellow-300/20 text-yellow-300 text-[7.5px] sm:text-[9px] font-bold tracking-wider font-['Press_Start_2P',monospace]">
-                  LV 20
-                </span>
-
-                {/* Retro Undertale HP Health Bar */}
-                <div className="flex items-center gap-1.5 font-mono text-[7.5px] sm:text-[9px]">
-                  <span className="text-red-400 font-bold tracking-wider">HP</span>
-                  <div className="w-12 sm:w-20 h-2 sm:h-2.5 bg-red-950 border border-red-500/60 p-[1px] shadow-inner">
-                    <div className="w-full h-full bg-yellow-300 shadow-[0_0_8px_rgba(253,224,71,0.7)]" />
-                  </div>
-                  <span className="text-yellow-300 font-bold tabular-nums">99/99</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Online Battle Status Radar */}
-          <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 border border-[#3b5585] bg-[#1a2742] text-[8px] sm:text-[9px] relative z-10 shadow-sm shrink-0">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-            </span>
-            <span className="text-[#a5badb] font-mono">* ESTADO:</span>
-            <span className="text-emerald-400 font-bold tracking-wider">LISTO PARA LA BATALLA</span>
-          </div>
-
-        </div>
-
-        {/* ======================================================= */}
-        {/* 3. UNIFIED HERO & COUNTDOWN ENCOUNTER BLOCK             */}
+        {/* UNIFIED HERO & COUNTDOWN ENCOUNTER BLOCK                */}
         {/* ======================================================= */}
         <div className="border-3 sm:border-4 border-[#364e78] bg-[#1d2d4c] p-3 sm:p-5 lg:p-6 relative shadow-[0_4px_24px_rgba(0,0,0,0.35)] space-y-2 sm:space-y-3.5">
           
