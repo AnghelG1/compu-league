@@ -127,17 +127,6 @@ export default function UndertaleStartScreen({ onEnterGame, initialName = '' }) 
     }, 2000);
   };
 
-  const handleDirectEntry = () => {
-    const name = gamerTag.trim() || 'JUGADOR';
-    play8BitSound('start');
-    setWelcomeName(name);
-    setShowWelcome(true);
-
-    setTimeout(() => {
-      onEnterGame(name);
-    }, 1800);
-  };
-
   const handleExit = () => {
     play8BitSound('select');
     
@@ -346,27 +335,18 @@ export default function UndertaleStartScreen({ onEnterGame, initialName = '' }) 
 
 
       {/* ========================================================= */}
-      {/* 3. TOP BAR: COMPU LEAGUE E-SPORTS 2026                     */}
+      {/* 3. MAIN CENTER: UNDERTALE TITLE & "NAME THE PLAYER"       */}
       {/* ========================================================= */}
-      <header className="relative z-20 pt-8 sm:pt-10 px-4 text-center w-full flex flex-col items-center justify-center">
-        <p className="text-[10px] sm:text-xs tracking-[0.3em] text-yellow-300/90 uppercase font-['Press_Start_2P',monospace]">
-          ★ COMPU LEAGUE E-SPORTS 2026 ★
-        </p>
-      </header>
-
-      {/* ========================================================= */}
-      {/* 4. MAIN CENTER: UNDERTALE TITLE & "NAME THE PLAYER"       */}
-      {/* ========================================================= */}
-      <main className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 max-w-2xl mx-auto w-full text-center py-6 my-auto">
+      <main className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 max-w-2xl mx-auto w-full text-center py-4 sm:py-6 my-auto">
         
         {/* LOGO: "COMPU LEAGUE" (Undertale Font Style) WITH PIXEL ART EMBLEM */}
-        <div className="text-center mb-6 sm:mb-8 w-full flex flex-col items-center justify-center">
-          {/* Emblem Pixel Logo */}
+        <div className="text-center mb-5 sm:mb-7 w-full flex flex-col items-center justify-center">
+          {/* Emblem Pixel Logo (Larger) */}
           <div className="mb-3 sm:mb-4">
             <img 
               src="/assets/buho_pixel_start.png" 
               alt="Compu League E-Sports" 
-              className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 object-contain animate-float mx-auto drop-shadow-[0_4px_10px_rgba(0,0,0,0.7)]"
+              className="w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-60 lg:h-60 object-contain animate-float mx-auto drop-shadow-[0_4px_14px_rgba(0,0,0,0.8)]"
               style={{ imageRendering: 'pixelated' }}
             />
           </div>
@@ -430,9 +410,9 @@ export default function UndertaleStartScreen({ onEnterGame, initialName = '' }) 
         </div>
 
         {/* ======================================================= */}
-        {/* BUTTON: [ JUGAR ] (Undertale Menu Style)               */}
+        {/* BUTTONS: [ JUGAR ] & [ SALIR ] (Undertale Menu Style)   */}
         {/* ======================================================= */}
-        <div className="mt-2 sm:mt-4 flex flex-col items-center justify-center text-center">
+        <div className="mt-2 sm:mt-4 flex flex-col items-center justify-center text-center space-y-3 sm:space-y-4">
           <button
             type="button"
             onClick={handleConfirm}
@@ -441,7 +421,7 @@ export default function UndertaleStartScreen({ onEnterGame, initialName = '' }) 
               play8BitSound('select');
             }}
             onMouseLeave={() => setIsHoveringPlay(false)}
-            className="group relative inline-flex items-center justify-center px-6 py-3 cursor-pointer transition-colors outline-none"
+            className="group relative inline-flex items-center justify-center px-6 py-2.5 sm:py-3 cursor-pointer transition-colors outline-none"
           >
             {/* Red Heart jumps next to [ JUGAR ] when hovering */}
             <div 
@@ -465,56 +445,28 @@ export default function UndertaleStartScreen({ onEnterGame, initialName = '' }) 
             </span>
           </button>
 
-          {/* SECONDARY OPTIONS: PÁGINA PRINCIPAL & SALIR */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm font-['Press_Start_2P',monospace]">
-            
-            {/* Opción 1: Pasar directo a la página principal */}
-            <button
-              type="button"
-              onClick={handleDirectEntry}
-              onMouseEnter={() => {
-                setHoveredOption('direct');
-                play8BitSound('select');
-              }}
-              onMouseLeave={() => setHoveredOption(null)}
-              className="group relative inline-flex items-center gap-2 px-3 py-2 cursor-pointer transition-colors outline-none"
-            >
-              <span className={`text-red-500 text-xs sm:text-sm transition-opacity duration-150 ${
-                hoveredOption === 'direct' ? 'opacity-100' : 'opacity-0'
-              }`}>
-                ♥
-              </span>
-              <span className={`transition-colors uppercase tracking-wider text-center ${
-                hoveredOption === 'direct' ? 'text-yellow-300' : 'text-white'
-              }`}>
-                [ PAGINA PRINCIPAL ]
-              </span>
-            </button>
-
-            {/* Opcion 2: Salir (Cierra la pagina) */}
-            <button
-              type="button"
-              onClick={handleExit}
-              onMouseEnter={() => {
-                setHoveredOption('exit');
-                play8BitSound('select');
-              }}
-              onMouseLeave={() => setHoveredOption(null)}
-              className="group relative inline-flex items-center gap-2 px-3 py-2 cursor-pointer transition-colors outline-none"
-            >
-              <span className={`text-red-500 text-xs sm:text-sm transition-opacity duration-150 ${
-                hoveredOption === 'exit' ? 'opacity-100' : 'opacity-0'
-              }`}>
-                ♥
-              </span>
-              <span className={`transition-colors uppercase tracking-wider text-center ${
-                hoveredOption === 'exit' ? 'text-yellow-300' : 'text-white'
-              }`}>
-                [ SALIR ]
-              </span>
-            </button>
-
-          </div>
+          {/* Opcion: Salir (Cierra la pagina o pestaña) */}
+          <button
+            type="button"
+            onClick={handleExit}
+            onMouseEnter={() => {
+              setHoveredOption('exit');
+              play8BitSound('select');
+            }}
+            onMouseLeave={() => setHoveredOption(null)}
+            className="group relative inline-flex items-center justify-center gap-2 px-4 py-2 cursor-pointer transition-colors outline-none"
+          >
+            <span className={`text-red-500 text-xs sm:text-sm transition-opacity duration-150 ${
+              hoveredOption === 'exit' ? 'opacity-100' : 'opacity-0'
+            }`}>
+              ♥
+            </span>
+            <span className={`text-xs sm:text-sm tracking-wider uppercase transition-colors text-center ${
+              hoveredOption === 'exit' ? 'text-yellow-300' : 'text-zinc-400 hover:text-white'
+            }`}>
+              [ SALIR ]
+            </span>
+          </button>
         </div>
 
       </main>
