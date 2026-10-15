@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { RefreshCw, Shield, Flame, Crosshair, Crown } from 'lucide-react';
 import { 
-  getValorantMatches, 
-  getClashMatches, 
-  getBattleRoyaleStandings 
-} from '../lib/storage';
+  Trophy, Shield, Flame, Crosshair, 
+  Crown, RefreshCw, CheckCircle2, Clock
+} from 'lucide-react';
+import { 
+  DEFAULT_VALORANT_MATCHES, 
+  DEFAULT_CLASH_MATCHES, 
+  DEFAULT_BR_STANDINGS 
+} from '../data/tournamentData';
 
 export default function LiveBrackets() {
   const [activeTab, setActiveTab] = useState('valorant');
   const [ffSubTab, setFfSubTab] = useState('escuadras');
-  
+
   const [valorantMatches, setValorantMatches] = useState([]);
   const [clashMatches, setClashMatches] = useState([]);
   const [brStandings, setBrStandings] = useState({
@@ -19,70 +22,81 @@ export default function LiveBrackets() {
   });
 
   const loadData = () => {
-    setValorantMatches(getValorantMatches());
-    setClashMatches(getClashMatches());
-    setBrStandings(getBattleRoyaleStandings());
+    try {
+      const savedVal = localStorage.getItem('compu_league_valorant_matches');
+      const savedClash = localStorage.getItem('compu_league_clash_matches');
+      const savedBr = localStorage.getItem('compu_league_br_standings');
+
+      setValorantMatches(savedVal ? JSON.parse(savedVal) : DEFAULT_VALORANT_MATCHES);
+      setClashMatches(savedClash ? JSON.parse(savedClash) : DEFAULT_CLASH_MATCHES);
+      setBrStandings(savedBr ? JSON.parse(savedBr) : DEFAULT_BR_STANDINGS);
+    } catch {
+      setValorantMatches(DEFAULT_VALORANT_MATCHES);
+      setClashMatches(DEFAULT_CLASH_MATCHES);
+      setBrStandings(DEFAULT_BR_STANDINGS);
+    }
   };
 
   useEffect(() => {
     loadData();
-    const interval = setInterval(loadData, 30000);
-    return () => clearInterval(interval);
   }, []);
 
   const tabs = [
     { id: 'valorant', name: 'VALORANT (5v5)', icon: Shield },
     { id: 'free_fire', name: 'FREE FIRE (BR)', icon: Flame },
-    { id: 'fortnite', name: 'FORTNITE (DUOS)', icon: Crosshair },
+    { id: 'fortnite', name: 'FORTNITE (DÚOS)', icon: Crosshair },
     { id: 'clash_royale', name: 'CLASH ROYALE (1v1)', icon: Crown },
   ];
 
   return (
-    <section id="brackets" className="py-20 bg-[#0a0f1d] text-slate-100 relative border-b-4 border-[#243556] font-['Press_Start_2P',monospace] select-none">
+    <section id="brackets" className="py-20 bg-[#0B0E14] text-slate-100 relative border-b border-white/10 font-sans select-none">
       
-      {/* Background Pixel Dots */}
-      <div className="absolute inset-0 bg-[radial-gradient(#1e2d4a_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none" />
+      {/* Background Radial Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(245,158,11,0.06),transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:40px_40px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 pb-6 border-b-4 border-[#243556]">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 pb-6 border-b border-white/10">
           <div className="space-y-3">
-            <div className="inline-block px-3 py-1.5 border-2 border-[#3b598b] bg-[#0f172a] text-sky-400 text-[10px] uppercase">
-              ★ MARCADORES OFICIALES EN VIVO
+            <div className="inline-block px-3 py-1 rounded-full border border-sky-400/30 bg-sky-400/10 text-sky-400 text-xs font-display font-bold uppercase tracking-wider">
+              MARCADORES OFICIALES EN VIVO
             </div>
-            <h2 className="text-3xl sm:text-5xl font-bold uppercase text-white tracking-wider font-['Silkscreen',monospace] drop-shadow-[0_4px_0_#070b14]">
+            <h2 className="text-3xl sm:text-5xl font-black uppercase text-white tracking-wide font-display">
               BRACKETS & RESULTADOS
             </h2>
-            <p className="text-[#8ea4c7] text-xs max-w-xl font-mono leading-relaxed">
-              * Actualizacion directa por el staff oficial del torneo durante las 3 noches (4, 5 y 6 de Noviembre).
+            <p className="text-slate-400 text-sm max-w-xl font-sans leading-relaxed">
+              Actualización directa por el staff oficial del torneo durante las 3 noches (4, 5 y 6 de Noviembre).
             </p>
           </div>
 
           <button
             onClick={loadData}
-            className="self-start md:self-auto px-4 py-3 border-2 border-[#3b598b] hover:border-yellow-300 bg-[#142340] hover:bg-[#1b2f56] hover:text-yellow-300 text-slate-100 text-xs font-bold transition-colors cursor-pointer uppercase flex items-center gap-2"
+            className="self-start md:self-auto px-5 py-2.5 rounded-xl border border-white/10 bg-slate-900/80 hover:border-amber-400/40 text-slate-100 hover:text-amber-400 text-xs font-display font-bold transition-all cursor-pointer uppercase flex items-center gap-2 tracking-wider"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
-            <span>[ SINCRONIZAR ]</span>
+            <RefreshCw className="w-4 h-4" />
+            <span>SINCRONIZAR</span>
           </button>
         </div>
 
-        {/* Category Tabs (Undertale Battle Menu Style) */}
-        <div className="flex flex-wrap gap-2 mb-10 pb-4 border-b-2 border-[#1c2a47]">
+        {/* Category Tabs */}
+        <div className="flex flex-wrap gap-2.5 mb-10 pb-4 border-b border-white/10">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
+            const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-3 border-2 text-[10px] sm:text-xs uppercase transition-colors flex items-center gap-2 cursor-pointer ${
+                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm uppercase transition-all flex items-center gap-2 cursor-pointer font-display font-bold tracking-wider ${
                   isActive
-                    ? 'border-yellow-300 bg-[#142340] text-yellow-300'
-                    : 'border-[#253759] bg-[#0d1629] text-[#8ea4c7] hover:border-[#60a5fa] hover:text-slate-100'
+                    ? 'bg-amber-400 text-slate-950 shadow-[0_0_15px_rgba(245,158,11,0.35)]'
+                    : 'border border-white/10 bg-slate-900/80 text-slate-400 hover:border-amber-400/40 hover:text-white'
                 }`}
               >
-                <span>[ {tab.name} ]</span>
+                <Icon className="w-4 h-4" />
+                <span>{tab.name}</span>
               </button>
             );
           })}
@@ -95,17 +109,17 @@ export default function LiveBrackets() {
           <div className="space-y-10">
             
             {/* Upper Bracket Section */}
-            <div className="border-4 border-[#2d4268] bg-[#0d1629] p-5 sm:p-7 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
-              <div className="mb-6 pb-3 border-b-2 border-[#1c2a47] flex items-center justify-between">
+            <div className="rounded-2xl border border-white/10 bg-[#121824] p-5 sm:p-7 shadow-xl">
+              <div className="mb-6 pb-4 border-b border-white/10 flex items-center justify-between">
                 <div className="space-y-1">
-                  <span className="text-yellow-300 text-xs font-bold font-['Silkscreen',monospace] tracking-wider">
-                    * UPPER BRACKET (CUADRO PRINCIPAL)
+                  <span className="text-amber-400 text-sm font-bold font-display tracking-wider block">
+                    UPPER BRACKET (CUADRO PRINCIPAL)
                   </span>
-                  <p className="text-[10px] text-[#8ea4c7] font-mono">
+                  <p className="text-xs text-slate-400 font-sans">
                     Partidas Bo1. El ganador avanza; el derrotado desciende a Loser Bracket.
                   </p>
                 </div>
-                <span className="text-[10px] px-2 py-1 border border-[#2b3e62] bg-[#080d1a] text-[#8ea4c7]">
+                <span className="text-xs px-2.5 py-1 rounded-md border border-white/10 bg-[#0B0E14] text-slate-300 font-mono font-bold">
                   BO1
                 </span>
               </div>
@@ -113,95 +127,95 @@ export default function LiveBrackets() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Cuartos */}
                 <div className="space-y-3">
-                  <div className="text-[10px] text-[#8ea4c7] pb-2 border-b border-[#1c2a47]">
+                  <div className="text-xs text-slate-400 pb-2 border-b border-white/10 font-display font-bold uppercase tracking-wider">
                     CUARTOS DE FINAL
                   </div>
                   {valorantMatches.filter(m => m.bracket === 'upper' && m.round === 'Cuartos de Final').map((m) => (
-                    <PixelMatchCard key={m.id} match={m} />
+                    <EsportsMatchCard key={m.id} match={m} />
                   ))}
                 </div>
 
                 {/* Semis */}
                 <div className="space-y-3">
-                  <div className="text-[10px] text-[#8ea4c7] pb-2 border-b border-[#1c2a47]">
+                  <div className="text-xs text-slate-400 pb-2 border-b border-white/10 font-display font-bold uppercase tracking-wider">
                     SEMIFINALES UPPER
                   </div>
                   {valorantMatches.filter(m => m.bracket === 'upper' && m.round === 'Semifinal Upper').map((m) => (
-                    <PixelMatchCard key={m.id} match={m} />
+                    <EsportsMatchCard key={m.id} match={m} />
                   ))}
                 </div>
 
                 {/* Final Upper */}
                 <div className="space-y-3">
-                  <div className="text-[10px] text-yellow-300 pb-2 border-b border-yellow-300/40">
+                  <div className="text-xs text-amber-400 pb-2 border-b border-amber-400/30 font-display font-bold uppercase tracking-wider">
                     FINAL UPPER BRACKET
                   </div>
                   {valorantMatches.filter(m => m.bracket === 'upper' && m.round === 'Final Upper Bracket').map((m) => (
-                    <PixelMatchCard key={m.id} match={m} highlight />
+                    <EsportsMatchCard key={m.id} match={m} highlight />
                   ))}
                 </div>
               </div>
             </div>
 
             {/* Loser Bracket Section */}
-            <div className="border-4 border-[#253759] bg-[#0d1629] p-5 sm:p-7 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
-              <div className="mb-6 pb-3 border-b-2 border-[#1c2a47]">
-                <span className="text-red-400 text-xs font-bold font-['Silkscreen',monospace] tracking-wider">
-                  * LOSER BRACKET (REPECHAJE OFICIAL)
+            <div className="rounded-2xl border border-white/10 bg-[#121824] p-5 sm:p-7 shadow-xl">
+              <div className="mb-6 pb-4 border-b border-white/10">
+                <span className="text-rose-400 text-sm font-bold font-display tracking-wider block">
+                  LOSER BRACKET (REPECHAJE OFICIAL)
                 </span>
-                <p className="text-[10px] text-[#8ea4c7] font-mono mt-1">
+                <p className="text-xs text-slate-400 font-sans mt-1">
                   Segunda oportunidad. Una derrota más significa la eliminación definitiva.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="space-y-3">
-                  <div className="text-[9px] text-[#8ea4c7] pb-1 border-b border-[#1c2a47]">RONDA 1</div>
+                  <div className="text-xs text-slate-400 pb-1 border-b border-white/10 font-display font-bold">RONDA 1</div>
                   {valorantMatches.filter(m => m.bracket === 'lower' && m.round === 'Ronda 1 Loser').map((m) => (
-                    <PixelMatchCard key={m.id} match={m} compact />
+                    <EsportsMatchCard key={m.id} match={m} compact />
                   ))}
                 </div>
                 <div className="space-y-3">
-                  <div className="text-[9px] text-[#8ea4c7] pb-1 border-b border-[#1c2a47]">RONDA 2</div>
+                  <div className="text-xs text-slate-400 pb-1 border-b border-white/10 font-display font-bold">RONDA 2</div>
                   {valorantMatches.filter(m => m.bracket === 'lower' && m.round === 'Ronda 2 Loser').map((m) => (
-                    <PixelMatchCard key={m.id} match={m} compact />
+                    <EsportsMatchCard key={m.id} match={m} compact />
                   ))}
                 </div>
                 <div className="space-y-3">
-                  <div className="text-[9px] text-[#8ea4c7] pb-1 border-b border-[#1c2a47]">SEMIFINAL</div>
+                  <div className="text-xs text-slate-400 pb-1 border-b border-white/10 font-display font-bold">SEMIFINAL</div>
                   {valorantMatches.filter(m => m.bracket === 'lower' && m.round === 'Semifinal Loser').map((m) => (
-                    <PixelMatchCard key={m.id} match={m} compact />
+                    <EsportsMatchCard key={m.id} match={m} compact />
                   ))}
                 </div>
                 <div className="space-y-3">
-                  <div className="text-[9px] text-red-400 pb-1 border-b border-red-500/40">FINAL LOSER</div>
+                  <div className="text-xs text-rose-400 pb-1 border-b border-rose-500/30 font-display font-bold">FINAL LOSER</div>
                   {valorantMatches.filter(m => m.bracket === 'lower' && m.round === 'Final Loser Bracket').map((m) => (
-                    <PixelMatchCard key={m.id} match={m} compact highlight />
+                    <EsportsMatchCard key={m.id} match={m} compact highlight />
                   ))}
                 </div>
               </div>
             </div>
 
             {/* Grand Final Bo3 */}
-            <div className="border-4 border-yellow-300/80 bg-[#0f172a] p-6 sm:p-8 text-center space-y-4 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
-              <div className="inline-block px-3 py-1 bg-yellow-300 text-black text-xs font-bold uppercase">
-                ★ GRAN FINAL VALORANT (BO3) ★
+            <div className="rounded-2xl border border-amber-400/40 bg-gradient-to-b from-[#161f30] to-[#121824] p-6 sm:p-8 text-center space-y-4 shadow-2xl">
+              <div className="inline-block px-4 py-1.5 rounded-full bg-amber-400 text-slate-950 text-xs font-black uppercase font-display tracking-wider shadow-md shadow-amber-400/20">
+                🏆 GRAN FINAL VALORANT (BO3)
               </div>
               
               {valorantMatches.filter(m => m.bracket === 'grand_final').map((m) => (
-                <div key={m.id} className="p-4 sm:p-6 border-2 border-[#3b598b] bg-[#080d1a] max-w-xl mx-auto shadow-md">
-                  <div className="flex items-center justify-between text-sm sm:text-base font-bold">
-                    <div className={`flex-1 text-right pr-4 ${m.winner === m.teamA ? 'text-yellow-300' : 'text-slate-100'}`}>
+                <div key={m.id} className="p-5 sm:p-7 rounded-xl border border-white/10 bg-[#0B0E14] max-w-xl mx-auto shadow-xl">
+                  <div className="flex items-center justify-between text-base sm:text-lg font-bold font-display">
+                    <div className={`flex-1 text-right pr-4 uppercase ${m.winner === m.teamA ? 'text-amber-400 font-black' : 'text-slate-100'}`}>
                       {m.teamA}
                     </div>
-                    <div className="px-4 py-1.5 border-2 border-yellow-300 bg-[#0f172a] text-yellow-300 font-bold shrink-0 text-base sm:text-lg">
+                    <div className="px-4 py-1.5 rounded-lg border border-amber-400/40 bg-amber-400/10 text-amber-400 font-black shrink-0 text-lg sm:text-xl font-mono">
                       {m.scoreA} : {m.scoreB}
                     </div>
-                    <div className={`flex-1 text-left pl-4 ${m.winner === m.teamB ? 'text-yellow-300' : 'text-slate-100'}`}>
+                    <div className={`flex-1 text-left pl-4 uppercase ${m.winner === m.teamB ? 'text-amber-400 font-black' : 'text-slate-100'}`}>
                       {m.teamB}
                     </div>
                   </div>
-                  <p className="mt-3 text-[10px] text-[#8ea4c7] font-mono">
+                  <p className="mt-3 text-xs text-slate-400 font-sans">
                     Ganador Upper vs. Ganador Loser • Noche del 6 de Noviembre
                   </p>
                 </div>
@@ -215,44 +229,44 @@ export default function LiveBrackets() {
         {/* 2. CLASH ROYALE (1v1)                                         */}
         {/* ------------------------------------------------------------- */}
         {activeTab === 'clash_royale' && (
-          <div className="border-4 border-[#2d4268] bg-[#0d1629] p-6 sm:p-8 space-y-6 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
-            <div className="pb-4 border-b-2 border-[#1c2a47] flex items-center justify-between">
+          <div className="rounded-2xl border border-white/10 bg-[#121824] p-6 sm:p-8 space-y-6 shadow-xl">
+            <div className="pb-4 border-b border-white/10 flex items-center justify-between">
               <div>
-                <span className="text-slate-100 text-xs font-bold font-['Silkscreen',monospace] tracking-wider block">
-                  * CLASH ROYALE - TORNEO 1v1 BO3
+                <span className="text-white text-sm font-bold font-display tracking-wider block">
+                  CLASH ROYALE - TORNEO 1v1 BO3
                 </span>
-                <p className="text-[10px] text-[#8ea4c7] font-mono mt-1">
+                <p className="text-xs text-slate-400 font-sans mt-1">
                   Duelos al mejor de 3 partidas con nivel de cartas estandarizado de torneo.
                 </p>
               </div>
-              <span className="text-[10px] px-2 py-1 border border-[#2b3e62] bg-[#080d1a] text-[#8ea4c7]">
+              <span className="text-xs px-2.5 py-1 rounded-md border border-white/10 bg-[#0B0E14] text-slate-300 font-mono font-bold">
                 16 JUGADORES
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {clashMatches.map((m) => (
-                <div key={m.id} className="border-2 border-[#1c2a47] bg-[#080d1a] p-3 space-y-2">
-                  <div className="flex justify-between text-[9px] text-[#8ea4c7] pb-1 border-b border-[#141e33]">
+                <div key={m.id} className="rounded-xl border border-white/10 bg-[#0B0E14] p-3.5 space-y-2">
+                  <div className="flex justify-between text-[11px] text-slate-400 pb-1.5 border-b border-white/5 font-display font-bold">
                     <span>PARTIDA #{m.matchIndex}</span>
-                    <span className={m.status === 'completed' ? 'text-emerald-400' : 'text-[#8ea4c7]'}>
+                    <span className={m.status === 'completed' ? 'text-emerald-400' : 'text-slate-500'}>
                       {m.status === 'completed' ? 'FINAL' : 'ESPERA'}
                     </span>
                   </div>
 
-                  <div className="space-y-1.5 text-[10px]">
-                    <div className={`flex items-center justify-between p-1.5 border ${
-                      m.winner === m.playerA ? 'border-yellow-300 text-yellow-300 bg-[#142340]' : 'border-[#18233a] text-slate-300 bg-[#0c1424]'
+                  <div className="space-y-1.5 text-xs font-sans">
+                    <div className={`flex items-center justify-between p-2 rounded-lg border transition-colors ${
+                      m.winner === m.playerA ? 'border-amber-400/40 text-amber-300 bg-amber-400/10 font-bold' : 'border-white/5 text-slate-300 bg-slate-900/50'
                     }`}>
-                      <span className="truncate pr-2 font-bold">{m.playerA}</span>
-                      <span className="font-bold">{m.scoreA}</span>
+                      <span className="truncate pr-2 uppercase">{m.playerA}</span>
+                      <span className="font-mono font-bold">{m.scoreA}</span>
                     </div>
 
-                    <div className={`flex items-center justify-between p-1.5 border ${
-                      m.winner === m.playerB ? 'border-yellow-300 text-yellow-300 bg-[#142340]' : 'border-[#18233a] text-slate-300 bg-[#0c1424]'
+                    <div className={`flex items-center justify-between p-2 rounded-lg border transition-colors ${
+                      m.winner === m.playerB ? 'border-amber-400/40 text-amber-300 bg-amber-400/10 font-bold' : 'border-white/5 text-slate-300 bg-slate-900/50'
                     }`}>
-                      <span className="truncate pr-2 font-bold">{m.playerB}</span>
-                      <span className="font-bold">{m.scoreB}</span>
+                      <span className="truncate pr-2 uppercase">{m.playerB}</span>
+                      <span className="font-mono font-bold">{m.scoreB}</span>
                     </div>
                   </div>
                 </div>
@@ -265,71 +279,71 @@ export default function LiveBrackets() {
         {/* 3. FREE FIRE & FORTNITE STANDINGS (BATTLE ROYALE)             */}
         {/* ------------------------------------------------------------- */}
         {(activeTab === 'free_fire' || activeTab === 'fortnite') && (
-          <div className="border-4 border-[#2d4268] bg-[#0d1629] p-6 sm:p-8 space-y-6 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+          <div className="rounded-2xl border border-white/10 bg-[#121824] p-6 sm:p-8 space-y-6 shadow-xl">
             
-            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b-2 border-[#1c2a47]">
-              <span className="text-yellow-300 text-xs font-bold font-['Silkscreen',monospace] tracking-wider">
-                * TABLA DE POSICIONES BATTLE ROYALE
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-white/10">
+              <span className="text-amber-400 text-sm font-bold font-display tracking-wider">
+                TABLA DE POSICIONES BATTLE ROYALE
               </span>
 
               {activeTab === 'free_fire' && (
-                <div className="flex gap-2 text-[10px]">
+                <div className="flex gap-2 text-xs font-display font-bold">
                   <button
                     onClick={() => setFfSubTab('escuadras')}
-                    className={`px-3 py-1.5 border-2 ${
+                    className={`px-3.5 py-1.5 rounded-lg uppercase transition-all cursor-pointer ${
                       ffSubTab === 'escuadras' 
-                        ? 'border-yellow-300 bg-yellow-300 text-black font-bold' 
-                        : 'border-[#253759] bg-[#080d1a] text-[#8ea4c7]'
+                        ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20' 
+                        : 'border border-white/10 bg-slate-900/80 text-slate-400 hover:text-white'
                     }`}
                   >
-                    [ ESCUADRAS ]
+                    ESCUADRAS
                   </button>
                   <button
                     onClick={() => setFfSubTab('solitario')}
-                    className={`px-3 py-1.5 border-2 ${
+                    className={`px-3.5 py-1.5 rounded-lg uppercase transition-all cursor-pointer ${
                       ffSubTab === 'solitario' 
-                        ? 'border-yellow-300 bg-yellow-300 text-black font-bold' 
-                        : 'border-[#253759] bg-[#080d1a] text-[#8ea4c7]'
+                        ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20' 
+                        : 'border border-white/10 bg-slate-900/80 text-slate-400 hover:text-white'
                     }`}
                   >
-                    [ SOLITARIO ]
+                    SOLITARIO
                   </button>
                 </div>
               )}
             </div>
 
-            {/* Standings Table in Retro Pixel Undertale Style */}
+            {/* Standings Table */}
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
+              <table className="w-full text-left text-xs border-collapse font-sans">
                 <thead>
-                  <tr className="border-b-2 border-[#1c2a47] text-[#8ea4c7] text-[10px]">
-                    <th className="py-2.5 px-3">POS</th>
-                    <th className="py-2.5 px-3">EQUIPO / JUGADOR</th>
-                    <th className="py-2.5 px-3 text-center">BAJAS</th>
-                    <th className="py-2.5 px-3 text-center">PTS SUPERVIVENCIA</th>
-                    <th className="py-2.5 px-3 text-right">TOTAL PTS</th>
+                  <tr className="border-b border-white/10 text-slate-400 text-[11px] font-display uppercase tracking-wider">
+                    <th className="py-3 px-3">POS</th>
+                    <th className="py-3 px-3">EQUIPO / JUGADOR</th>
+                    <th className="py-3 px-3 text-center">BAJAS</th>
+                    <th className="py-3 px-3 text-center">PTS SUPERVIVENCIA</th>
+                    <th className="py-3 px-3 text-right">TOTAL PTS</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#141e33] font-mono">
+                <tbody className="divide-y divide-white/5">
                   {((activeTab === 'free_fire' 
                       ? (ffSubTab === 'escuadras' ? brStandings.free_fire_escuadras : brStandings.free_fire_solitario)
                       : brStandings.fortnite_duos) || []).map((row, idx) => (
                     <tr 
                       key={idx} 
-                      className={`hover:bg-[#121c33] transition-colors ${
-                        idx === 0 ? 'text-yellow-300 font-bold bg-yellow-950/20' : 'text-slate-300'
+                      className={`hover:bg-slate-900/60 transition-colors ${
+                        idx === 0 ? 'text-amber-300 font-bold bg-amber-400/5' : 'text-slate-300'
                       }`}
                     >
                       <td className="py-3 px-3">
-                        <span className="flex items-center gap-1.5">
-                          {idx === 0 && <span className="text-yellow-300">★</span>}
+                        <span className="flex items-center gap-1.5 font-display font-bold">
+                          {idx === 0 && <span className="text-amber-400">👑</span>}
                           <span>#{row.position || idx + 1}</span>
                         </span>
                       </td>
-                      <td className="py-3 px-3 font-bold uppercase">{row.teamName || row.name}</td>
-                      <td className="py-3 px-3 text-center">{row.kills || 0}</td>
-                      <td className="py-3 px-3 text-center">{row.placementPoints || 0}</td>
-                      <td className="py-3 px-3 text-right font-bold text-yellow-300">{row.totalPoints || 0} PTS</td>
+                      <td className="py-3 px-3 font-semibold uppercase">{row.teamName || row.name}</td>
+                      <td className="py-3 px-3 text-center font-mono">{row.kills || 0}</td>
+                      <td className="py-3 px-3 text-center font-mono">{row.placementPoints || 0}</td>
+                      <td className="py-3 px-3 text-right font-bold text-amber-400 font-mono">{row.totalPoints || 0} PTS</td>
                     </tr>
                   ))}
                 </tbody>
@@ -344,43 +358,43 @@ export default function LiveBrackets() {
   );
 }
 
-function PixelMatchCard({ match, compact = false, highlight = false }) {
+function EsportsMatchCard({ match, compact = false, highlight = false }) {
   const isCompleted = match.status === 'completed';
   const winnerA = match.winner && match.winner === match.teamA;
   const winnerB = match.winner && match.winner === match.teamB;
 
   return (
-    <div className={`border-2 p-3 bg-[#080d1a] space-y-2 ${
-      highlight ? 'border-yellow-300' : 'border-[#1c2a47] hover:border-[#2d4268]'
+    <div className={`rounded-xl border p-3.5 bg-[#0B0E14] space-y-2 transition-all ${
+      highlight ? 'border-amber-400/60 shadow-[0_0_15px_rgba(245,158,11,0.15)]' : 'border-white/10 hover:border-white/20'
     }`}>
-      <div className="flex items-center justify-between text-[9px] text-[#8ea4c7] pb-1 border-b border-[#141e33]">
+      <div className="flex items-center justify-between text-[11px] text-slate-400 pb-1.5 border-b border-white/5 font-display font-bold">
         <span>{match.round} #{match.matchIndex}</span>
-        <span className={isCompleted ? 'text-emerald-400 font-bold' : 'text-[#8ea4c7]'}>
+        <span className={isCompleted ? 'text-emerald-400 font-bold' : 'text-slate-500'}>
           {isCompleted ? 'FINALIZADO' : 'PENDIENTE'}
         </span>
       </div>
 
-      <div className="space-y-1.5 text-[10px]">
-        <div className={`flex items-center justify-between p-1.5 border transition-colors ${
-          winnerA ? 'border-yellow-300 bg-[#142340] text-yellow-300 font-bold' : 'border-[#18233a] text-slate-300 bg-[#0c1424]'
+      <div className="space-y-1.5 text-xs font-sans">
+        <div className={`flex items-center justify-between p-2 rounded-lg border transition-colors ${
+          winnerA ? 'border-amber-400/40 bg-amber-400/10 text-amber-300 font-bold' : 'border-white/5 text-slate-300 bg-slate-900/50'
         }`}>
-          <span className="truncate pr-2 flex items-center gap-1">
-            {winnerA && <span className="text-yellow-300 text-[10px]">★</span>}
-            <span className="uppercase">{match.teamA}</span>
+          <span className="truncate pr-2 flex items-center gap-1.5 uppercase">
+            {winnerA && <span className="text-amber-400">★</span>}
+            <span>{match.teamA}</span>
           </span>
-          <span className="font-bold px-1.5 py-0.5 bg-[#080d1a] border border-[#1c2a47] text-white shrink-0">
+          <span className="font-mono font-bold px-2 py-0.5 rounded bg-slate-950 border border-white/10 text-white shrink-0">
             {match.scoreA}
           </span>
         </div>
 
-        <div className={`flex items-center justify-between p-1.5 border transition-colors ${
-          winnerB ? 'border-yellow-300 bg-[#142340] text-yellow-300 font-bold' : 'border-[#18233a] text-slate-300 bg-[#0c1424]'
+        <div className={`flex items-center justify-between p-2 rounded-lg border transition-colors ${
+          winnerB ? 'border-amber-400/40 bg-amber-400/10 text-amber-300 font-bold' : 'border-white/5 text-slate-300 bg-slate-900/50'
         }`}>
-          <span className="truncate pr-2 flex items-center gap-1">
-            {winnerB && <span className="text-yellow-300 text-[10px]">★</span>}
-            <span className="uppercase">{match.teamB}</span>
+          <span className="truncate pr-2 flex items-center gap-1.5 uppercase">
+            {winnerB && <span className="text-amber-400">★</span>}
+            <span>{match.teamB}</span>
           </span>
-          <span className="font-bold px-1.5 py-0.5 bg-[#080d1a] border border-[#1c2a47] text-white shrink-0">
+          <span className="font-mono font-bold px-2 py-0.5 rounded bg-slate-950 border border-white/10 text-white shrink-0">
             {match.scoreB}
           </span>
         </div>

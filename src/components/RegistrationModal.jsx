@@ -152,7 +152,7 @@ export default function RegistrationModal({
     }
 
     if (targetMode === 'now' && !receiptPreview) {
-      setErrorMessage('Para pagar ahora, por favor adjunta la captura del comprobante bancario. O pulsa en [ PAGAR DESPUÉS ] para pre-registrarte sin comprobante en este momento.');
+      setErrorMessage('Para pagar ahora, por favor adjunta la captura del comprobante bancario. O pulsa en PAGAR DESPUÉS para pre-registrarte sin comprobante en este momento.');
       return;
     }
 
@@ -247,34 +247,33 @@ export default function RegistrationModal({
     : '';
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl bg-[#1a2742] border-3 sm:border-4 border-[#364e78] shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden my-3 sm:my-6">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200 font-sans">
+      <div className="relative w-full max-w-3xl bg-[#121824] border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden my-3 sm:my-6">
         
         {/* Modal Header */}
-        <div className="px-3 sm:px-6 py-3 sm:py-4 bg-[#151f33] border-b-2 border-[#2f4469] flex items-center justify-between">
-          <div className="flex items-center gap-2 sm:gap-3">
+        <div className="px-4 sm:px-6 py-4 bg-slate-900/90 border-b border-white/10 flex items-center justify-between">
+          <div className="flex items-center gap-3">
             <img
-              src="/assets/buho_pixel_start.png"
+              src="/assets/buho_hd.png"
               alt="Logo Torneo"
-              className="w-8 h-8 sm:w-10 sm:h-10 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] shrink-0"
-              style={{ imageRendering: 'pixelated' }}
+              className="w-9 h-9 sm:w-11 sm:h-11 object-contain drop-shadow-[0_0_12px_rgba(245,158,11,0.3)] shrink-0"
             />
             <div>
-              <h3 className="text-sm sm:text-xl font-bold uppercase tracking-wide text-white flex flex-wrap items-center gap-1.5 sm:gap-2 font-['Silkscreen',monospace]">
+              <h3 className="text-base sm:text-xl font-bold uppercase tracking-wide text-white flex flex-wrap items-center gap-2 font-display">
                 Inscripción Oficial
-                <span className="text-[9px] sm:text-[10px] px-2 py-0.5 bg-[#253961] border border-[#476799] text-yellow-300 font-mono">
+                <span className="text-[10px] sm:text-xs px-2.5 py-0.5 rounded bg-amber-400/10 border border-amber-400/20 text-amber-400 font-bold">
                   2026
                 </span>
               </h3>
-              <p className="text-[10px] sm:text-xs text-[#a5badb] font-mono">
-                Compu League E-Sports • Registro
+              <p className="text-xs text-slate-400 font-sans">
+                Compu League E-Sports • Registro de Equipos y Jugadores
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
             aria-label="Cerrar modal"
-            className="p-1.5 sm:p-2 text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer"
+            className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -292,62 +291,61 @@ export default function RegistrationModal({
               <div className="text-center py-4 px-2 sm:px-4 space-y-5">
                 <div className="w-20 h-20 mx-auto">
                   <img
-                    src="/assets/buho_pixel_start.png"
+                    src="/assets/buho_hd.png"
                     alt="Búho feliz"
-                    className="w-full h-full object-contain"
-                    style={{ imageRendering: 'pixelated' }}
+                    className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(245,158,11,0.4)]"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <span className="px-3 py-1 bg-sky-500/20 text-sky-300 border border-sky-400 text-[10px] font-mono font-bold uppercase inline-block">
-                    ★ REGISTRO GUARDADO (PAGAR DESPUÉS) ★
+                  <span className="px-3 py-1 rounded-full bg-sky-500/15 text-sky-400 border border-sky-400/30 text-[10px] font-display font-bold uppercase inline-block">
+                    REGISTRO GUARDADO (PAGAR DESPUÉS)
                   </span>
-                  <h4 className="text-xl sm:text-2xl font-bold uppercase text-white font-['Silkscreen',monospace]">
+                  <h4 className="text-xl sm:text-2xl font-bold uppercase text-white font-display tracking-wide">
                     ¡PRE-REGISTRO COMPLETADO!
                   </h4>
-                  <p className="text-slate-300 text-xs max-w-md mx-auto font-mono">
-                    Tu cupo para <strong className="text-yellow-300">{successData.team_name}</strong> en <strong className="text-white">{gameConfig.name}</strong> está apartado.
+                  <p className="text-slate-300 text-xs sm:text-sm max-w-md mx-auto font-sans">
+                    Tu cupo para <strong className="text-amber-400 font-display">{successData.team_name}</strong> en <strong className="text-white">{gameConfig.name}</strong> está apartado.
                   </p>
                 </div>
 
                 {/* Info Card */}
-                <div className="p-4 sm:p-5 bg-[#16233b] border-2 border-[#364e78] text-left max-w-xl mx-auto space-y-3 text-xs text-zinc-300 font-mono">
-                  <div className="flex items-center justify-between pb-2 border-b border-[#2f4469]">
-                    <span className="text-[#a5badb]">Estado del registro:</span>
-                    <span className="px-2.5 py-0.5 bg-sky-950 text-sky-300 border border-sky-500 font-bold uppercase text-[10px]">
+                <div className="p-4 sm:p-5 bg-slate-900/80 border border-white/10 rounded-xl text-left max-w-xl mx-auto space-y-3 text-xs text-slate-300 font-sans">
+                  <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                    <span className="text-slate-400">Estado del registro:</span>
+                    <span className="px-2.5 py-0.5 rounded-md bg-sky-500/15 text-sky-400 border border-sky-500/30 font-bold uppercase text-[10px] font-display">
                       Pre-Registrado (Pendiente Pago)
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                     <div>
-                      <span className="text-[#8ea4c7] block">Capitán / Jugador:</span>
+                      <span className="text-slate-400 block text-[10px] font-display uppercase font-bold">Capitán / Jugador</span>
                       <strong className="text-white">{successData.captain_name} ({successData.captain_game_id})</strong>
                     </div>
                     <div>
-                      <span className="text-[#8ea4c7] block">ID de Registro:</span>
-                      <strong className="text-yellow-300 font-mono text-[10px] break-all">{successData.id}</strong>
+                      <span className="text-slate-400 block text-[10px] font-display uppercase font-bold">ID de Registro</span>
+                      <strong className="text-amber-400 font-mono text-[11px] break-all">{successData.id}</strong>
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-[#2f4469] flex items-center justify-between">
-                    <span className="text-[#a5badb]">Valor total:</span>
-                    <strong className="text-base text-yellow-300 font-mono">${totalCost.toFixed(2)} USD</strong>
+                  <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+                    <span className="text-slate-400">Valor total:</span>
+                    <strong className="text-lg text-amber-400 font-display font-black">${totalCost.toFixed(2)} USD</strong>
                   </div>
                 </div>
 
                 {/* Box 1: Link generado */}
-                <div className="p-4 sm:p-5 bg-[#121c2e] border-2 border-yellow-300/80 text-left max-w-xl mx-auto space-y-3">
+                <div className="p-4 sm:p-5 bg-[#0B0E14] border border-amber-400/30 rounded-xl text-left max-w-xl mx-auto space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold text-yellow-300 uppercase font-['Silkscreen',monospace] flex items-center gap-1.5">
-                      <Link2 className="w-4 h-4 text-yellow-300" />
+                    <span className="text-xs font-bold text-amber-400 uppercase font-display flex items-center gap-1.5 tracking-wider">
+                      <Link2 className="w-4 h-4 text-amber-400" />
                       1. TU LINK DE PAGO GENERADO
                     </span>
-                    <span className="text-[8px] text-[#8ea4c7] font-mono">ACCESO DIRECTO</span>
+                    <span className="text-[10px] text-slate-400 font-sans">ACCESO DIRECTO</span>
                   </div>
 
-                  <div className="p-3 bg-[#1a2742] border border-[#364e78] text-[10px] sm:text-xs font-mono text-sky-300 break-all select-all font-bold">
+                  <div className="p-3 bg-slate-950 rounded-lg border border-white/10 text-xs font-mono text-sky-300 break-all select-all font-bold">
                     {magicLink}
                   </div>
 
@@ -356,9 +354,9 @@ export default function RegistrationModal({
                     <button
                       type="button"
                       onClick={() => copyToClipboard(magicLink, 'magic')}
-                      className="px-4 py-3 border-2 border-yellow-300 bg-yellow-300 hover:bg-white text-black font-bold text-[10px] sm:text-xs uppercase transition flex items-center justify-center gap-2 cursor-pointer font-['Silkscreen',monospace]"
+                      className="px-4 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer font-display shadow-[0_0_15px_rgba(245,158,11,0.3)]"
                     >
-                      {copiedMagicLink ? <Check className="w-4 h-4 text-emerald-800" /> : <Copy className="w-4 h-4" />}
+                      {copiedMagicLink ? <Check className="w-4 h-4 text-slate-950" /> : <Copy className="w-4 h-4" />}
                       <span>{copiedMagicLink ? '¡LINK COPIADO!' : 'COPIAR LINK'}</span>
                     </button>
 
@@ -366,7 +364,7 @@ export default function RegistrationModal({
                       href={whatsappCaptainUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-3 border-2 border-sky-400 bg-sky-500 hover:bg-sky-400 text-black font-bold text-[10px] sm:text-xs uppercase transition flex items-center justify-center gap-2 font-['Silkscreen',monospace]"
+                      className="px-4 py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 font-display"
                     >
                       <Send className="w-4 h-4" />
                       <span>ENVIARME EL LINK</span>
@@ -375,16 +373,16 @@ export default function RegistrationModal({
                 </div>
 
                 {/* Box 2: Opción WhatsApp 0962074110 */}
-                <div className="p-4 sm:p-5 bg-[#121c2e] border-2 border-emerald-400/80 text-left max-w-xl mx-auto space-y-3">
+                <div className="p-4 sm:p-5 bg-[#0B0E14] border border-emerald-500/30 rounded-xl text-left max-w-xl mx-auto space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase font-['Silkscreen',monospace] flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-emerald-400 uppercase font-display flex items-center gap-1.5 tracking-wider">
                       <Phone className="w-4 h-4 text-emerald-400" />
                       2. O ENVÍA EL COMPROBANTE AL WHATSAPP
                     </span>
-                    <span className="text-[8px] text-[#8ea4c7] font-mono">STAFF OFICIAL</span>
+                    <span className="text-[10px] text-slate-400 font-sans">STAFF OFICIAL</span>
                   </div>
 
-                  <p className="text-[10px] text-slate-200 font-mono leading-relaxed">
+                  <p className="text-xs text-slate-300 font-sans leading-relaxed">
                     También puedes transferir y enviar la captura, tu nombre (<strong className="text-white">{successData.captain_name}</strong>) y tu ID al WhatsApp <strong className="text-emerald-400">0962074110</strong>:
                   </p>
 
@@ -392,7 +390,7 @@ export default function RegistrationModal({
                     href={whatsappStaffReportUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full px-4 py-3 border-2 border-emerald-400 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-[10px] sm:text-xs uppercase transition flex items-center justify-center gap-2 font-['Silkscreen',monospace]"
+                    className="w-full px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 font-display shadow-[0_0_15px_rgba(52,211,153,0.3)]"
                   >
                     <Send className="w-4 h-4" />
                     <span>ENVIAR CAPTURA AL WHATSAPP 0962074110</span>
@@ -405,7 +403,7 @@ export default function RegistrationModal({
                     <button
                       type="button"
                       onClick={() => onNavigateToPayment(successData.id)}
-                      className="w-full sm:w-auto px-5 py-2.5 border-2 border-sky-400 bg-[#16233b] hover:bg-sky-400 hover:text-black text-sky-300 font-bold text-[10px] uppercase transition flex items-center justify-center gap-1.5 font-mono cursor-pointer"
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-sky-400/40 bg-sky-500/10 hover:bg-sky-400 hover:text-slate-950 text-sky-300 font-bold text-xs uppercase transition flex items-center justify-center gap-1.5 font-display cursor-pointer"
                     >
                       <span>IR A SUBIR EL PAGO AHORA</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -414,37 +412,36 @@ export default function RegistrationModal({
 
                   <button
                     onClick={onClose}
-                    className="w-full sm:w-auto px-6 py-2.5 border-2 border-[#364e78] bg-[#16233b] hover:border-white text-slate-300 hover:text-white font-bold text-[10px] uppercase transition font-mono cursor-pointer"
+                    className="w-full sm:w-auto px-6 py-2.5 rounded-xl border border-white/10 bg-slate-900/80 hover:border-white/20 text-slate-300 hover:text-white font-bold text-xs uppercase transition font-display cursor-pointer"
                   >
-                    [ CERRAR ]
+                    CERRAR
                   </button>
                 </div>
               </div>
             ) : (
               /* PAGAR AHORA SUCCESS */
               <div className="text-center py-6 px-4 space-y-6">
-                <div className="w-24 h-24 mx-auto">
+                <div className="w-20 h-20 mx-auto">
                   <img
-                    src="/assets/buho_pixel_start.png"
+                    src="/assets/buho_hd.png"
                     alt="Búho feliz"
-                    className="w-full h-full object-contain"
-                    style={{ imageRendering: 'pixelated' }}
+                    className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(245,158,11,0.4)]"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-xl sm:text-2xl font-bold uppercase text-white font-['Silkscreen',monospace]">
+                  <h4 className="text-xl sm:text-2xl font-bold uppercase text-white font-display tracking-wide">
                     ¡Inscripción Enviada Exitosamente!
                   </h4>
-                  <p className="text-zinc-300 text-xs max-w-md mx-auto font-mono">
-                    Hemos recibido el registro de <strong className="text-yellow-300">{successData.team_name}</strong> para <strong className="text-white">{gameConfig.name}</strong> y tu comprobante por <strong className="text-amber-400">${totalCost.toFixed(2)} USD</strong>.
+                  <p className="text-slate-300 text-xs sm:text-sm max-w-md mx-auto font-sans">
+                    Hemos recibido el registro de <strong className="text-amber-400 font-display">{successData.team_name}</strong> para <strong className="text-white">{gameConfig.name}</strong> y tu comprobante por <strong className="text-amber-400 font-display">${totalCost.toFixed(2)} USD</strong>.
                   </p>
                 </div>
 
-                <div className="p-5 bg-[#16233b] border-2 border-[#364e78] text-left max-w-lg mx-auto space-y-3 text-xs text-zinc-300 font-mono">
-                  <div className="flex items-center justify-between pb-2 border-b border-[#2f4469]">
-                    <span className="text-zinc-400 font-medium">Estado del registro:</span>
-                    <span className="px-2.5 py-0.5 bg-amber-400/20 text-amber-400 border border-amber-400/40 font-bold uppercase text-[10px]">
+                <div className="p-5 bg-slate-900/80 border border-white/10 rounded-xl text-left max-w-lg mx-auto space-y-3 text-xs text-slate-300 font-sans">
+                  <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                    <span className="text-slate-400">Estado del registro:</span>
+                    <span className="px-2.5 py-0.5 rounded-md bg-amber-400/15 text-amber-400 border border-amber-400/30 font-bold uppercase text-[10px] font-display">
                       En Verificación Bancaria
                     </span>
                   </div>
@@ -508,16 +505,16 @@ export default function RegistrationModal({
                         key={game.id}
                         type="button"
                         onClick={() => setSelectedGame(game.id)}
-                        className={`p-3 border-2 text-left transition relative cursor-pointer ${
+                        className={`p-3 rounded-xl border text-left transition relative cursor-pointer ${
                           isSelected
-                            ? 'border-yellow-300 bg-[#223559] shadow-md'
-                            : 'border-[#2f4469] bg-[#16233b] hover:border-slate-400'
+                            ? 'border-amber-400 bg-amber-400/10 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
+                            : 'border-white/10 bg-slate-900/60 hover:border-white/20'
                         }`}
                       >
-                        <h4 className="text-xs font-bold uppercase text-white font-['Silkscreen',monospace] leading-tight">
+                        <h4 className="text-xs font-bold uppercase text-white font-display leading-tight">
                           {game.name}
                         </h4>
-                        <span className="text-[9px] text-amber-400 block mt-1 font-mono">
+                        <span className="text-[10px] text-amber-400 block mt-1 font-sans">
                           {game.badge}
                         </span>
                       </button>
@@ -527,13 +524,13 @@ export default function RegistrationModal({
               </div>
 
               {/* Tipo de Participación */}
-              <div className="p-4 bg-[#16233b] border-2 border-[#2f4469] space-y-3">
+              <div className="p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <h4 className="text-xs font-bold uppercase text-white font-['Silkscreen',monospace]">
+                    <h4 className="text-xs font-bold uppercase text-white font-display">
                       Tipo de Participación
                     </h4>
-                    <p className="text-[10px] text-[#8ea4c7] font-mono">
+                    <p className="text-[11px] text-slate-400 font-sans">
                       ¿Participas con tu equipo armado o te inscribes de forma individual?
                     </p>
                   </div>
@@ -542,10 +539,10 @@ export default function RegistrationModal({
                     <button
                       type="button"
                       onClick={() => setIsFreeAgent(false)}
-                      className={`px-3 py-2 text-[10px] font-bold uppercase transition font-['Silkscreen',monospace] cursor-pointer ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase transition font-display cursor-pointer ${
                         !isFreeAgent
-                          ? 'border-2 border-yellow-300 bg-yellow-300 text-black'
-                          : 'border-2 border-[#2f4469] bg-[#1d2d4c] text-[#8ea4c7]'
+                          ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20'
+                          : 'border border-white/10 bg-slate-900/80 text-slate-400 hover:text-white'
                       }`}
                     >
                       Con mi Equipo
@@ -553,10 +550,10 @@ export default function RegistrationModal({
                     <button
                       type="button"
                       onClick={() => setIsFreeAgent(true)}
-                      className={`px-3 py-2 text-[10px] font-bold uppercase transition font-['Silkscreen',monospace] cursor-pointer ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase transition font-display cursor-pointer ${
                         isFreeAgent
-                          ? 'border-2 border-yellow-300 bg-yellow-300 text-black'
-                          : 'border-2 border-[#2f4469] bg-[#1d2d4c] text-[#8ea4c7]'
+                          ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20'
+                          : 'border border-white/10 bg-slate-900/80 text-slate-400 hover:text-white'
                       }`}
                     >
                       Individual
@@ -566,32 +563,32 @@ export default function RegistrationModal({
 
                 {/* Submodalidad Free Fire */}
                 {selectedGame === 'free_fire' && !isFreeAgent && (
-                  <div className="pt-3 border-t border-[#2f4469] space-y-2">
-                    <span className="text-[10px] text-[#8ea4c7] font-mono uppercase font-bold block">
+                  <div className="pt-3 border-t border-white/10 space-y-2">
+                    <span className="text-[11px] text-slate-400 font-display uppercase font-bold block">
                       Modalidad Free Fire para tu equipo:
                     </span>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] font-mono">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans">
                       <button
                         type="button"
                         onClick={() => setFfModality('escuadras')}
-                        className={`p-2 border text-left transition cursor-pointer ${
+                        className={`p-2.5 rounded-lg border text-left transition cursor-pointer ${
                           ffModality === 'escuadras'
-                            ? 'border-yellow-300 bg-[#253961] text-yellow-300 font-bold'
-                            : 'border-[#2f4469] bg-[#1d2d4c] text-slate-300'
+                            ? 'border-amber-400 bg-amber-400/10 text-amber-300 font-bold'
+                            : 'border-white/10 bg-slate-900/80 text-slate-300 hover:border-white/20'
                         }`}
                       >
-                        [ Solo Escuadras (4 Jugadores - $4) ]
+                        Solo Escuadras (4 Jugadores - $4)
                       </button>
                       <button
                         type="button"
                         onClick={() => setFfModality('both')}
-                        className={`p-2 border text-left transition cursor-pointer ${
+                        className={`p-2.5 rounded-lg border text-left transition cursor-pointer ${
                           ffModality === 'both'
-                            ? 'border-yellow-300 bg-[#253961] text-yellow-300 font-bold'
-                            : 'border-[#2f4469] bg-[#1d2d4c] text-slate-300'
+                            ? 'border-amber-400 bg-amber-400/10 text-amber-300 font-bold'
+                            : 'border-white/10 bg-slate-900/80 text-slate-300 hover:border-white/20'
                         }`}
                       >
-                        [ Escuadras + Entrada Individual ($4) ]
+                        Escuadras + Entrada Individual ($4)
                       </button>
                     </div>
                   </div>
@@ -777,24 +774,24 @@ export default function RegistrationModal({
                   <button
                     type="button"
                     onClick={() => setPaymentMode('now')}
-                    className={`p-4 border-2 text-left transition flex flex-col justify-between cursor-pointer ${
+                    className={`p-4 rounded-xl border text-left transition flex flex-col justify-between cursor-pointer ${
                       paymentMode === 'now'
-                        ? 'border-yellow-300 bg-[#253961] shadow-[0_0_15px_rgba(250,204,21,0.3)]'
-                        : 'border-[#2f4469] bg-[#16233b] hover:border-slate-400'
+                        ? 'border-amber-400 bg-amber-400/10 shadow-[0_0_15px_rgba(245,158,11,0.25)]'
+                        : 'border-white/10 bg-slate-900/60 hover:border-white/20'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-white text-xs font-['Silkscreen',monospace] flex items-center gap-2">
-                        <Zap className="w-4 h-4 text-yellow-300 fill-yellow-300" />
+                      <span className="font-bold text-white text-xs font-display flex items-center gap-2 tracking-wider">
+                        <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
                         PAGAR AHORA
                       </span>
                       {paymentMode === 'now' && (
-                        <span className="text-[9px] px-1.5 py-0.5 bg-yellow-300 text-black font-bold font-mono">
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-bold font-display uppercase">
                           SELECCIONADO
                         </span>
                       )}
                     </div>
-                    <p className="text-[10px] text-[#a5badb] mt-2 font-mono leading-relaxed">
+                    <p className="text-xs text-slate-400 mt-2 font-sans leading-relaxed">
                       Ver datos bancarios y subir la foto del comprobante ahora mismo.
                     </p>
                   </button>
@@ -802,85 +799,85 @@ export default function RegistrationModal({
                   <button
                     type="button"
                     onClick={() => setPaymentMode('later')}
-                    className={`p-4 border-2 text-left transition flex flex-col justify-between cursor-pointer ${
+                    className={`p-4 rounded-xl border text-left transition flex flex-col justify-between cursor-pointer ${
                       paymentMode === 'later'
-                        ? 'border-sky-400 bg-[#1b3457] shadow-[0_0_15px_rgba(56,189,248,0.3)]'
-                        : 'border-[#2f4469] bg-[#16233b] hover:border-slate-400'
+                        ? 'border-sky-400 bg-sky-500/10 shadow-[0_0_15px_rgba(56,189,248,0.25)]'
+                        : 'border-white/10 bg-slate-900/60 hover:border-white/20'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-white text-xs font-['Silkscreen',monospace] flex items-center gap-2">
+                      <span className="font-bold text-white text-xs font-display flex items-center gap-2 tracking-wider">
                         <Link2 className="w-4 h-4 text-sky-400" />
                         PAGAR DESPUÉS
                       </span>
                       {paymentMode === 'later' && (
-                        <span className="text-[9px] px-1.5 py-0.5 bg-sky-400 text-black font-bold font-mono">
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-sky-400 text-slate-950 font-bold font-display uppercase">
                           SELECCIONADO
                         </span>
                       )}
                     </div>
-                    <p className="text-[10px] text-[#a5badb] mt-2 font-mono leading-relaxed">
-                      Paga después con el link que se te genera o enviando la captura de transferencia, tu nombre e ID al WhatsApp 0962074110.
+                    <p className="text-xs text-slate-400 mt-2 font-sans leading-relaxed">
+                      Paga después con el link que se te genera o enviando la captura al WhatsApp 0962074110.
                     </p>
                   </button>
                 </div>
 
                 {/* SÓLO SE MUESTRAN LOS DATOS BANCARIOS Y COMPROBANTE SI ELIGIÓ "PAGAR AHORA" */}
                 {paymentMode === 'now' && (
-                  <div className="space-y-4 pt-3 border-t-2 border-[#2f4469] animate-in fade-in duration-200">
+                  <div className="space-y-4 pt-3 border-t border-white/10 animate-in fade-in duration-200">
                     
                     {/* Caja de Datos Bancarios */}
-                    <div className="p-4 bg-[#16233b] border-2 border-[#2f4469] space-y-3">
+                    <div className="p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold uppercase text-white font-['Silkscreen',monospace]">
+                        <span className="text-xs font-bold uppercase text-white font-display tracking-wider">
                           Datos de Transferencia Bancaria
                         </span>
-                        <span className="text-xs text-yellow-300 font-mono font-bold">
+                        <span className="text-sm text-amber-400 font-display font-black">
                           ${totalCost.toFixed(2)} USD
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs bg-[#121c2e] p-3 border border-[#2f4469] font-mono">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs bg-[#0B0E14] p-3.5 rounded-xl border border-white/10">
                         <div>
-                          <span className="text-[#8ea4c7] block text-[9px]">BANCO:</span>
-                          <strong className="text-white text-xs">{BANK_INFO.bank}</strong>
+                          <span className="text-slate-400 block text-[10px] font-display uppercase font-bold">BANCO</span>
+                          <strong className="text-white text-xs font-sans">{BANK_INFO.bank}</strong>
                         </div>
                         <div>
-                          <span className="text-[#8ea4c7] block text-[9px]">TIPO DE CUENTA:</span>
-                          <strong className="text-white text-xs">{BANK_INFO.accountType}</strong>
+                          <span className="text-slate-400 block text-[10px] font-display uppercase font-bold">TIPO DE CUENTA</span>
+                          <strong className="text-white text-xs font-sans">{BANK_INFO.accountType}</strong>
                         </div>
 
-                        <div className="sm:col-span-2 flex items-center justify-between p-2 bg-[#1f3052] border border-[#364e78]">
+                        <div className="sm:col-span-2 flex items-center justify-between p-2.5 bg-slate-900/80 rounded-lg border border-white/10">
                           <div>
-                            <span className="text-[#8ea4c7] block text-[9px]">NÚMERO DE CUENTA:</span>
-                            <strong className="text-white text-sm font-mono tracking-wider">{BANK_INFO.accountNumber}</strong>
+                            <span className="text-slate-400 block text-[10px] font-display uppercase font-bold">NÚMERO DE CUENTA</span>
+                            <strong className="text-white text-sm sm:text-base font-mono tracking-wider">{BANK_INFO.accountNumber}</strong>
                           </div>
                           <button
                             type="button"
                             onClick={() => copyToClipboard(BANK_INFO.accountNumber, 'account')}
-                            className="px-2.5 py-1 bg-[#253961] hover:bg-yellow-300 hover:text-black text-yellow-300 text-[10px] font-bold flex items-center gap-1 transition cursor-pointer"
+                            className="px-3 py-1.5 rounded-lg bg-amber-400/10 border border-amber-400/30 hover:bg-amber-400 hover:text-slate-950 text-amber-400 text-xs font-bold font-display uppercase tracking-wider flex items-center gap-1 transition cursor-pointer"
                           >
-                            {copiedAccount ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                            {copiedAccount ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                             <span>{copiedAccount ? 'COPIADO' : 'COPIAR'}</span>
                           </button>
                         </div>
 
                         <div>
-                          <span className="text-[#8ea4c7] block text-[9px]">TITULAR:</span>
-                          <strong className="text-white text-xs">{BANK_INFO.holderName}</strong>
+                          <span className="text-slate-400 block text-[10px] font-display uppercase font-bold">TITULAR</span>
+                          <strong className="text-white text-xs font-sans">{BANK_INFO.holderName}</strong>
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="truncate pr-1">
-                            <span className="text-[#8ea4c7] block text-[9px]">CORREO:</span>
-                            <strong className="text-zinc-300 text-[10px] truncate block">{BANK_INFO.email}</strong>
+                            <span className="text-slate-400 block text-[10px] font-display uppercase font-bold">CORREO</span>
+                            <strong className="text-slate-300 text-xs truncate block font-mono">{BANK_INFO.email}</strong>
                           </div>
                           <button
                             type="button"
                             onClick={() => copyToClipboard(BANK_INFO.email, 'email')}
-                            className="p-1 text-zinc-400 hover:text-white cursor-pointer"
+                            className="p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-white/10 cursor-pointer transition"
                             title="Copiar correo"
                           >
-                            {copiedEmail ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                            {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                           </button>
                         </div>
                       </div>
@@ -888,17 +885,17 @@ export default function RegistrationModal({
 
                     {/* Subida de Captura */}
                     <div className="space-y-2">
-                      <span className="text-[10px] font-mono uppercase text-[#a5badb] block font-bold">
+                      <span className="text-xs font-display uppercase text-slate-300 block font-bold tracking-wider">
                         Adjuntar Captura del Comprobante de Pago *
                       </span>
 
                       {!receiptPreview ? (
-                        <label className="border-2 border-dashed border-[#364e78] hover:border-yellow-300 bg-[#16233b] p-6 flex flex-col items-center justify-center cursor-pointer transition group">
-                          <Upload className="w-8 h-8 text-[#8ea4c7] mb-2 group-hover:text-yellow-300 transition-colors" />
-                          <span className="text-xs font-bold text-white mb-1 uppercase font-mono">
+                        <label className="border-2 border-dashed border-white/20 hover:border-amber-400/60 rounded-xl bg-[#0B0E14] p-6 flex flex-col items-center justify-center cursor-pointer transition group">
+                          <Upload className="w-8 h-8 text-slate-400 mb-2 group-hover:text-amber-400 transition-colors" />
+                          <span className="text-xs font-bold text-white mb-1 uppercase font-display tracking-wider text-center">
                             Clic para subir comprobante o arrastra la captura aquí
                           </span>
-                          <span className="text-[10px] text-[#8ea4c7] font-mono">
+                          <span className="text-[11px] text-slate-400 font-sans text-center">
                             Formatos soportados: JPG, PNG o captura de pantalla (Max 5MB)
                           </span>
                           <input
@@ -909,26 +906,26 @@ export default function RegistrationModal({
                           />
                         </label>
                       ) : (
-                        <div className="p-3 bg-[#16233b] border border-[#2f4469] flex items-center justify-between gap-4">
+                        <div className="p-3 bg-[#0B0E14] rounded-xl border border-white/10 flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3">
                             <img
                               src={receiptPreview}
                               alt="Vista previa comprobante"
-                              className="w-14 h-14 object-cover border border-[#364e78]"
+                              className="w-14 h-14 object-cover rounded-lg border border-amber-400/40"
                             />
                             <div>
-                              <span className="text-xs font-bold text-white block font-mono uppercase">
+                              <span className="text-xs font-bold text-white block font-display uppercase tracking-wider">
                                 Comprobante listo
                               </span>
-                              <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono">
-                                <Check className="w-3 h-3" /> Imagen cargada
+                              <span className="text-[11px] text-emerald-400 flex items-center gap-1 font-sans">
+                                <Check className="w-3.5 h-3.5" /> Imagen cargada
                               </span>
                             </div>
                           </div>
                           <button
                             type="button"
                             onClick={() => { setReceiptPreview(null); setReceiptFile(null); }}
-                            className="px-3 py-1.5 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 text-[10px] font-bold font-mono uppercase transition cursor-pointer"
+                            className="px-3 py-1.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 hover:bg-rose-500/20 text-xs font-bold font-display uppercase tracking-wider transition cursor-pointer"
                           >
                             Cambiar
                           </button>
@@ -941,27 +938,27 @@ export default function RegistrationModal({
 
                 {/* SI SELECCIONÓ PAGAR DESPUÉS: EXPLICACIÓN DIRECTA */}
                 {paymentMode === 'later' && (
-                  <div className="p-4 bg-[#16233b] border-2 border-sky-400/60 space-y-3 pt-3 animate-in fade-in duration-200">
+                  <div className="p-4 bg-slate-900/60 rounded-xl border border-sky-400/30 space-y-3 pt-3 animate-in fade-in duration-200">
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-sky-400" />
-                      <h4 className="text-xs font-bold uppercase text-white font-['Silkscreen',monospace]">
+                      <div className="w-2.5 h-2.5 rounded-full bg-sky-400" />
+                      <h4 className="text-xs font-bold uppercase text-white font-display tracking-wider">
                         PAGAR DESPUÉS (${totalCost.toFixed(2)} USD)
                       </h4>
                     </div>
 
-                    <p className="text-[11px] text-slate-200 font-mono leading-relaxed">
+                    <p className="text-xs text-slate-300 font-sans leading-relaxed">
                       ¡Aparta tu cupo ahora mismo! Paga después con cualquiera de estas opciones:
                     </p>
 
-                    <div className="space-y-2 text-[10px] font-mono text-zinc-300">
-                      <div className="p-2.5 bg-[#121c2e] border border-[#2f4469] flex items-start gap-2">
-                        <span className="text-sky-300 font-bold shrink-0">1.</span>
+                    <div className="space-y-2 text-xs font-sans text-slate-300">
+                      <div className="p-3 bg-[#0B0E14] rounded-lg border border-white/10 flex items-start gap-2.5">
+                        <span className="text-sky-300 font-bold shrink-0 font-mono">1.</span>
                         <span>
                           <strong className="text-white">Con el link que se te genera:</strong> Al registrarte se creará un link exclusivo donde podrás entrar cuando quieras a subir la captura de tu comprobante.
                         </span>
                       </div>
-                      <div className="p-2.5 bg-[#121c2e] border border-[#2f4469] flex items-start gap-2">
-                        <span className="text-emerald-400 font-bold shrink-0">2.</span>
+                      <div className="p-3 bg-[#0B0E14] rounded-lg border border-white/10 flex items-start gap-2.5">
+                        <span className="text-emerald-400 font-bold shrink-0 font-mono">2.</span>
                         <span>
                           <strong className="text-white">O por WhatsApp:</strong> Envía la captura de transferencia, tu nombre e ID de registro directamente al WhatsApp <strong className="text-emerald-400">0962074110</strong>.
                         </span>
@@ -978,13 +975,13 @@ export default function RegistrationModal({
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full py-4 border-2 border-yellow-300 bg-yellow-300 hover:bg-white text-black font-bold text-xs sm:text-sm uppercase tracking-wider transition-colors duration-150 flex items-center justify-center gap-2 cursor-pointer font-['Silkscreen',monospace] disabled:opacity-50 shadow-md"
+                    className="w-full py-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-display font-black text-sm sm:text-base uppercase tracking-wider transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-[0_0_20px_rgba(245,158,11,0.35)]"
                   >
                     {submitting ? (
                       <span>Enviando registro y comprobante...</span>
                     ) : (
                       <>
-                        <Zap className="w-4 h-4 fill-black" />
+                        <Zap className="w-4 h-4 fill-slate-950" />
                         <span>PAGAR AHORA Y ENVIAR REGISTRO (${totalCost.toFixed(2)} USD)</span>
                       </>
                     )}
@@ -993,13 +990,13 @@ export default function RegistrationModal({
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full py-4 border-2 border-sky-400 bg-sky-400 hover:bg-white text-black font-bold text-xs sm:text-sm uppercase tracking-wider transition-colors duration-150 flex items-center justify-center gap-2 cursor-pointer font-['Silkscreen',monospace] disabled:opacity-50 shadow-md"
+                    className="w-full py-4 rounded-xl bg-sky-400 hover:bg-sky-300 text-slate-950 font-display font-black text-sm sm:text-base uppercase tracking-wider transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-[0_0_20px_rgba(56,189,248,0.35)]"
                   >
                     {submitting ? (
                       <span>Guardando registro...</span>
                     ) : (
                       <>
-                        <Link2 className="w-4 h-4 text-black" />
+                        <Link2 className="w-4 h-4 text-slate-950" />
                         <span>PRE-REGISTRARSE (PAGAR DESPUÉS)</span>
                       </>
                     )}

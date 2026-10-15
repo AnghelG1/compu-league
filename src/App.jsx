@@ -251,7 +251,7 @@ function App() {
   // SCREEN 2: "LA PÁGINA REAL" (PORTAL COMPLETO DE E-SPORTS UPEC)
   // =============================================================
   return (
-    <div className="min-h-screen bg-[#151f33] text-slate-100 flex flex-col selection:bg-[#2e477a] selection:text-[#f8fafc] font-['Press_Start_2P',monospace] w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen bg-[#0B0E14] text-slate-100 flex flex-col selection:bg-amber-400 selection:text-slate-950 font-sans w-full max-w-full overflow-x-hidden">
       
       {/* Real Page Sticky Navbar */}
       <Navbar
