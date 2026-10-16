@@ -556,7 +556,7 @@ export const updateRegistrationReceipt = async (id, receiptImage, receiptFile = 
   const updates = {
     receipt_image: receiptImage || finalReceiptUrl,
     receipt_url: finalReceiptUrl,
-    payment_status: 'paid',
+    payment_status: 'unpaid',
     status: 'pending',
     updated_at: now,
     admin_notes: 'Comprobante subido mediante Enlace Mágico. Pendiente de verificación.'

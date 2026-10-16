@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   X, Check, Copy, Upload, AlertCircle, 
-  Zap, Phone, Link2, ExternalLink, Send, 
-  CheckCircle2, Clock, ArrowRight, Terminal, Coins
+  Zap, Phone, Link2, Send,
+  ArrowRight, LoaderCircle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { BANK_INFO, GAMES, CONTACT_INFO } from '../data/tournamentData';
@@ -18,8 +18,7 @@ export default function RegistrationModal({
   const [selectedGame, setSelectedGame] = useState(preselectedGame || 'valorant');
   const [isFreeAgent, setIsFreeAgent] = useState(false);
   const [paymentMode, setPaymentMode] = useState('now'); // 'now' | 'later'
-  const [copiedAccount, setCopiedAccount] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedBankField, setCopiedBankField] = useState('');
   const [copiedMagicLink, setCopiedMagicLink] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [successData, setSuccessData] = useState(null);
@@ -60,6 +59,7 @@ export default function RegistrationModal({
   const [hasSubstitute, setHasSubstitute] = useState(false);
   const [receiptPreview, setReceiptPreview] = useState(null);
   const [receiptFile, setReceiptFile] = useState(null);
+  const receiptInputRef = useRef(null);
 
   const gameConfig = GAMES.find(g => g.id === selectedGame) || GAMES[0];
 
@@ -86,33 +86,63 @@ export default function RegistrationModal({
     setMembers(updated);
   };
 
+  const handleReceiptFile = (file) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setErrorMessage('El comprobante debe ser una imagen JPG, PNG u otro formato de imagen.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setErrorMessage('La imagen del comprobante no debe superar los 5MB.');
+      return;
+    }
+
+    setErrorMessage('');
+    setReceiptFile(file);
+    const reader = new FileReader();
+    reader.onload = () => setReceiptPreview(reader.result);
+    reader.onerror = () => setErrorMessage('No se pudo leer la imagen. Intenta seleccionarla nuevamente.');
+    reader.readAsDataURL(file);
+  };
+
   const handleReceiptChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        setErrorMessage('La imagen del comprobante no debe superar los 5MB.');
-        return;
-      }
-      setReceiptFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setReceiptPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+    handleReceiptFile(e.target.files?.[0]);
+    e.target.value = '';
+  };
+
+  const handleReceiptPaste = (e) => {
+    const imageItem = Array.from(e.clipboardData?.items || []).find((item) => item.type.startsWith('image/'));
+    const imageFile = imageItem?.getAsFile();
+    if (imageFile) {
+      e.preventDefault();
+      handleReceiptFile(imageFile);
     }
   };
 
-  const copyToClipboard = (text, type) => {
-    navigator.clipboard.writeText(text);
-    if (type === 'account') {
-      setCopiedAccount(true);
-      setTimeout(() => setCopiedAccount(false), 2000);
-    } else if (type === 'email') {
-      setCopiedEmail(true);
-      setTimeout(() => setCopiedEmail(false), 2000);
-    } else if (type === 'magic') {
+  const handleReceiptDrop = (e) => {
+    e.preventDefault();
+    handleReceiptFile(e.dataTransfer.files?.[0]);
+  };
+
+  const removeReceipt = () => {
+    setReceiptPreview(null);
+    setReceiptFile(null);
+    setErrorMessage('');
+  };
+
+  const copyToClipboard = async (text, type) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      if (type === 'magic') {
       setCopiedMagicLink(true);
       setTimeout(() => setCopiedMagicLink(false), 2500);
+      } else {
+        setCopiedBankField(type);
+        setTimeout(() => setCopiedBankField(''), 2000);
+      }
+    } catch (error) {
+      console.error('No se pudo copiar al portapapeles:', error);
+      setErrorMessage('No se pudo copiar automáticamente. Selecciona el dato y cópialo manualmente.');
     }
   };
 
@@ -125,6 +155,7 @@ export default function RegistrationModal({
 
   const handleSubmit = async (e, forcedMode) => {
     if (e && e.preventDefault) e.preventDefault();
+    if (submitting) return;
     setErrorMessage('');
 
     const targetMode = forcedMode || paymentMode;
@@ -184,7 +215,7 @@ export default function RegistrationModal({
         receipt_image: isPayLater ? null : receiptPreview,
         receipt_url: isPayLater ? null : receiptPreview,
         status: isPayLater ? 'payment_pending' : 'pending',
-        payment_status: isPayLater ? 'unpaid' : 'paid',
+        payment_status: 'unpaid',
         admin_notes: isPayLater ? 'Pre-registro generado (Pagar después). Pendiente de comprobante.' : '',
       };
 
@@ -485,7 +516,16 @@ export default function RegistrationModal({
             /* ======================================================== */
             /* REGISTRATION FORM                                        */
             /* ======================================================== */
-            <form onSubmit={(e) => handleSubmit(e, paymentMode)} className="space-y-6">
+            <form onSubmit={(e) => handleSubmit(e, paymentMode)} onPaste={handleReceiptPaste} className="space-y-6">
+              <input
+                ref={receiptInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleReceiptChange}
+                className="hidden"
+                tabIndex={-1}
+                aria-hidden="true"
+              />
               
               {errorMessage && (
                 <div className="p-3.5 bg-black border-2 border-[#FF0055] text-[#FF0055] font-pixel text-[10px] flex items-start gap-2.5 shadow-brutal-black">
@@ -778,10 +818,10 @@ export default function RegistrationModal({
                   <button
                     type="button"
                     onClick={() => setPaymentMode('now')}
-                    className={`btn-arcade-press p-4 border-2 border-black text-left transition flex flex-col justify-between cursor-pointer ${
+                    className={`btn-arcade-press p-4 border-2 text-left transition flex flex-col justify-between cursor-pointer hover:border-[#FFE600] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFE600] ${
                       paymentMode === 'now'
-                        ? 'bg-[#FFE600] text-black shadow-brutal-yellow font-black'
-                        : 'bg-[#0B101A] text-slate-300 shadow-brutal-black'
+                        ? 'border-black bg-[#FFE600] text-black shadow-brutal-yellow font-black'
+                        : 'border-white/20 bg-[#0B101A] text-slate-300 shadow-brutal-black'
                     }`}
                   >
                     <div className="flex items-center justify-between font-pixel text-[10px]">
@@ -803,10 +843,10 @@ export default function RegistrationModal({
                   <button
                     type="button"
                     onClick={() => setPaymentMode('later')}
-                    className={`btn-arcade-press p-4 border-2 border-black text-left transition flex flex-col justify-between cursor-pointer ${
+                    className={`btn-arcade-press p-4 border-2 text-left transition flex flex-col justify-between cursor-pointer hover:border-[#00F0FF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00F0FF] ${
                       paymentMode === 'later'
-                        ? 'bg-[#00F0FF] text-black shadow-brutal-cyan font-black'
-                        : 'bg-[#0B101A] text-slate-300 shadow-brutal-black'
+                        ? 'border-black bg-[#00F0FF] text-black shadow-brutal-cyan font-black'
+                        : 'border-white/20 bg-[#0B101A] text-slate-300 shadow-brutal-black'
                     }`}
                   >
                     <div className="flex items-center justify-between font-pixel text-[10px]">
@@ -836,55 +876,76 @@ export default function RegistrationModal({
                         <span className="text-[#FFE600] uppercase font-bold">
                           DATOS DE TRANSFERENCIA BANCARIA
                         </span>
-                        <span className="text-white font-black">
-                          ${totalCost.toFixed(2)} USD
-                        </span>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs bg-black p-3.5 border-2 border-black">
-                        <div>
-                          <span className="font-pixel text-[8px] text-slate-500 uppercase block">BANCO</span>
-                          <strong className="text-white font-cyber text-xs">{BANK_INFO.bank}</strong>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                        <div className="flex items-center justify-between gap-2">
+                          <div>
+                            <span className="font-pixel text-[11px] text-slate-300 uppercase block">BANCO</span>
+                            <strong className="text-white font-cyber text-sm">{BANK_INFO.bank}</strong>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => copyToClipboard(BANK_INFO.bank, 'bank')}
+                            aria-label={copiedBankField === 'bank' ? 'Banco copiado' : 'Copiar banco'}
+                            className="btn-arcade-press shadow-brutal-yellow px-3 py-2 bg-[#FFE600] text-black border-2 border-black font-pixel text-[8px] uppercase flex items-center gap-1 cursor-pointer font-black"
+                          >
+                            <span>{copiedBankField === 'bank' ? 'COPIADO ✓' : 'COPIAR'}</span>
+                          </button>
                         </div>
-                        <div>
-                          <span className="font-pixel text-[8px] text-slate-500 uppercase block">TIPO CUENTA</span>
-                          <strong className="text-white font-cyber text-xs">{BANK_INFO.accountType}</strong>
+                        <div className="flex items-center justify-between gap-2">
+                          <div>
+                            <span className="font-pixel text-[11px] text-slate-300 uppercase block">TIPO CUENTA</span>
+                            <strong className="text-white font-cyber text-sm">{BANK_INFO.accountType}</strong>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => copyToClipboard(BANK_INFO.accountType, 'accountType')}
+                            aria-label={copiedBankField === 'accountType' ? 'Tipo de cuenta copiado' : 'Copiar tipo de cuenta'}
+                            className="btn-arcade-press shadow-brutal-yellow px-3 py-2 bg-[#FFE600] text-black border-2 border-black font-pixel text-[8px] uppercase flex items-center gap-1 cursor-pointer font-black"
+                          >
+                            <span>{copiedBankField === 'accountType' ? 'COPIADO ✓' : 'COPIAR'}</span>
+                          </button>
                         </div>
 
-                        <div className="sm:col-span-2 flex items-center justify-between p-2.5 bg-[#0C121D] border-2 border-black">
+                        <div className="sm:col-span-2 flex items-center justify-between gap-2 p-2.5 bg-[#0C121D] border-2 border-black">
                           <div>
-                            <span className="font-pixel text-[8px] text-[#FFE600] block uppercase">NUMERO CUENTA</span>
+                            <span className="font-pixel text-[11px] text-[#FFE600] block uppercase">NUMERO CUENTA</span>
                             <strong className="text-white font-pixel text-sm sm:text-base tracking-wider">{BANK_INFO.accountNumber}</strong>
                           </div>
                           <button
                             type="button"
-                            onClick={() => copyToClipboard(BANK_INFO.accountNumber, 'account')}
+                            onClick={() => copyToClipboard(BANK_INFO.accountNumber, 'accountNumber')}
+                            aria-label={copiedBankField === 'accountNumber' ? 'Número de cuenta copiado' : 'Copiar número de cuenta'}
                             className="btn-arcade-press shadow-brutal-yellow px-3 py-1.5 bg-[#FFE600] text-black border-2 border-black font-pixel text-[8px] uppercase tracking-wider flex items-center gap-1 cursor-pointer font-black"
                           >
-                            {copiedAccount ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : <Copy className="w-3.5 h-3.5" />}
-                            <span>{copiedAccount ? 'COPIADO' : 'COPIAR'}</span>
+                            <span>{copiedBankField === 'accountNumber' ? 'COPIADO ✓' : 'COPIAR'}</span>
                           </button>
                         </div>
 
-                        <div>
-                          <span className="font-pixel text-[8px] text-slate-500 block uppercase">TITULAR</span>
-                          <strong className="text-white font-cyber text-xs">{BANK_INFO.holderName}</strong>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="truncate pr-1">
-                            <span className="font-pixel text-[8px] text-slate-500 block uppercase">CORREO</span>
-                            <strong className="text-slate-300 text-xs truncate block font-mono">{BANK_INFO.email}</strong>
+                        <div className="flex items-center justify-between gap-2">
+                          <div>
+                            <span className="font-pixel text-[11px] text-slate-300 block uppercase">TITULAR</span>
+                            <strong className="text-white font-cyber text-sm">{BANK_INFO.holderName}</strong>
                           </div>
                           <button
                             type="button"
-                            onClick={() => copyToClipboard(BANK_INFO.email, 'email')}
-                            className="btn-arcade-press p-1.5 border border-white/20 bg-black text-slate-300 hover:text-white cursor-pointer"
-                            title="Copiar correo"
+                            onClick={() => copyToClipboard(BANK_INFO.holderName, 'holderName')}
+                            aria-label={copiedBankField === 'holderName' ? 'Titular copiado' : 'Copiar titular'}
+                            className="btn-arcade-press shadow-brutal-yellow px-3 py-2 bg-[#FFE600] text-black border-2 border-black font-pixel text-[8px] uppercase flex items-center gap-1 cursor-pointer font-black"
                           >
-                            {copiedEmail ? <Check className="w-3.5 h-3.5 text-[#10B981]" /> : <Copy className="w-3.5 h-3.5" />}
+                            <span>{copiedBankField === 'holderName' ? 'COPIADO ✓' : 'COPIAR'}</span>
                           </button>
                         </div>
                       </div>
+
+                      <p className="text-sm text-slate-300">
+                        En la referencia o comentario de la transferencia, escribe:{' '}
+                        <strong className="text-white">
+                          {isFreeAgent ? (captain.gameId || captain.name || 'tu nick') : (teamName || 'el nombre de tu equipo')}
+                        </strong>
+                        .
+                      </p>
                     </div>
 
                     {/* Subida de Captura */}
@@ -894,45 +955,55 @@ export default function RegistrationModal({
                       </span>
 
                       {!receiptPreview ? (
-                        <label className="crt-monitor-screen border-4 border-dashed border-white/20 hover:border-[#FFE600] bg-black p-6 flex flex-col items-center justify-center cursor-pointer transition group">
+                        <button
+                          type="button"
+                          onClick={() => receiptInputRef.current?.click()}
+                          onDragOver={(e) => e.preventDefault()}
+                          onDrop={handleReceiptDrop}
+                          className="crt-monitor-screen w-full border-4 border-dashed border-white/20 hover:border-[#FFE600] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFE600] bg-black p-6 flex flex-col items-center justify-center cursor-pointer transition group"
+                        >
                           <Upload className="w-8 h-8 text-slate-400 mb-2 group-hover:text-[#FFE600] transition-colors" />
                           <span className="font-pixel text-[10px] font-black text-white mb-1 uppercase tracking-wider text-center group-hover:text-[#FFE600]">
-                            [ CLIC PARA INSERTAR COMPROBANTE O ARRASTRA AQUI ]
+                            CLIC, ARRASTRA O PEGA TU COMPROBANTE (CTRL+V)
                           </span>
-                          <span className="text-[10px] text-slate-400 font-cyber text-center">
-                            JPG, PNG o captura de pantalla (Max 5MB)
+                          <span className="text-sm text-slate-300 font-cyber text-center">
+                            JPG, PNG o imagen (máx. 5 MB). En móvil puedes usar la cámara o galería.
                           </span>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleReceiptChange}
-                            className="hidden"
-                          />
-                        </label>
+                        </button>
                       ) : (
-                        <div className="p-3 bg-black border-2 border-black flex items-center justify-between gap-4 shadow-brutal-black">
-                          <div className="flex items-center gap-3">
+                        <div className="p-3 bg-black border-2 border-white/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                          <div className="flex items-center gap-3 min-w-0">
                             <img
                               src={receiptPreview}
                               alt="Vista previa comprobante"
                               className="w-14 h-14 object-cover border-2 border-[#FFE600]"
                             />
-                            <div>
-                              <span className="font-pixel text-[9px] font-black text-white block uppercase">
-                                COMPROBANTE LISTO
+                            <div className="min-w-0">
+                              <span className="text-sm font-semibold text-white block truncate">
+                                {receiptFile?.name || 'Comprobante cargado'}
                               </span>
-                              <span className="font-pixel text-[8px] text-[#10B981] flex items-center gap-1 mt-0.5">
-                                <Check className="w-3 h-3 stroke-[3]" /> IMAGEN CARGADA
+                              <span className="text-xs text-slate-300 flex items-center gap-1 mt-0.5">
+                                <Check className="w-3 h-3 stroke-[3]" />
+                                {receiptFile ? `${(receiptFile.size / (1024 * 1024)).toFixed(2)} MB` : 'Imagen adjunta'}
                               </span>
                             </div>
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => { setReceiptPreview(null); setReceiptFile(null); }}
-                            className="btn-arcade-press shadow-brutal-pink px-3 py-1.5 bg-[#FF0055] text-white border-2 border-black font-pixel text-[8px] uppercase font-black cursor-pointer"
-                          >
-                            CAMBIAR
-                          </button>
+                          <div className="flex gap-2">
+                            <button
+                              type="button"
+                              onClick={() => receiptInputRef.current?.click()}
+                              className="btn-arcade-press shadow-brutal-yellow px-3 py-2 bg-[#FFE600] text-black border-2 border-black font-pixel text-[8px] uppercase font-black cursor-pointer"
+                            >
+                              REEMPLAZAR
+                            </button>
+                            <button
+                              type="button"
+                              onClick={removeReceipt}
+                              className="btn-arcade-press shadow-brutal-black px-3 py-2 bg-[#0B101A] text-white border-2 border-white/30 font-pixel text-[8px] uppercase font-black cursor-pointer"
+                            >
+                              QUITAR
+                            </button>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -974,7 +1045,7 @@ export default function RegistrationModal({
               </div>
 
               {/* Botón de Confirmación según la Opción Elegida */}
-              <div className="pt-2">
+              <div className="sticky bottom-0 z-30 -mx-4 sm:-mx-6 px-4 sm:px-6 py-3 bg-[#090D15] border-t-2 border-white/10">
                 {paymentMode === 'now' ? (
                   <button
                     type="submit"
@@ -982,11 +1053,14 @@ export default function RegistrationModal({
                     className="btn-arcade-press shadow-brutal-pink w-full py-4 bg-[#FFE600] hover:bg-[#FFF04D] text-black font-pixel font-black text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 border-2 border-black"
                   >
                     {submitting ? (
-                      <span>ENVIANDO REGISTRO Y VOUCHER...</span>
+                      <>
+                        <LoaderCircle className="w-4 h-4 animate-spin" />
+                        <span>ENVIANDO REGISTRO...</span>
+                      </>
                     ) : (
                       <>
                         <Zap className="w-4 h-4 fill-black" />
-                        <span>[ PAGAR Y ENVIAR REGISTRO (${totalCost.toFixed(2)} USD) ]</span>
+                        <span>ENVIAR COMPROBANTE E INSCRIBIRME (${totalCost.toFixed(2)} USD)</span>
                       </>
                     )}
                   </button>
@@ -997,11 +1071,14 @@ export default function RegistrationModal({
                     className="btn-arcade-press shadow-brutal-cyan w-full py-4 bg-[#00F0FF] hover:bg-[#5CE1E6] text-black font-pixel font-black text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 border-2 border-black"
                   >
                     {submitting ? (
-                      <span>GUARDANDO PRE-REGISTRO...</span>
+                      <>
+                        <LoaderCircle className="w-4 h-4 animate-spin" />
+                        <span>GUARDANDO REGISTRO...</span>
+                      </>
                     ) : (
                       <>
                         <Link2 className="w-4 h-4 stroke-[3]" />
-                        <span>[ PRE-REGISTRARSE // PAGAR DESPUES ]</span>
+                        <span>REGISTRAR Y PAGAR DESPUÉS</span>
                       </>
                     )}
                   </button>

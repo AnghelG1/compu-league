@@ -276,9 +276,12 @@ function App() {
                 onSelectGame={handleSelectGame}
                 onScrollToBrackets={() => navigateTo('brackets')}
                 onScrollToGames={() => navigateTo('juegos')}
+                onScrollToGame={(gameId) => {
+                  document.getElementById(`game-card-${gameId}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }}
               />
             </div>
-            <div id="juegos">
+            <div>
               <GameCards onSelectGame={handleSelectGame} />
             </div>
           </div>
@@ -331,9 +334,7 @@ function App() {
       </main>
 
       {/* Real Page Footer */}
-      <Footer
-        onOpenRegister={() => handleOpenRegister('valorant')}
-      />
+      <Footer />
 
       {/* Official Registration Modal */}
       <RegistrationModal

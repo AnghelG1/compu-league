@@ -1,8 +1,8 @@
 import React from 'react';
-import { MessageSquare, Phone, ArrowUp, Coins, Zap, Sparkles, Shield, Flame, Crosshair, Crown } from 'lucide-react';
+import { MessageSquare, Phone, ArrowUp, Shield, Flame, Crosshair, Crown } from 'lucide-react';
 import { CONTACT_INFO } from '../data/tournamentData';
 
-export default function Footer({ onOpenAdmin, onOpenRegister }) {
+export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -33,7 +33,7 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
               />
               <div>
                 <span className="font-pixel text-[8px] text-[#FFE600] uppercase block">
-                  TORNEO OFICIAL CARRERA DE COMPUTACION
+                  TORNEO OFICIAL
                 </span>
                 <span className="text-xl font-black text-white tracking-wider font-display uppercase leading-tight block">
                   COMPU LEAGUE
@@ -44,8 +44,8 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
               </div>
             </div>
 
-            <p className="text-xs text-slate-300 leading-relaxed font-cyber">
-              El torneo oficial de videojuegos de la Carrera de Computación. Compite con tu equipo y participa por los premios en efectivo.
+            <p className="text-sm text-slate-300 leading-relaxed font-sans">
+              El torneo oficial de videojuegos de la Carrera de Computación. Compite con tu equipo y participa por premios.
             </p>
 
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#10B981] text-black border-2 border-black font-pixel text-[8px] font-black uppercase">
@@ -59,7 +59,7 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
             <h4 className="font-pixel text-[10px] uppercase text-[#FFE600] tracking-wider">
               [ 4 SLOTS OFICIALES ]
             </h4>
-            <ul className="space-y-2 text-xs font-cyber text-slate-300">
+            <ul className="space-y-2 text-sm font-sans text-slate-300">
               <li className="flex items-center gap-2 hover:text-[#FF0055] transition">
                 <Shield className="w-3.5 h-3.5 text-[#FF0055] shrink-0" />
                 <span>Valorant (5v5 • Doble Eliminación)</span>
@@ -84,26 +84,19 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
             <h4 className="font-pixel text-[10px] uppercase text-[#FFE600] tracking-wider">
               [ INTEL DEL TORNEO ]
             </h4>
-            <div className="text-xs text-slate-300 space-y-2 font-cyber">
+            <div className="text-sm text-slate-300 space-y-2 font-sans">
               <p className="flex items-center justify-between border-b border-white/5 pb-1">
-                <span className="text-slate-400">Estado:</span>
+                <span className="text-slate-300">Estado:</span>
                 <strong className="text-[#10B981] font-pixel text-[9px]">FASE DE REGISTRO</strong>
               </p>
               <p className="flex items-center justify-between border-b border-white/5 pb-1">
-                <span className="text-slate-400">Fechas:</span>
+                <span className="text-slate-300">Fechas:</span>
                 <strong className="text-white font-bold">4, 5 y 6 Noviembre</strong>
               </p>
               <p className="flex items-center justify-between border-b border-white/5 pb-1">
-                <span className="text-slate-400">Modalidad:</span>
+                <span className="text-slate-300">Modalidad:</span>
                 <strong className="text-[#00F0FF] font-bold">Online / Multiplataforma</strong>
               </p>
-              
-              <div className="p-3 bg-[#0B101A] border-2 border-[#FFE600] text-[#FFE600] shadow-brutal-black">
-                <div className="flex items-center gap-2 font-pixel text-[9px] font-black uppercase">
-                  <span className="text-[#FFE600] text-xs font-pixel font-black">$</span>
-                  <span>PREMIOS EN EFECTIVO</span>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -113,7 +106,7 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
               [ CANALES DE SOPORTE ]
             </h4>
             
-            <p className="text-xs text-slate-400 font-cyber">
+            <p className="text-sm text-slate-300 font-sans">
               ¿Dudas sobre inscripciones o transferencias bancarias? Escríbenos directamente:
             </p>
 
@@ -122,7 +115,7 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
                 href={CONTACT_INFO.whatsappDirectUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-arcade-press shadow-brutal-black flex items-center justify-center gap-2 px-4 py-3 bg-[#10B981] hover:bg-[#15D494] text-black border-2 border-black font-pixel font-black text-[9px] uppercase tracking-wider"
+                className="btn-arcade-press shadow-brutal-black flex items-center justify-center gap-2 px-4 py-3 bg-[#10B981] hover:bg-[#15D494] text-black border-2 border-black font-sans font-bold text-sm"
               >
                 <Phone className="w-4 h-4 shrink-0" />
                 <span>WhatsApp: {CONTACT_INFO.whatsappStaff}</span>
@@ -133,10 +126,10 @@ export default function Footer({ onOpenAdmin, onOpenRegister }) {
                 href={CONTACT_INFO.discordUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-arcade-press shadow-brutal-black w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#5865F2] hover:bg-[#6975F7] text-white border-2 border-black font-pixel font-black text-[9px] uppercase tracking-wider"
+                className="btn-arcade-press shadow-brutal-black w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#5865F2] hover:bg-[#6975F7] text-white border-2 border-black font-sans font-bold text-sm"
               >
                 <MessageSquare className="w-4 h-4 shrink-0" />
-                <span>[ ENTRAR AL DISCORD OFICIAL ]</span>
+                <span>DISCORD OFICIAL</span>
               </a>
             </div>
           </div>

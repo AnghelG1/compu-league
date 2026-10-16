@@ -1,0 +1,6 @@
+valorant.svg and fortnite.svg
+Brand symbols from Simple Icons, licensed under CC0 1.0.
+https://github.com/simple-icons/simple-icons
+
+The Free Fire and Clash Royale logo crops use existing local game artwork files:
+/assets/free_fire_lobby.jpg and /assets/clash_royale_lobby.jpg.

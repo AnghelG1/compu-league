@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ArrowLeft, Upload, CheckCircle2, Clock, Shield, Flame, 
-  Crown, Crosshair, Trophy, Copy, Check, Phone, AlertCircle, 
-  Zap, FileText, CheckCircle, Terminal
+  ArrowLeft, Upload, CheckCircle2, CheckCircle, Shield, Flame,
+  Crown, Crosshair, Copy, Check, Phone, AlertCircle, Zap
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { getRegistrationById, updateRegistrationReceipt } from '../lib/storage';
-import { BANK_INFO, CONTACT_INFO } from '../data/tournamentData';
+import { BANK_INFO } from '../data/tournamentData';
 
 export default function PaymentPage({ paymentId, onGoHome }) {
   const [targetId, setTargetId] = useState('');
@@ -22,9 +21,7 @@ export default function PaymentPage({ paymentId, onGoHome }) {
   const [successSubmitted, setSuccessSubmitted] = useState(false);
 
   // Copy states
-  const [copiedAccount, setCopiedAccount] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
-  const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedBankField, setCopiedBankField] = useState('');
 
   // Detect ID from props or URL
   useEffect(() => {
@@ -92,17 +89,14 @@ export default function PaymentPage({ paymentId, onGoHome }) {
     }
   };
 
-  const copyToClipboard = (text, type) => {
-    navigator.clipboard.writeText(text);
-    if (type === 'account') {
-      setCopiedAccount(true);
-      setTimeout(() => setCopiedAccount(false), 2000);
-    } else if (type === 'email') {
-      setCopiedEmail(true);
-      setTimeout(() => setCopiedEmail(false), 2000);
-    } else if (type === 'link') {
-      setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 2000);
+  const copyToClipboard = async (text, type) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedBankField(type);
+      setTimeout(() => setCopiedBankField(''), 2000);
+    } catch (error) {
+      console.error('No se pudo copiar al portapapeles:', error);
+      setErrorMsg('No se pudo copiar automáticamente. Selecciona el dato y cópialo manualmente.');
     }
   };
 
@@ -405,19 +399,34 @@ export default function PaymentPage({ paymentId, onGoHome }) {
                         DATOS DE TRANSFERENCIA BANCARIA
                       </h3>
                     </div>
-                    <span className="font-pixel text-xs text-[#FFE600] font-bold">
-                      ${Number(totalCost).toFixed(2)} USD
-                    </span>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-black p-4 border-2 border-black">
-                    <div>
-                      <span className="font-pixel text-[8px] text-slate-500 block uppercase">BANCO</span>
-                      <strong className="text-white text-sm font-cyber">{BANK_INFO.bank}</strong>
+                    <div className="flex items-center justify-between gap-2">
+                      <div>
+                        <span className="font-pixel text-[11px] text-slate-300 block uppercase">BANCO</span>
+                        <strong className="text-white text-sm font-cyber">{BANK_INFO.bank}</strong>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => copyToClipboard(BANK_INFO.bank, 'bank')}
+                        className="btn-arcade-press shadow-brutal-yellow px-3 py-2 border-2 border-black bg-[#FFE600] text-black font-pixel text-[8px] uppercase flex items-center gap-1 cursor-pointer font-black"
+                      >
+                        <span>{copiedBankField === 'bank' ? 'COPIADO ✓' : 'COPIAR'}</span>
+                      </button>
                     </div>
-                    <div>
-                      <span className="font-pixel text-[8px] text-slate-500 block uppercase">TIPO DE CUENTA</span>
-                      <strong className="text-white text-sm font-cyber">{BANK_INFO.accountType}</strong>
+                    <div className="flex items-center justify-between gap-2">
+                      <div>
+                        <span className="font-pixel text-[11px] text-slate-300 block uppercase">TIPO DE CUENTA</span>
+                        <strong className="text-white text-sm font-cyber">{BANK_INFO.accountType}</strong>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => copyToClipboard(BANK_INFO.accountType, 'accountType')}
+                        className="btn-arcade-press shadow-brutal-yellow px-3 py-2 border-2 border-black bg-[#FFE600] text-black font-pixel text-[8px] uppercase flex items-center gap-1 cursor-pointer font-black"
+                      >
+                        <span>{copiedBankField === 'accountType' ? 'COPIADO ✓' : 'COPIAR'}</span>
+                      </button>
                     </div>
 
                     <div className="sm:col-span-2 flex items-center justify-between p-3.5 bg-[#0C121D] border-2 border-black shadow-brutal-black">
@@ -429,34 +438,35 @@ export default function PaymentPage({ paymentId, onGoHome }) {
                       </div>
                       <button
                         type="button"
-                        onClick={() => copyToClipboard(BANK_INFO.accountNumber, 'account')}
+                        onClick={() => copyToClipboard(BANK_INFO.accountNumber, 'accountNumber')}
                         className="btn-arcade-press shadow-brutal-yellow px-3.5 py-2 border-2 border-black bg-[#FFE600] text-black font-pixel text-[9px] uppercase tracking-wider flex items-center gap-1.5 cursor-pointer font-black"
                       >
-                        {copiedAccount ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : <Copy className="w-3.5 h-3.5" />}
-                        <span>{copiedAccount ? 'COPIADO' : 'COPIAR'}</span>
+                        {copiedBankField === 'accountNumber' ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span>{copiedBankField === 'accountNumber' ? 'COPIADO ✓' : 'COPIAR'}</span>
                       </button>
                     </div>
 
-                    <div>
-                      <span className="font-pixel text-[8px] text-slate-500 block uppercase">TITULAR</span>
-                      <strong className="text-white font-cyber text-sm">{BANK_INFO.holderName}</strong>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div className="truncate pr-2">
-                        <span className="font-pixel text-[8px] text-slate-500 block uppercase">CORREO</span>
-                        <strong className="text-slate-300 truncate text-xs block font-mono">{BANK_INFO.email}</strong>
+                    <div className="flex items-center justify-between gap-2">
+                      <div>
+                        <span className="font-pixel text-[11px] text-slate-300 block uppercase">TITULAR</span>
+                        <strong className="text-white font-cyber text-sm">{BANK_INFO.holderName}</strong>
                       </div>
                       <button
                         type="button"
-                        onClick={() => copyToClipboard(BANK_INFO.email, 'email')}
-                        className="btn-arcade-press p-2 border-2 border-black bg-black text-slate-300 hover:text-white transition cursor-pointer shrink-0"
-                        title="Copiar correo"
+                        onClick={() => copyToClipboard(BANK_INFO.holderName, 'holderName')}
+                        className="btn-arcade-press shadow-brutal-yellow px-3 py-2 border-2 border-black bg-[#FFE600] text-black font-pixel text-[8px] uppercase flex items-center gap-1 cursor-pointer font-black"
                       >
-                        {copiedEmail ? <Check className="w-3.5 h-3.5 text-[#10B981]" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span>{copiedBankField === 'holderName' ? 'COPIADO ✓' : 'COPIAR'}</span>
                       </button>
                     </div>
                   </div>
+                  <p className="mt-3 text-sm text-slate-300">
+                    Usa como referencia de la transferencia:{' '}
+                    <strong className="text-white">
+                      {registration?.team_name || registration?.captain_game_id || registration?.captain_name}
+                    </strong>
+                    .
+                  </p>
                 </div>
 
                 {/* 2. Cuadro para Subir la Foto del Voucher */}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Coins, ArrowRight, Clock, Swords, Zap, Terminal, ShieldAlert } from 'lucide-react';
+import { Trophy, ArrowRight, Clock, Swords, Terminal } from 'lucide-react';
 import { CONTACT_INFO } from '../data/tournamentData';
 
 // ─── Countdown calculation ───────────────────────────────────────────────────
@@ -16,7 +16,7 @@ function calcTimeLeft() {
   };
 }
 
-export default function MainEsportsHero({ playerName = '', onOpenRegister, onScrollToGames }) {
+export default function MainEsportsHero({ playerName = '', onOpenRegister, onScrollToGames, onScrollToGame }) {
   const [timeLeft, setTimeLeft] = useState(calcTimeLeft);
 
   const challengerName = (playerName && playerName.trim())
@@ -69,7 +69,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
           <span className="tracking-wider">★ 4, 5 Y 6 DE NOVIEMBRE ★</span>
           
           <span className="bg-black text-[#FFE600] px-2.5 py-0.5">FORTNITE DUOS</span>
-          <span className="bg-[#FF0055] text-white px-2 py-0.5 animate-arcade-blink">PREMIOS EN EFECTIVO</span>
+          <span className="bg-[#FF0055] text-white px-2 py-0.5 animate-arcade-blink">PREMIOS</span>
           
           <span className="bg-black text-[#FFE600] px-2.5 py-0.5">CLASH ROYALE 1v1</span>
           <span className="tracking-wider">★ INSCRIPCION: $1 POR JUGADOR ★</span>
@@ -85,7 +85,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
           <span className="tracking-wider">★ 4, 5 Y 6 DE NOVIEMBRE ★</span>
           
           <span className="bg-black text-[#FFE600] px-2.5 py-0.5">FORTNITE DUOS</span>
-          <span className="bg-[#FF0055] text-white px-2 py-0.5 animate-arcade-blink">PREMIOS EN EFECTIVO</span>
+          <span className="bg-[#FF0055] text-white px-2 py-0.5 animate-arcade-blink">PREMIOS</span>
           
           <span className="bg-black text-[#FFE600] px-2.5 py-0.5">CLASH ROYALE 1v1</span>
           <span className="tracking-wider">★ INSCRIPCION: $1 POR JUGADOR ★</span>
@@ -99,12 +99,12 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
       {/* 2. MAIN 2-COLUMN ASYMMETRIC CYBER-ARCADE HERO             */}
       {/* ========================================================= */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 pb-10 sm:pb-16 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start lg:items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start lg:items-stretch">
 
           {/* ═════════════════════════════════════════════════════════
               LEFT COLUMN (COL 1-7): ARCADE INTEL, TITLES & BUTTONS
               ═════════════════════════════════════════════════════════ */}
-          <div className="lg:col-span-7 flex flex-col items-start gap-3.5 sm:gap-4">
+          <div className="lg:col-span-7 flex h-full flex-col items-start gap-6">
 
             {/* Title Block: Neo-Brutalist Cyber-Arcade Style */}
             <div className="relative w-full">
@@ -112,6 +112,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
                 <div className="font-pixel text-[11px] sm:text-xs text-[#FFE600] tracking-widest uppercase flex items-center gap-2">
                   <Terminal className="w-4 h-4 text-[#FFE600]" />
                   <span>// ESTADO: INSCRIPCIONES ABIERTAS</span>
+                  <span aria-label="Inscripciones abiertas" className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
                 </div>
                 
                 <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black font-display uppercase tracking-tight text-white leading-[0.9] drop-shadow-[4px_4px_0px_#000]">
@@ -134,44 +135,43 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
             </div>
 
             {/* Clean readable description in Chakra Petch (Floats cleanly over grid, no blockquote border) */}
-            <p className="text-slate-300 font-cyber text-sm sm:text-base leading-relaxed max-w-xl">
-              El torneo oficial de videojuegos de la Carrera de Computación. Compite con tu equipo en tu juego favorito y participa por los premios en efectivo.
-            </p>
+            <div className="max-w-xl border-l-2 border-cyan-400 pl-3 font-mono text-sm sm:text-base leading-relaxed text-slate-300">
+              <span className="font-bold text-cyan-400">// INFO:</span>{' '}
+              El torneo oficial de videojuegos de la Carrera de Computación. Compite con tu equipo, domina la arena y demuestra quién es el mejor.
+            </div>
 
             {/* Neo-Brutalist Prize Box (Centrado, compacto y equilibrado) */}
-            <div className="w-full bg-[#0D121D] border-2 border-[#FFE600] p-4 sm:p-5 shadow-brutal-yellow flex flex-col items-center text-center space-y-2">
+            <div className="w-full bg-[linear-gradient(180deg,rgba(255,230,0,0.06)_0%,#0D121D_100%)] border-2 border-[#FFE600] px-4 py-6 shadow-[6px_6px_0px_#FFE600,inset_0_1px_10px_rgba(255,230,0,0.08)] flex flex-col items-center text-center space-y-2">
               <div className="flex items-center justify-center gap-2 font-pixel text-[10px] text-[#FFE600] tracking-wider uppercase">
-                <Coins className="w-4 h-4 text-[#FFE600] shrink-0" />
-                <span>POZO DEL TORNEO</span>
+                <Trophy className="w-4 h-4 text-[#FFE600] shrink-0" />
+                <span>PREMIOS</span>
               </div>
 
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-black font-display text-white tracking-wide uppercase leading-none drop-shadow-[2px_2px_0px_#000] whitespace-nowrap">
-                PREMIOS EN EFECTIVO
-              </div>
-
-              <p className="text-xs sm:text-sm text-slate-200 font-cyber leading-relaxed max-w-lg">
-                Pozo acumulado por inscripciones repartido entre los ganadores de cada videojuego.
+              <p className="max-w-lg text-sm sm:text-base font-semibold leading-relaxed text-slate-200">
+                Recompensas para los mejores equipos y jugadores.
               </p>
             </div>
 
             {/* Mechanical Arcade Physical Buttons (Cero esquinas redondeadas + botón que se hunde) */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full pt-0.5">
               {/* Primary: INSCRIBIRSE */}
-              <button
-                type="button"
-                onClick={() => onOpenRegister('valorant')}
-                className="btn-arcade-press shadow-brutal-pink bg-[#FFE600] hover:bg-[#FFF04D] text-black border-2 border-black font-pixel text-xs sm:text-sm px-6 py-3.5 flex items-center justify-center gap-3 cursor-pointer uppercase font-black"
-              >
-                <span className="w-2.5 h-2.5 bg-[#FF0055] inline-block animate-arcade-blink" />
-                <span>INSCRIBIRSE</span>
-                <ArrowRight className="w-4 h-4 stroke-[3]" />
-              </button>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => onOpenRegister('valorant')}
+                  className="btn-arcade-press shadow-brutal-pink bg-[#FFE600] hover:bg-[#FFF04D] text-black border-2 border-black font-pixel text-xs sm:text-sm px-7 sm:px-8 py-3.5 flex items-center justify-center gap-3 cursor-pointer uppercase font-black"
+                >
+                  <span className="w-2.5 h-2.5 bg-[#FF0055] inline-block animate-arcade-blink" />
+                  <span>INSCRIBIRSE</span>
+                  <ArrowRight className="w-4 h-4 stroke-[3]" />
+                </button>
+              </div>
 
               {/* Secondary: HOW TO PLAY */}
               <button
                 type="button"
                 onClick={onScrollToGames}
-                className="btn-arcade-press shadow-brutal-cyan bg-[#09101C] hover:bg-[#121D30] text-[#00F0FF] border-2 border-[#00F0FF] font-pixel text-xs sm:text-sm px-5 py-3.5 flex items-center justify-center gap-2.5 cursor-pointer uppercase"
+                className="btn-arcade-press shadow-brutal-cyan bg-transparent hover:bg-[#00F0FF]/10 text-[#00F0FF] border-2 border-[#00F0FF]/70 font-pixel text-xs sm:text-sm px-5 py-3.5 flex items-center justify-center gap-2.5 cursor-pointer uppercase"
               >
                 <Swords className="w-4 h-4 text-[#00F0FF]" />
                 <span>[ REGLAS Y FORMATOS ]</span>
@@ -218,11 +218,11 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
                   </span>
                 </div>
 
-                <div className="bg-[#0F1726] border-2 border-[#FF0055] p-2 shadow-brutal-pink">
+                <div className="bg-[#0F1726] border-2 border-white/10 p-2 shadow-brutal-black">
                   <span className="font-pixel text-xl sm:text-3xl text-[#FFE600] block animate-pulse">
                     {String(timeLeft.seconds).padStart(2, '0')}
                   </span>
-                  <span className="font-pixel text-[8px] sm:text-[9px] text-[#FF0055] uppercase tracking-widest mt-1 block">
+                  <span className="font-pixel text-[8px] sm:text-[9px] text-slate-400 uppercase tracking-widest mt-1 block">
                     SEG
                   </span>
                 </div>
@@ -234,10 +234,10 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
           {/* ═════════════════════════════════════════════════════════
               RIGHT COLUMN (COL 8-12): BÚHO MECHA PIXEL-ART TERMINAL
               ═════════════════════════════════════════════════════════ */}
-          <div className="lg:col-span-5 flex flex-col items-center w-full">
+          <div className="lg:col-span-5 flex h-full flex-col items-center w-full">
             
             {/* Arcade Cabinet Frame */}
-            <div className="w-full bg-[#0C111A] border-4 border-black shadow-brutal-yellow p-3 sm:p-4 relative">
+            <div className="flex h-full w-full flex-col bg-[#0C111A] border-4 border-black shadow-brutal-yellow p-3 sm:p-4 relative">
               
               {/* Cabinet Header Bar */}
               <div className="bg-black text-[#FFE600] px-3 py-2 border-2 border-[#FFE600] mb-3 flex items-center justify-between font-pixel text-[9px] sm:text-[10px]">
@@ -249,7 +249,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
               </div>
 
               {/* CRT Monitor Screen with scanlines */}
-              <div className="crt-monitor-screen bg-[#04060A] border-2 border-black p-4 flex flex-col items-center justify-center relative min-h-[280px] sm:min-h-[340px]">
+              <div className="crt-monitor-screen flex-1 bg-[#04060A] border-2 border-black p-4 flex flex-col items-center justify-center relative min-h-[280px] sm:min-h-[340px]">
                 
                 {/* HUD Overlay inside CRT (Insignias de alto contraste legibles) */}
                 <div className="absolute top-2.5 left-3 right-3 flex justify-between font-pixel text-[8px] sm:text-[9px] z-20 pointer-events-none">
@@ -266,7 +266,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
                   <img
                     src="/assets/buho_pixel_start.png"
                     alt="Búho Mecha Pixel Art - Compu League"
-                    className="w-48 sm:w-64 h-auto object-contain shape-crisp drop-shadow-[0_0_25px_rgba(0,240,255,0.45)] hover:scale-105 transition-transform duration-200"
+                    className="w-56 sm:w-72 h-auto object-contain shape-crisp drop-shadow-[0_0_25px_rgba(0,240,255,0.45)] hover:scale-105 transition-transform duration-200"
                     style={{ imageRendering: 'pixelated' }}
                   />
                   
@@ -297,14 +297,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
                   <button
                     key={slot.id}
                     type="button"
-                    onClick={() => {
-                      if (onScrollToGames) {
-                        onScrollToGames();
-                      } else {
-                        const el = document.getElementById('juegos');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
+                    onClick={() => onScrollToGame?.(slot.id)}
                     className={`btn-arcade-press bg-[#0A0E17] hover:bg-[#141C2E] ${slot.border} border-2 px-3 py-2.5 ${slot.shadow} flex items-center justify-between font-pixel text-[9px] sm:text-[10px] cursor-pointer hover:border-white active:translate-x-1 active:translate-y-1 transition-all group`}
                     title={`Ver reglas y formato de ${slot.name}`}
                   >
@@ -319,8 +312,7 @@ export default function MainEsportsHero({ playerName = '', onOpenRegister, onScr
               </div>
 
               {/* Cabinet Coin Slot Foot (Pixel font without broken tildes) */}
-              <div className="mt-3 pt-2 border-t-2 border-white/10 flex items-center justify-between font-pixel text-[8px] sm:text-[9px] text-slate-300">
-                <span className="text-white font-bold">INSCRIPCION: $1 POR JUGADOR</span>
+              <div className="mt-3 pt-2 border-t-2 border-white/10 flex items-center justify-end font-pixel text-[8px] sm:text-[9px] text-slate-300">
                 <span className="text-[#FFE600] animate-arcade-blink">★ CREDITOS: 00</span>
               </div>
 

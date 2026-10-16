@@ -126,6 +126,21 @@
   animation-play-state: paused;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    white-space: normal !important;
+    animation: none;
+  }
+}
+
+:where(button, a, [role="button"], summary, [tabindex]):focus-visible {
+  outline: 3px solid #FFE600;
+  outline-offset: 3px;
+}
+
 /* Constant Shimmer Light Effect */
 @keyframes shimmer-sweep {
   0% {
@@ -433,4 +448,3 @@
 .animate-arcade-blink {
   animation: arcade-blink 0.9s infinite steps(1);
 }
-
